@@ -11,7 +11,6 @@ import {
   Lightbulb,
   Archive,
   Umbrella,
-  Package,
   CheckCircle2,
   MessageCircle,
   Check,
@@ -38,53 +37,36 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
-  { id: 's1', category: 'sleep', name: 'Foam mattress, single (72x36x4")', price: 1800, note: 'Firm' },
-  { id: 's2', category: 'sleep', name: 'Pillow + bedsheet set', price: 600, note: 'Sky blue' },
-  { id: 's3', category: 'sleep', name: 'Quilt / blanket, single', price: 950, note: 'Grey melange' },
+  // Mattresses (Added 5 new types)
+  { id: 's1', category: 'sleep', name: 'Sleepwell Ortho Pro Spring Mattress', price: 7000, note: 'Premium Support', image: '/sleepwell_7k.png', tag: 'Top Tier' },
+  { id: 's2', category: 'sleep', name: 'Sleepwell Dual Pro Profiled Foam', price: 5000, note: 'Medium Firm', image: '/sleepwell_5k.png', tag: 'Bestseller' },
+  { id: 's3', category: 'sleep', name: 'Sleepwell Starlite PU Foam', price: 4000, note: 'Standard Comfort', image: '/sleepwell_4k.png' },
+  { id: 's4', category: 'sleep', name: 'Basic Coir Mattress', price: 1800, note: 'Firm & Basic', image: '/mattress_basic.png' },
+  { id: 's5', category: 'sleep', name: 'EPE Economy Foam Mattress', price: 1200, note: 'Budget Pick', image: '/mattress_epe.png' },
+  
+  // Sleep Essentials
+  { id: 's6', category: 'sleep', name: 'Pillow + bedsheet set', price: 600, note: 'Sky blue' },
+  { id: 's7', category: 'sleep', name: 'Quilt / blanket, single', price: 950, note: 'Grey melange' },
 
+  // Bathroom Essentials
   { id: 'b1', category: 'bathroom', name: 'Bucket, mug & soap holder set', price: 180, note: 'Red' },
   { id: 'b2', category: 'bathroom', name: 'Bathroom slippers', price: 199, note: 'Size 9' },
   { id: 'b3', category: 'bathroom', name: 'Drying rope + clips pack', price: 149, note: '3 metre' },
 
+  // Study Essentials
   { id: 'st1', category: 'study', name: 'LED study lamp, flexible neck', price: 349, note: 'White', tag: 'Top pick' },
   { id: 'st2', category: 'study', name: '4-socket surge-protected extension board', price: 429, note: '2m cable' },
   { id: 'st3', category: 'study', name: 'Waterproof table cover, study desk size', price: 149, note: 'Clear' },
   { id: 'st4', category: 'study', name: 'Desk organiser tray, 3-section', price: 199, note: 'Wood finish' },
 
+  // Storage Essentials
   { id: 'sto1', category: 'storage', name: 'Foldable wardrobe organiser, 6-shelf', price: 899, note: 'Grey' },
   { id: 'sto2', category: 'storage', name: 'Under-bed storage bags, set of 2', price: 349, note: 'Large' },
   { id: 'sto3', category: 'storage', name: 'Study table drawer organiser', price: 249, note: 'Black' },
 
+  // Weather Essentials
   { id: 'w1', category: 'weather', name: 'Compact umbrella, wind-resistant', price: 399, note: 'Navy' },
   { id: 'w2', category: 'weather', name: 'Raincoat, hooded', price: 549, note: 'Olive' },
-];
-
-const KITS = [
-  {
-    id: 'k1',
-    name: 'Complete move-in kit',
-    desc: 'Mattress, bedding, bathroom & study set - everything in one box',
-    price: 3060,
-    original: 3850,
-    badge: 'Save 20%',
-    items: ['s1', 's2', 'b1', 'st1'],
-  },
-  {
-    id: 'k2',
-    name: 'Sleep essentials only',
-    desc: 'Mattress, pillow, bedsheet sized for your hostel bed',
-    price: 1450,
-    badge: 'Most picked',
-    items: ['s1', 's2'],
-  },
-  {
-    id: 'k3',
-    name: 'Study desk set',
-    desc: 'Lamp, extension board, organiser & desk cover',
-    price: 1126,
-    badge: null,
-    items: ['st1', 'st2', 'st3', 'st4'],
-  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -166,16 +148,16 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
       </div>
       <div className="px-6 pb-6 pt-3 flex-shrink-0 safe-bottom">
         <button
-          onClick={() => collegeId && setScreen('home')}
+          onClick={() => collegeId && setScreen('category')}
           disabled={!collegeId}
           className={`w-full py-3.5 rounded-2xl font-semibold transition ${
             collegeId ? 'bg-orange-500 text-white active:bg-orange-600' : 'bg-zinc-800 text-zinc-500'
           }`}
         >
-          Continue
+          Customize your room
         </button>
         <button
-          onClick={() => setScreen('home')}
+          onClick={() => setScreen('category')}
           className="w-full text-center text-xs text-zinc-500 mt-3 py-1"
         >
           Not sure yet? Browse without selecting
@@ -186,147 +168,69 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
 }
 
 // ---------------------------------------------------------------------------
-// Screen 2: Home dashboard
+// Screen 2: Category browse (Customization Dashboard)
 // ---------------------------------------------------------------------------
 
-function HomeScreen({ college, cartCount, setScreen, setActiveCategory, addKit }) {
-  return (
-    <div className="flex flex-col h-full bg-zinc-50">
-      <div className="flex-1 overflow-y-auto pb-6 safe-top">
-        <div className="flex items-center justify-between px-5 pt-4 pb-2">
-          <button className="flex items-center gap-2 bg-white border border-zinc-200 rounded-full pl-1 pr-3 py-1 shadow-sm">
-            <div className="w-6 h-6 rounded-full bg-zinc-900 text-white text-xs font-bold flex items-center justify-center">
-              {college ? college.code[0] : '?'}
-            </div>
-            <span className="text-sm font-medium text-zinc-800">{college ? college.name : 'Select campus'}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
-          </button>
-          <button
-            onClick={() => setScreen('cart')}
-            className="relative w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center shadow-sm"
-            aria-label="Cart"
-          >
-            <ShoppingCart className="w-5 h-5 text-zinc-700" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center leading-none">
-                {cartCount}
-              </span>
-            )}
-          </button>
-        </div>
-
-        <div className="mx-5 mt-2 rounded-2xl bg-zinc-900 text-white p-5 relative overflow-hidden">
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-orange-600 opacity-30 blur-2xl" />
-          <div className="relative">
-            <div className="text-orange-400 text-xs font-bold tracking-wide mb-2">MOVE-IN DAY READY</div>
-            <h2 className="text-lg font-bold leading-snug mb-4">
-              Everything for your {college ? college.code : 'hostel'} hostel, in one delivery
-            </h2>
-            <button
-              onClick={() => {
-                setActiveCategory('sleep');
-                setScreen('category');
-              }}
-              className="bg-white text-zinc-900 text-sm font-semibold px-4 py-2.5 rounded-xl flex items-center gap-1 active:bg-zinc-100"
-            >
-              Build my kit <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        <div className="px-5 mt-6">
-          <h3 className="text-sm font-semibold text-zinc-900 mb-3">Shop by category</h3>
-          <div className="flex gap-3 overflow-x-auto pb-1">
-            {CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    setActiveCategory(cat.id);
-                    setScreen('category');
-                  }}
-                  className="flex-shrink-0 w-20 flex flex-col items-center gap-2"
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center shadow-sm">
-                    <Icon className="w-5 h-5 text-zinc-700" />
-                  </div>
-                  <span className="text-xs text-zinc-600 font-medium text-center">{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="px-5 mt-6">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-zinc-900">Recommended kits</h3>
-            <span className="text-xs font-medium text-orange-600">See all</span>
-          </div>
-          <div className="space-y-3">
-            {KITS.map((kit) => (
-              <div key={kit.id} className="bg-white rounded-2xl border border-zinc-200 p-4 shadow-sm">
-                <div className="flex gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
-                    <Package className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="font-semibold text-sm text-zinc-900">{kit.name}</div>
-                      {kit.badge && (
-                        <span className="text-xs font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full whitespace-nowrap">
-                          {kit.badge}
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-xs text-zinc-500 mt-1 leading-snug">{kit.desc}</div>
-                    <div className="flex items-center justify-between mt-3">
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-bold text-zinc-900">Rs.{money(kit.price)}</span>
-                        {kit.original && (
-                          <span className="text-xs text-zinc-400 line-through">Rs.{money(kit.original)}</span>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => addKit(kit)}
-                        className="text-xs font-semibold text-orange-600 border border-orange-200 bg-orange-50 px-3 py-1.5 rounded-full active:bg-orange-100"
-                      >
-                        Add kit
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Screen 3: Category browse
-// ---------------------------------------------------------------------------
-
-function CategoryScreen({ activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, cartCount, total }) {
+function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, cartCount, total, subtotalForPillow }) {
   const cat = CATEGORIES.find((c) => c.id === activeCategory);
   const items = PRODUCTS.filter((p) => p.category === activeCategory);
   const CatIcon = cat.icon;
 
+  const progressToPillow = Math.min(100, (subtotalForPillow / 7000) * 100);
+
   return (
     <div className="flex flex-col h-full bg-white">
-      <div className="flex items-center px-4 pt-3 pb-1 flex-shrink-0 safe-top">
+      {/* Header bar */}
+      <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-zinc-100 flex-shrink-0 safe-top">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setScreen('gate')}
+            className="w-8 h-8 flex items-center justify-center rounded-full active:bg-zinc-100"
+            aria-label="Back"
+          >
+            <ChevronLeft className="w-5 h-5 text-zinc-700" />
+          </button>
+          <div className="flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 rounded-full pl-1 pr-3 py-1 shadow-sm">
+            <div className="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center">
+              {college ? college.code[0] : '?'}
+            </div>
+            <span className="text-xs font-medium text-zinc-800">{college ? college.name : 'All Campuses'}</span>
+          </div>
+        </div>
         <button
-          onClick={() => setScreen('home')}
-          className="w-8 h-8 flex items-center justify-center rounded-full active:bg-zinc-100"
-          aria-label="Back"
+          onClick={() => setScreen('cart')}
+          className="relative w-9 h-9 rounded-full bg-white border border-zinc-200 flex items-center justify-center shadow-sm"
+          aria-label="Cart"
         >
-          <ChevronLeft className="w-5 h-5 text-zinc-700" />
+          <ShoppingCart className="w-4 h-4 text-zinc-700" />
+          {cartCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
+              {cartCount}
+            </span>
+          )}
         </button>
       </div>
 
+      {/* Free Pillow Promo Bar */}
+      <div className="px-4 py-3 bg-indigo-50 border-b border-indigo-100">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-xs font-semibold text-indigo-900">
+            {subtotalForPillow >= 7000 ? '🎉 Free Premium Pillow Unlocked!' : 'Get a Free Premium Pillow!'}
+          </span>
+          <span className="text-[10px] font-medium text-indigo-700">
+            {subtotalForPillow >= 7000 ? 'Achieved' : `Add ₹${money(7000 - subtotalForPillow)} more`}
+          </span>
+        </div>
+        <div className="w-full bg-indigo-200/50 rounded-full h-1.5">
+          <div 
+            className={`h-1.5 rounded-full transition-all duration-500 ${subtotalForPillow >= 7000 ? 'bg-green-500' : 'bg-indigo-500'}`} 
+            style={{ width: `${progressToPillow}%` }}
+          />
+        </div>
+      </div>
+
       <div className="flex flex-1 overflow-hidden">
+        {/* Left Category Sidebar */}
         <div className="w-16 bg-zinc-50 border-r border-zinc-100 flex flex-col items-center py-2 gap-1 overflow-y-auto flex-shrink-0">
           {CATEGORIES.map((c) => {
             const Icon = c.icon;
@@ -340,7 +244,7 @@ function CategoryScreen({ activeCategory, setActiveCategory, setScreen, cart, ad
                 }`}
               >
                 <Icon className={`w-5 h-5 ${active ? 'text-orange-500' : 'text-zinc-400'}`} />
-                <span className={`text-xs ${active ? 'text-orange-600 font-semibold' : 'text-zinc-400'}`}>
+                <span className={`text-[10px] ${active ? 'text-orange-600 font-semibold' : 'text-zinc-400'}`}>
                   {c.label}
                 </span>
               </button>
@@ -348,54 +252,60 @@ function CategoryScreen({ activeCategory, setActiveCategory, setScreen, cart, ad
           })}
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 pt-3 pb-4">
+        {/* Product Grid */}
+        <div className="flex-1 overflow-y-auto px-4 pt-3 pb-4 bg-zinc-50/50">
           <h2 className="text-lg font-bold text-zinc-900">{cat.fullLabel}</h2>
-          <p className="text-xs text-zinc-500 mb-4">{items.length} items - senior-recommended</p>
-          <div className="grid grid-cols-2 gap-3">
+          <p className="text-xs text-zinc-500 mb-4">{items.length} options carefully selected</p>
+          <div className="flex flex-col gap-3">
             {items.map((p) => {
               const qty = cart[p.id] || 0;
               return (
-                <div key={p.id} className="border border-zinc-200 rounded-2xl p-3 relative bg-white">
+                <div key={p.id} className="border border-zinc-200 rounded-2xl p-3 relative bg-white flex flex-col">
                   {p.tag && (
-                    <span className="absolute top-2 left-2 text-xs font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                    <span className="absolute top-2 left-2 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide">
                       {p.tag}
                     </span>
                   )}
-                  <div className="h-16 rounded-xl bg-zinc-50 flex items-center justify-center mt-5 mb-2">
-                    <CatIcon className="w-6 h-6 text-zinc-400" />
-                  </div>
+                  {p.image ? (
+                    <div className="h-32 rounded-xl bg-zinc-50 mb-3 overflow-hidden relative border border-zinc-100/50">
+                      <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                    </div>
+                  ) : (
+                    <div className="h-20 rounded-xl bg-zinc-50 flex items-center justify-center mb-3">
+                      <CatIcon className="w-8 h-8 text-zinc-300" />
+                    </div>
+                  )}
                   <div
-                    className="text-sm font-medium text-zinc-900 leading-snug mb-1"
-                    style={{ minHeight: '2.5rem' }}
+                    className="text-sm font-semibold text-zinc-900 leading-snug mb-1"
                   >
                     {p.name}
                   </div>
-                  <div className="text-xs text-zinc-400 mb-2">{p.note}</div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-zinc-900 text-sm">Rs.{p.price}</span>
+                  <div className="text-xs text-zinc-500 mb-3 flex-1">{p.note}</div>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-zinc-900 text-sm">Rs.{money(p.price)}</span>
                     {qty === 0 ? (
                       <button
                         onClick={() => addOne(p.id)}
-                        className="bg-orange-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full active:bg-orange-600"
+                        className="bg-orange-500 text-white text-xs font-semibold px-4 py-1.5 rounded-full active:bg-orange-600 shadow-sm"
                       >
                         Add
                       </button>
                     ) : (
-                      <div className="flex items-center gap-2 bg-orange-500 rounded-full px-1 py-1">
+                      <div className="flex items-center gap-3 bg-orange-500 rounded-full px-1.5 py-1 shadow-sm">
                         <button
                           onClick={() => removeOne(p.id)}
                           className="w-5 h-5 flex items-center justify-center text-white"
                           aria-label="Decrease quantity"
                         >
-                          <Minus className="w-3 h-3" />
+                          <Minus className="w-3.5 h-3.5" />
                         </button>
-                        <span className="text-white text-xs font-semibold w-4 text-center">{qty}</span>
+                        <span className="text-white text-xs font-bold w-3 text-center">{qty}</span>
                         <button
                           onClick={() => addOne(p.id)}
                           className="w-5 h-5 flex items-center justify-center text-white"
                           aria-label="Increase quantity"
                         >
-                          <Plus className="w-3 h-3" />
+                          <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     )}
@@ -417,7 +327,7 @@ function CategoryScreen({ activeCategory, setActiveCategory, setScreen, cart, ad
           </div>
           <button
             onClick={() => setScreen('cart')}
-            className="bg-orange-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-1 active:bg-orange-600"
+            className="bg-orange-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-1 active:bg-orange-600 shadow-md shadow-orange-500/20"
           >
             View cart <ChevronRight className="w-4 h-4" />
           </button>
@@ -428,54 +338,65 @@ function CategoryScreen({ activeCategory, setActiveCategory, setScreen, cart, ad
 }
 
 // ---------------------------------------------------------------------------
-// Screen 4: Cart review
+// Screen 3: Cart review
 // ---------------------------------------------------------------------------
 
 function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, removeOne, setScreen }) {
+  const isFreePillowUnlocked = subtotal >= 7000;
+  
+  // Separate real items from the free promotional item for the UI
+  const realItems = cartItems.filter(i => i.id !== 'free-pillow');
+  
   const grouped = CATEGORIES.map((cat) => ({
     cat,
-    items: cartItems.filter((i) => i.category === cat.id),
+    items: realItems.filter((i) => i.category === cat.id),
   })).filter((g) => g.items.length > 0);
 
-  const missingCategory = CATEGORIES.find((c) => !cartItems.some((i) => i.category === c.id));
+  const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <ScreenHeader title="Your move-in kit" onBack={() => setScreen('category')} />
+    <div className="flex flex-col h-full bg-zinc-50">
+      <ScreenHeader title="Your room setup" onBack={() => setScreen('category')} />
       <div className="flex-1 overflow-y-auto px-4 py-4">
-        {cartItems.length === 0 ? (
+        {realItems.length === 0 ? (
           <div className="text-center text-zinc-400 text-sm mt-20">
-            Your kit is empty. Go add some essentials!
+            Your setup is empty. Go add some essentials!
           </div>
         ) : (
           <div className="space-y-5">
             {grouped.map(({ cat, items }) => {
               const Icon = cat.icon;
               return (
-                <div key={cat.id}>
-                  <h3 className="text-xs font-bold text-zinc-400 tracking-wide mb-2">
-                    {cat.fullLabel.toUpperCase()}
+                <div key={cat.id} className="bg-white rounded-2xl p-4 border border-zinc-100 shadow-sm">
+                  <h3 className="text-[10px] font-bold text-zinc-400 tracking-wider uppercase mb-3 flex items-center gap-2">
+                    <Icon className="w-3.5 h-3.5" /> {cat.fullLabel}
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {items.map((item) => (
-                      <div key={item.id} className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-xl bg-zinc-50 flex items-center justify-center flex-shrink-0">
-                          <Icon className="w-4 h-4 text-zinc-400" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-zinc-900 truncate">{item.name}</div>
-                          <div className="text-xs text-zinc-400">
-                            Qty {item.qty} - {item.note}
+                      <div key={item.id} className="flex items-start gap-3">
+                        {item.image ? (
+                           <div className="w-12 h-12 rounded-lg bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden">
+                              <img src={item.image} alt="" className="w-full h-full object-cover" />
+                           </div>
+                        ) : (
+                          <div className="w-12 h-12 rounded-lg bg-zinc-50 border border-zinc-100 flex items-center justify-center flex-shrink-0">
+                            <Icon className="w-4 h-4 text-zinc-300" />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0 pt-0.5">
+                          <div className="text-sm font-semibold text-zinc-900 leading-snug">{item.name}</div>
+                          <div className="text-xs text-zinc-500 mt-0.5">
+                            Rs.{money(item.price)}
                           </div>
                         </div>
-                        <div className="text-right flex-shrink-0">
-                          <div className="text-sm font-bold text-zinc-900 mb-1">
+                        <div className="text-right flex-shrink-0 pt-0.5">
+                          <div className="text-sm font-bold text-zinc-900 mb-2">
                             Rs.{money(item.price * item.qty)}
                           </div>
-                          <div className="flex items-center gap-2 bg-zinc-100 rounded-full px-1 py-0.5">
+                          <div className="flex items-center gap-2 bg-zinc-100 rounded-full px-1.5 py-1">
                             <button
                               onClick={() => removeOne(item.id)}
-                              className="w-5 h-5 flex items-center justify-center text-zinc-600"
+                              className="w-5 h-5 flex items-center justify-center text-zinc-600 bg-white rounded-full shadow-sm"
                               aria-label="Decrease quantity"
                             >
                               <Minus className="w-3 h-3" />
@@ -483,7 +404,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, rem
                             <span className="text-xs font-semibold w-3 text-center">{item.qty}</span>
                             <button
                               onClick={() => addOne(item.id)}
-                              className="w-5 h-5 flex items-center justify-center text-zinc-600"
+                              className="w-5 h-5 flex items-center justify-center text-zinc-600 bg-white rounded-full shadow-sm"
                               aria-label="Increase quantity"
                             >
                               <Plus className="w-3 h-3" />
@@ -497,49 +418,75 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, rem
               );
             })}
 
+            {isFreePillowUnlocked && (
+              <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                <div className="absolute -right-4 -top-4 w-16 h-16 bg-indigo-200/50 rounded-full blur-xl" />
+                <h3 className="text-[10px] font-bold text-indigo-500 tracking-wider uppercase mb-3 flex items-center gap-2 relative z-10">
+                  🎁 Special Offer Unlocked
+                </h3>
+                <div className="flex items-center gap-3 relative z-10">
+                  <div className="w-12 h-12 rounded-lg bg-indigo-100 border border-indigo-200 flex items-center justify-center flex-shrink-0 text-2xl">
+                    ☁️
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-bold text-indigo-900">Premium Pillow</div>
+                    <div className="text-xs text-indigo-700">Free gift on orders above ₹7K</div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-sm font-bold text-green-600">Free</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {missingCategory ? (
-              <div className="bg-green-50 border border-green-100 rounded-2xl p-3 flex gap-2 items-start">
-                <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-green-800 leading-snug">
-                  {categoriesCovered} of {CATEGORIES.length} categories covered. Add a {missingCategory.label}{' '}
-                  essential to complete your kit.
+              <div className="bg-orange-50 border border-orange-100 rounded-2xl p-3 flex gap-2 items-start shadow-sm">
+                <Lightbulb className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-orange-800 leading-snug">
+                  You haven't added any {missingCategory.label} essentials. Want to go back and check?
                 </p>
               </div>
             ) : (
-              <div className="bg-green-50 border border-green-100 rounded-2xl p-3 flex gap-2 items-start">
+              <div className="bg-green-50 border border-green-100 rounded-2xl p-3 flex gap-2 items-start shadow-sm">
                 <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                 <p className="text-xs text-green-800 leading-snug">
-                  All {CATEGORIES.length} categories covered. Your kit is complete!
+                  Awesome! You've got essentials from all categories.
                 </p>
               </div>
             )}
 
-            <div className="bg-zinc-50 rounded-2xl p-4 space-y-2">
+            <div className="bg-white rounded-2xl p-4 space-y-3 border border-zinc-100 shadow-sm">
               <div className="flex justify-between text-sm">
-                <span className="text-zinc-500">Subtotal</span>
+                <span className="text-zinc-500">Cart subtotal</span>
                 <span className="font-medium text-zinc-900">Rs.{money(subtotal)}</span>
               </div>
+              {isFreePillowUnlocked && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-indigo-600">Free Premium Pillow</span>
+                  <span className="font-medium text-indigo-600">-</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm">
-                <span className="text-zinc-500">Delivery to hostel</span>
-                <span className="font-medium text-green-600">Free</span>
+                <span className="text-zinc-500">Delivery to hostel room</span>
+                <span className="font-medium text-green-600 font-bold">Free</span>
               </div>
-              <div className="border-t border-zinc-200 pt-2 flex justify-between">
-                <span className="font-semibold text-zinc-900">Total</span>
-                <span className="font-bold text-zinc-900">Rs.{money(total)}</span>
+              <div className="border-t border-dashed border-zinc-200 pt-3 flex justify-between">
+                <span className="font-bold text-zinc-900">Total to pay</span>
+                <span className="text-lg font-black text-orange-500">Rs.{money(total)}</span>
               </div>
             </div>
           </div>
         )}
       </div>
-      <div className="border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom">
+      <div className="bg-white border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom">
         <button
-          disabled={cartItems.length === 0}
+          disabled={realItems.length === 0}
           onClick={() => setScreen('delivery')}
-          className={`w-full py-3.5 rounded-2xl font-semibold flex items-center justify-center gap-1 transition ${
-            cartItems.length ? 'bg-orange-500 text-white active:bg-orange-600' : 'bg-zinc-200 text-zinc-400'
+          className={`w-full py-3.5 rounded-2xl font-bold flex items-center justify-center gap-1 transition shadow-lg ${
+            realItems.length ? 'bg-orange-500 text-white active:bg-orange-600 shadow-orange-500/20' : 'bg-zinc-100 text-zinc-400 shadow-none'
           }`}
         >
-          Continue to delivery details <ChevronRight className="w-4 h-4" />
+          Proceed to delivery <ChevronRight className="w-4 h-4" />
         </button>
       </div>
     </div>
@@ -547,7 +494,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, rem
 }
 
 // ---------------------------------------------------------------------------
-// Screen 5: Delivery details
+// Screen 4: Delivery details
 // ---------------------------------------------------------------------------
 
 function DeliveryScreen({ delivery, setDelivery, setScreen }) {
@@ -558,25 +505,25 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
       <ScreenHeader title="Delivery details" onBack={() => setScreen('cart')} />
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
         <div>
-          <label className="text-xs font-semibold text-zinc-500 mb-1.5 block">Full name</label>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Full name</label>
           <input
             value={delivery.fullName}
             onChange={update('fullName')}
             placeholder="As per hostel allotment letter"
-            className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500"
+            className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors"
           />
         </div>
         <div>
-          <label className="text-xs font-semibold text-zinc-500 mb-1.5 block">Hostel block</label>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel block</label>
           <div className="grid grid-cols-2 gap-3">
             {['Boys hostel', 'Girls hostel'].map((opt) => (
               <button
                 key={opt}
                 onClick={() => setDelivery((prev) => ({ ...prev, hostelBlock: opt }))}
-                className={`py-3 rounded-xl text-sm font-semibold border transition ${
+                className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all ${
                   delivery.hostelBlock === opt
-                    ? 'bg-zinc-900 text-white border-zinc-900'
-                    : 'bg-white text-zinc-600 border-zinc-200'
+                    ? 'bg-orange-50 border-orange-500 text-orange-600'
+                    : 'bg-white border-zinc-100 text-zinc-500'
                 }`}
               >
                 {opt}
@@ -585,37 +532,38 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
           </div>
         </div>
         <div>
-          <label className="text-xs font-semibold text-zinc-500 mb-1.5 block">Hostel name &amp; room no.</label>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel name &amp; room no.</label>
           <input
             value={delivery.hostelRoom}
             onChange={update('hostelRoom')}
             placeholder="e.g. BH-3, Room 214"
-            className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500"
+            className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors"
           />
         </div>
         <div>
-          <label className="text-xs font-semibold text-zinc-500 mb-1.5 block">Preferred delivery date</label>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Preferred delivery date</label>
           <input
             value={delivery.deliveryDate}
             onChange={update('deliveryDate')}
-            placeholder="14 July 2026"
-            className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500"
+            placeholder="e.g. 14 July 2026"
+            className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors"
           />
         </div>
         <div>
-          <label className="text-xs font-semibold text-zinc-500 mb-1.5 block">Your WhatsApp number</label>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Your WhatsApp number</label>
           <input
             value={delivery.whatsapp}
             onChange={update('whatsapp')}
+            type="tel"
             placeholder="+91 98765 43210"
-            className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500"
+            className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors"
           />
         </div>
       </div>
-      <div className="border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom">
+      <div className="border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom bg-white shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.05)]">
         <button
           onClick={() => setScreen('success')}
-          className="w-full py-3.5 rounded-2xl font-semibold bg-orange-500 text-white active:bg-orange-600 flex items-center justify-center gap-1"
+          className="w-full py-3.5 rounded-2xl font-bold bg-orange-500 text-white active:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20"
         >
           Review &amp; send order <ChevronRight className="w-4 h-4" />
         </button>
@@ -625,7 +573,7 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
 }
 
 // ---------------------------------------------------------------------------
-// Screen 6: WhatsApp handoff
+// Screen 5: WhatsApp handoff
 // ---------------------------------------------------------------------------
 
 function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen }) {
@@ -641,49 +589,53 @@ function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp
         </button>
       </div>
       <div className="flex-1 overflow-y-auto px-6 pt-4 pb-4 flex flex-col items-center text-center">
-        <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-4">
-          <CheckCircle2 className="w-8 h-8 text-green-600" />
+        <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mb-5 border border-green-100">
+          <CheckCircle2 className="w-10 h-10 text-green-500" />
         </div>
-        <h1 className="text-xl font-bold text-zinc-900 mb-2">Your kit is ready to send</h1>
-        <p className="text-sm text-zinc-500 mb-6 leading-relaxed">
-          Tap below to send this directly to Wisor on WhatsApp. We&apos;ll confirm final pricing and delivery
-          within a few hours.
+        <h1 className="text-2xl font-black text-zinc-900 mb-2">Almost done!</h1>
+        <p className="text-sm text-zinc-500 mb-8 leading-relaxed max-w-[280px]">
+          Send this directly to Wisor on WhatsApp. We&apos;ll confirm your order and delivery schedule instantly.
         </p>
 
-        <div className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-left mb-6">
-          <div className="text-xs font-bold text-zinc-500 mb-2">
-            NEW WISOR ORDER {college ? `- ${college.name.toUpperCase()}` : ''}
+        <div className="w-full bg-zinc-50 border border-zinc-200/60 rounded-2xl p-5 text-left mb-6 shadow-sm">
+          <div className="text-[10px] font-black text-zinc-400 mb-3 tracking-widest uppercase">
+            Order Summary {college ? `• ${college.name}` : ''}
           </div>
-          <div className="text-sm font-semibold text-zinc-900 mb-1">
-            {delivery.fullName || 'Your name'} - {delivery.hostelRoom || 'Room not set'}
+          <div className="text-sm font-bold text-zinc-900 mb-1">
+            {delivery.fullName || 'Your name'}
           </div>
-          <div className="text-xs text-zinc-500 mb-3">Delivery by: {delivery.deliveryDate || 'TBD'}</div>
-          <div className="space-y-1 mb-3">
-            {cartItems.length === 0 && <div className="text-xs text-zinc-400">No items added yet</div>}
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex justify-between text-xs text-zinc-600 gap-2">
-                <span className="truncate">
-                  {item.qty}x {item.name}
+          <div className="text-xs font-medium text-zinc-500 mb-4">
+            {delivery.hostelBlock}, {delivery.hostelRoom || 'Room TBD'} <br/>
+            By {delivery.deliveryDate || 'TBD'}
+          </div>
+          
+          <div className="space-y-2 mb-4">
+            {cartItems.map((item, idx) => (
+              <div key={item.id || idx} className="flex justify-between text-xs font-medium gap-2">
+                <span className={`truncate ${item.price === 0 ? 'text-indigo-600' : 'text-zinc-600'}`}>
+                  {item.qty}x {item.name} {item.price === 0 && '(Free)'}
                 </span>
-                <span className="font-medium text-zinc-800 flex-shrink-0">
+                <span className={`flex-shrink-0 ${item.price === 0 ? 'text-indigo-600' : 'text-zinc-800'}`}>
                   Rs.{money(item.price * item.qty)}
                 </span>
               </div>
             ))}
           </div>
-          <div className="border-t border-zinc-200 pt-2 flex justify-between items-center">
-            <span className="text-sm font-bold text-zinc-900">Total: Rs.{money(total)}</span>
+          
+          <div className="border-t border-dashed border-zinc-200 pt-3 flex justify-between items-center">
+            <span className="text-sm font-bold text-zinc-900">Total</span>
+            <span className="text-lg font-black text-orange-500">Rs.{money(total)}</span>
           </div>
         </div>
       </div>
       <div className="px-5 pb-5 pt-2 flex-shrink-0 safe-bottom">
         <button
           onClick={handleSendWhatsApp}
-          className="w-full py-3.5 rounded-2xl font-semibold bg-green-600 text-white active:bg-green-700 flex items-center justify-center gap-2"
+          className="w-full py-4 rounded-2xl font-bold bg-[#25D366] text-white active:bg-[#1DA851] flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20 transition-all hover:-translate-y-0.5"
         >
-          <MessageCircle className="w-5 h-5" /> Send cart on WhatsApp
+          <MessageCircle className="w-5 h-5" /> Send order on WhatsApp
         </button>
-        <p className="text-center text-xs text-zinc-400 mt-3">Opens WhatsApp with this order pre-filled</p>
+        <p className="text-center text-[10px] font-medium text-zinc-400 mt-4 tracking-wide">OPENS WHATSAPP WITH PRE-FILLED DETAILS</p>
       </div>
     </div>
   );
@@ -709,14 +661,29 @@ export default function App() {
 
   const college = COLLEGES.find((c) => c.id === collegeId) || null;
 
-  const cartItems = Object.entries(cart)
+  // Build real cart items
+  const baseCartItems = Object.entries(cart)
     .filter(([, qty]) => qty > 0)
     .map(([id, qty]) => ({ ...PRODUCTS.find((p) => p.id === id), qty }));
 
-  const cartCount = cartItems.reduce((sum, i) => sum + i.qty, 0);
-  const subtotal = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
-  const total = subtotal;
-  const categoriesCovered = new Set(cartItems.map((i) => i.category)).size;
+  const cartCount = baseCartItems.reduce((sum, i) => sum + i.qty, 0);
+  const subtotal = baseCartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+  
+  // Free Pillow Logic
+  let finalCartItems = [...baseCartItems];
+  if (subtotal >= 7000) {
+    finalCartItems.push({
+      id: 'free-pillow',
+      category: 'sleep',
+      name: 'Premium Pillow (Offer)',
+      price: 0,
+      qty: 1,
+      image: null
+    });
+  }
+
+  const total = subtotal; // Free items don't add to total
+  const categoriesCovered = new Set(baseCartItems.map((i) => i.category)).size;
 
   function addOne(id) {
     setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
@@ -732,17 +699,6 @@ export default function App() {
     });
   }
 
-  function addKit(kit) {
-    setCart((prev) => {
-      const next = { ...prev };
-      kit.items.forEach((id) => {
-        next[id] = (next[id] || 0) + 1;
-      });
-      return next;
-    });
-    showToast(`${kit.name} added to your kit`);
-  }
-
   function showToast(msg) {
     setToast(msg);
     window.clearTimeout(showToast._t);
@@ -751,16 +707,22 @@ export default function App() {
 
   function buildWhatsAppMessage() {
     const lines = [];
-    lines.push(`New Wisor order - ${college ? college.name : 'Hostel'}`);
-    lines.push(
-      `${delivery.fullName || 'Name not provided'} | ${delivery.hostelBlock}, Room ${delivery.hostelRoom || 'TBD'}`
-    );
-    lines.push(`Delivery by: ${delivery.deliveryDate || 'TBD'}`);
-    lines.push(`Customer WhatsApp: ${delivery.whatsapp || 'Not provided'}`);
-    lines.push('');
-    cartItems.forEach((i) => lines.push(`${i.qty}x ${i.name} - Rs.${money(i.price * i.qty)}`));
-    lines.push('');
-    lines.push(`Total: Rs.${money(total)}`);
+    lines.push(`*New Wisor order* - ${college ? college.name : 'Hostel'}`);
+    lines.push(`---`);
+    lines.push(`*Name:* ${delivery.fullName || 'Not provided'}`);
+    lines.push(`*Room:* ${delivery.hostelBlock}, ${delivery.hostelRoom || 'TBD'}`);
+    lines.push(`*Delivery:* ${delivery.deliveryDate || 'TBD'}`);
+    lines.push(`*Phone:* ${delivery.whatsapp || 'Not provided'}`);
+    lines.push(`---`);
+    finalCartItems.forEach((i) => {
+      if (i.price === 0) {
+         lines.push(`${i.qty}x ${i.name} - *FREE*`);
+      } else {
+         lines.push(`${i.qty}x ${i.name} - Rs.${money(i.price * i.qty)}`);
+      }
+    });
+    lines.push(`---`);
+    lines.push(`*Total: Rs.${money(total)}*`);
     return lines.join('\n');
   }
 
@@ -781,26 +743,26 @@ export default function App() {
     switch (screen) {
       case 'gate':
         return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
-      case 'home':
-        return <HomeScreen {...sp} college={college} cartCount={cartCount} setActiveCategory={setActiveCategory} addKit={addKit} />;
       case 'category':
         return (
           <CategoryScreen
             {...sp}
+            college={college}
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
             cart={cart}
             addOne={addOne}
             removeOne={removeOne}
-            cartCount={cartCount}
+            cartCount={cartCount + (subtotal >= 7000 ? 1 : 0)}
             total={total}
+            subtotalForPillow={subtotal}
           />
         );
       case 'cart':
         return (
           <CartScreen
             {...sp}
-            cartItems={cartItems}
+            cartItems={finalCartItems}
             categoriesCovered={categoriesCovered}
             subtotal={subtotal}
             total={total}
@@ -816,7 +778,7 @@ export default function App() {
             {...sp}
             college={college}
             delivery={delivery}
-            cartItems={cartItems}
+            cartItems={finalCartItems}
             total={total}
             handleSendWhatsApp={handleSendWhatsApp}
           />
