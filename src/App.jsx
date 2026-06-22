@@ -55,11 +55,15 @@ const PRODUCTS = [
   { id:'sto1',category:'storage', name:'Foldable Wardrobe Organiser, 6-Shelf',   price:899,  note:'Grey',            image:'/foldable_wardrobe.png', rating:4.1, ratingCount:'6,780',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=foldable+wardrobe+organizer+6+shelf', description:'Space-saving foldable wardrobe with 6 shelves and a hanging rod. Made from durable non-woven fabric with a steel frame. Assembles in minutes.',            specs:['6 shelves + hanging rod','Non-woven fabric','Steel frame','Folds flat for storage'] },
   { id:'sto2',category:'storage', name:'Under-Bed Storage Bags, Set of 2',       price:349,  note:'Large',           image:'/under_bed_storage.png',rating:4.0, ratingCount:'4,219',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=under+bed+storage+bag+large',   description:'Maximize your hostel room space with these large under-bed storage bags. Zippered closure, transparent window — perfect for seasonal clothes.',                  specs:['Set of 2 bags','Transparent window','Full zip closure','Size: 80×60×20 cm each'] },
   { id:'sto3',category:'storage', name:'Study Table Drawer Organiser',           price:249,  note:'Black',           image:'/drawer_organizer.png', rating:4.1, ratingCount:'2,890',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=desk+drawer+organizer+black',   description:'Multi-compartment black drawer organizer. Keeps your study table drawer neat — from cables to stationery, everything has a place.',                              specs:['Multiple compartments','ABS black plastic','Non-slip bottom','Easy to clean'] },
+  { id:'sto4',category:'storage', name:'Blackout Curtain 7ft, Navy Blue',       price:549,  note:'Set of 2 panels', image:'/curtain_navy.png',     tag:'Bestseller', rating:4.3, ratingCount:'8,741',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+navy+blue', description:'Thermal-insulated blackout curtains in deep navy. Blocks 99% of sunlight — perfect for day-sleepers or bright-lit hostel rooms. Rod pocket header for easy installation.', specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
+  { id:'sto5',category:'storage', name:'Blackout Curtain 7ft, Forest Green',    price:549,  note:'Set of 2 panels', image:'/curtain_green.png',    rating:4.2, ratingCount:'5,380',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+green',    description:'Earthy forest green blackout curtains with heavy-duty fabric. Great thermal insulation — keeps the room cool in summer. Blends beautifully with wooden hostel furniture.', specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
+  { id:'sto6',category:'storage', name:'Blackout Curtain 7ft, Beige',          price:499,  note:'Set of 2 panels', image:'/curtain_beige.png',    rating:4.4, ratingCount:'12,034', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+beige',    description:'Neutral beige blackout curtains that complement any room decor. Light-filtering on one side, 99% blackout on the other — best all-rounder for hostel rooms.',              specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
+  { id:'st5', category:'study',   name:'Cat6 LAN Cable, 1 Metre (Flat)',        price:199,  note:'Blue flat',       image:'/lan_cable_cat6.png',   rating:4.4, ratingCount:'21,560', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=cat6+flat+lan+cable+1+metre',   description:'Premium flat Cat6 ethernet cable with gold-plated snagless RJ45 connectors. Gigabit speed (1000 Mbps), slim design fits easily under doors or carpets. Essential for hostel LAN connections.', specs:['Length: 1 metre', 'Cat6 standard (1 Gbps)', 'Flat slim design', 'Gold-plated snagless RJ45', 'UTP unshielded'] },
+  { id:'st6', category:'study',   name:'USB-C to Ethernet Adapter (Gigabit)',   price:899,  note:'UGREEN / Anker',  image:'/usbc_ethernet_adapter.png', tag:'Top pick', rating:4.5, ratingCount:'14,203', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=usb+c+to+ethernet+adapter+gigabit', description:'Plug-and-play USB-C to RJ45 Gigabit Ethernet adapter. Works with MacBook, iPad, Windows laptops, Android phones — no drivers needed. Aluminium casing for heat dissipation. Essential for hostel LAN ports.', specs:['USB-C to RJ45 Gigabit (1000 Mbps)', 'Plug-and-play, no driver needed', 'Compatible: MacBook / Windows / Android', 'Aluminium alloy housing', 'Cable length: 10 cm'] },
   { id:'w1',  category:'weather', name:'Compact Umbrella, Wind-Resistant',       price:399,  note:'Navy',            image:'/umbrella_compact.png', rating:4.2, ratingCount:'11,203', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=compact+umbrella+wind+resistant', description:"Auto open/close wind-resistant compact umbrella with 8-rib reinforced frame. Fits in any bag — essential for Allahabad's unpredictable monsoon.",           specs:['8-rib reinforced frame','Auto open/close','UV-coated canopy','Folds to 27cm'] },
   { id:'w2',  category:'weather', name:'Raincoat, Hooded',                       price:549,  note:'Olive',           image:'/raincoat_hooded.png',  rating:4.1, ratingCount:'3,640',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=hooded+raincoat+olive+waterproof', description:'Full-body hooded waterproof raincoat in earthy olive. Lightweight and packable — ideal for riding on two-wheelers or cycling to class in the rain.',         specs:['100% waterproof PVC','Adjustable hood','One-size fits most','Packs into pouch'] },
 ];
 
-// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 function money(n) { return n.toLocaleString('en-IN'); }
@@ -332,7 +336,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
   );
 }
 
-function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, removeOne, setScreen }) {
+function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee, addOne, removeOne, setScreen }) {
   const isFreePillowUnlocked = subtotal >= 7000;
   const realItems = cartItems.filter(i => i.id !== 'free-pillow');
   const grouped = CATEGORIES.map((cat) => ({ cat, items: realItems.filter((i) => i.category === cat.id) })).filter((g) => g.items.length > 0);
@@ -406,11 +410,22 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, rem
             <div className="bg-white rounded-2xl p-4 space-y-3 border border-zinc-100 shadow-sm">
               <div className="flex justify-between text-sm"><span className="text-zinc-500">Cart subtotal</span><span className="font-medium text-zinc-900">Rs.{money(subtotal)}</span></div>
               {isFreePillowUnlocked && <div className="flex justify-between text-sm"><span className="text-indigo-600">Free Premium Pillow</span><span className="font-medium text-indigo-600">-</span></div>}
-              <div className="flex justify-between text-sm"><span className="text-zinc-500">Delivery to hostel room</span><span className="font-bold text-green-600">Free</span></div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-500">Delivery to hostel room</span>
+                {deliveryFee > 0
+                  ? <span className="font-bold text-zinc-700">Rs.{money(deliveryFee)}</span>
+                  : <span className="font-bold text-green-600">Free</span>}
+              </div>
               <div className="border-t border-dashed border-zinc-200 pt-3 flex justify-between">
                 <span className="font-bold text-zinc-900">Total to pay</span>
                 <span className="text-lg font-black text-orange-500">Rs.{money(total)}</span>
               </div>
+              {deliveryFee > 0 && (
+                <div className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 flex items-center gap-1.5">
+                  <span>🚚</span>
+                  <span>Add <strong>Rs.{money(3000 - subtotal)}</strong> more for <strong>free delivery</strong></span>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -426,37 +441,63 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, addOne, rem
 
 function DeliveryScreen({ delivery, setDelivery, setScreen }) {
   const update = (field) => (e) => setDelivery((prev) => ({ ...prev, [field]: e.target.value }));
+  const [errors, setErrors] = useState({});
+
+  function validate() {
+    const e = {};
+    if (!delivery.fullName.trim())    e.fullName    = 'Full name is required';
+    if (!delivery.hostelBlock.trim()) e.hostelBlock = 'Please select a hostel block';
+    if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name & room number is required';
+    if (!delivery.deliveryDate.trim())e.deliveryDate= 'Preferred delivery date is required';
+    if (!delivery.whatsapp.trim())    e.whatsapp    = 'WhatsApp number is required';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
+
   return (
     <div className="flex flex-col h-full bg-white">
       <ScreenHeader title="Delivery details" onBack={() => setScreen('cart')} />
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
         <div>
-          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Full name</label>
-          <input value={delivery.fullName} onChange={update('fullName')} placeholder="As per hostel allotment letter" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Full name <span className="text-red-400">*</span></label>
+          <input value={delivery.fullName} onChange={update('fullName')} placeholder="As per hostel allotment letter" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.fullName ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+          {errors.fullName && <p className="text-xs text-red-500 mt-1 font-medium">{errors.fullName}</p>}
         </div>
         <div>
-          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel block</label>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel block <span className="text-red-400">*</span></label>
           <div className="grid grid-cols-2 gap-3">
             {['Boys hostel', 'Girls hostel'].map((opt) => (
-              <button key={opt} onClick={() => setDelivery((prev) => ({ ...prev, hostelBlock: opt }))} className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all duration-200 ${delivery.hostelBlock === opt ? 'bg-orange-50 border-orange-500 text-orange-600 shadow-sm' : 'bg-white border-zinc-100 text-zinc-500 hover:border-zinc-200'}`}>{opt}</button>
+              <button key={opt} onClick={() => { setDelivery((prev) => ({ ...prev, hostelBlock: opt })); setErrors(p => ({ ...p, hostelBlock: undefined })); }} className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all duration-200 ${delivery.hostelBlock === opt ? 'bg-orange-50 border-orange-500 text-orange-600 shadow-sm' : 'bg-white border-zinc-100 text-zinc-500 hover:border-zinc-200'}`}>{opt}</button>
             ))}
           </div>
         </div>
         <div>
-          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel name &amp; room no.</label>
-          <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3, Room 214" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel name &amp; room no. <span className="text-red-400">*</span></label>
+          <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3, Room 214" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.hostelRoom ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+          {errors.hostelRoom && <p className="text-xs text-red-500 mt-1 font-medium">{errors.hostelRoom}</p>}
         </div>
         <div>
-          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Preferred delivery date</label>
-          <input value={delivery.deliveryDate} onChange={update('deliveryDate')} placeholder="e.g. 14 July 2026" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Preferred delivery date <span className="text-red-400">*</span></label>
+          <input value={delivery.deliveryDate} onChange={update('deliveryDate')} placeholder="e.g. 14 July 2026" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.deliveryDate ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+          {errors.deliveryDate && <p className="text-xs text-red-500 mt-1 font-medium">{errors.deliveryDate}</p>}
         </div>
         <div>
-          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Your WhatsApp number</label>
-          <input value={delivery.whatsapp} onChange={update('whatsapp')} type="tel" placeholder="+91 98765 43210" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Your WhatsApp number <span className="text-red-400">*</span></label>
+          <input value={delivery.whatsapp} onChange={update('whatsapp')} type="tel" placeholder="+91 98765 43210" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.whatsapp ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+          {errors.whatsapp && <p className="text-xs text-red-500 mt-1 font-medium">{errors.whatsapp}</p>}
         </div>
       </div>
       <div className="border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom bg-white">
-        <button onClick={() => setScreen('success')} className="w-full py-3.5 rounded-2xl font-bold bg-orange-500 text-white active:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition-all duration-200">
+        {Object.keys(errors).length > 0 && (
+          <div className="mb-2 px-1">
+            {Object.values(errors).map((err, i) => (
+              <div key={i} className="text-xs text-red-500 font-medium flex items-center gap-1.5 mb-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />{err}
+              </div>
+            ))}
+          </div>
+        )}
+        <button onClick={() => { if (validate()) setScreen('success'); }} className="w-full py-3.5 rounded-2xl font-bold bg-orange-500 text-white active:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition-all duration-200">
           Review &amp; send order <ChevronRight className="w-4 h-4" />
         </button>
       </div>
@@ -596,7 +637,7 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
   );
 }
 
-function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, subtotal, finalCartItems }) {
+function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, subtotal, finalCartItems, deliveryFee, total: totalWithDelivery }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const cat = CATEGORIES.find((c) => c.id === activeCategory);
   const items = PRODUCTS.filter((p) => p.category === activeCategory);
@@ -734,10 +775,20 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
         <div className="flex-shrink-0 border-t border-zinc-100 p-4 space-y-3">
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs text-zinc-500"><span>Subtotal</span><span className="font-medium text-zinc-800">Rs.{money(subtotal)}</span></div>
-            <div className="flex justify-between text-xs text-zinc-500"><span>Delivery</span><span className="font-bold text-green-600">Free</span></div>
+            <div className="flex justify-between text-xs text-zinc-500">
+              <span>Delivery</span>
+              {deliveryFee > 0
+                ? <span className="font-bold text-zinc-700">Rs.{money(deliveryFee)}</span>
+                : <span className="font-bold text-green-600">Free</span>}
+            </div>
+            {deliveryFee > 0 && (
+              <div className="text-[11px] text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-2 py-1.5 flex items-center gap-1">
+                🚚 Add <strong className="mx-0.5">Rs.{money(3000 - subtotal)}</strong> for free delivery
+              </div>
+            )}
             <div className="flex justify-between font-bold text-sm pt-1 border-t border-dashed border-zinc-200">
               <span className="text-zinc-900">Total</span>
-              <span className="text-orange-500 text-base font-black">Rs.{money(subtotal)}</span>
+              <span className="text-orange-500 text-base font-black">Rs.{money(totalWithDelivery)}</span>
             </div>
           </div>
           <button disabled={realItems.length === 0} onClick={() => setScreen('delivery')} className={`w-full py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-1.5 transition-all duration-200 ${realItems.length > 0 ? 'bg-orange-500 text-white hover:bg-orange-600 shadow-lg shadow-orange-500/20 hover:-translate-y-0.5' : 'bg-zinc-100 text-zinc-400 cursor-not-allowed'}`}>
@@ -751,9 +802,21 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
   );
 }
 
-function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, subtotal, total }) {
+function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, subtotal, total, deliveryFee }) {
   const update = (field) => (e) => setDelivery((prev) => ({ ...prev, [field]: e.target.value }));
   const realItems = finalCartItems.filter(i => i.id !== 'free-pillow');
+  const [errors, setErrors] = useState({});
+
+  function validate() {
+    const e = {};
+    if (!delivery.fullName.trim())    e.fullName    = 'Full name is required';
+    if (!delivery.hostelBlock.trim()) e.hostelBlock = 'Please select a hostel block';
+    if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name & room number is required';
+    if (!delivery.deliveryDate.trim())e.deliveryDate= 'Preferred delivery date is required';
+    if (!delivery.whatsapp.trim())    e.whatsapp    = 'WhatsApp number is required';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
 
   return (
     <div className="flex-1 overflow-y-auto flex items-start justify-center px-6 py-10 bg-zinc-50">
@@ -763,31 +826,43 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
           <p className="text-sm text-zinc-400 mb-6">We'll deliver directly to your hostel room.</p>
           <div className="space-y-5">
             <div>
-              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Full name</label>
-              <input value={delivery.fullName} onChange={update('fullName')} placeholder="As per hostel allotment letter" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Full name <span className="text-red-400">*</span></label>
+              <input value={delivery.fullName} onChange={update('fullName')} placeholder="As per hostel allotment letter" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.fullName ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+              {errors.fullName && <p className="text-xs text-red-500 mt-1 font-medium">{errors.fullName}</p>}
             </div>
             <div>
-              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Hostel block</label>
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Hostel block <span className="text-red-400">*</span></label>
               <div className="grid grid-cols-2 gap-3">
                 {['Boys hostel', 'Girls hostel'].map((opt) => (
-                  <button key={opt} onClick={() => setDelivery((prev) => ({ ...prev, hostelBlock: opt }))} className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all duration-200 ${delivery.hostelBlock === opt ? 'bg-orange-50 border-orange-500 text-orange-600' : 'bg-white border-zinc-100 text-zinc-500 hover:border-zinc-200'}`}>{opt}</button>
+                  <button key={opt} onClick={() => { setDelivery((prev) => ({ ...prev, hostelBlock: opt })); setErrors(p => ({ ...p, hostelBlock: undefined })); }} className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all duration-200 ${delivery.hostelBlock === opt ? 'bg-orange-50 border-orange-500 text-orange-600' : 'bg-white border-zinc-100 text-zinc-500 hover:border-zinc-200'}`}>{opt}</button>
                 ))}
               </div>
             </div>
             <div>
-              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Hostel name &amp; room no.</label>
-              <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3, Room 214" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Hostel name &amp; room no. <span className="text-red-400">*</span></label>
+              <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3, Room 214" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.hostelRoom ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+              {errors.hostelRoom && <p className="text-xs text-red-500 mt-1 font-medium">{errors.hostelRoom}</p>}
             </div>
             <div>
-              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Preferred delivery date</label>
-              <input value={delivery.deliveryDate} onChange={update('deliveryDate')} placeholder="e.g. 14 July 2026" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Preferred delivery date <span className="text-red-400">*</span></label>
+              <input value={delivery.deliveryDate} onChange={update('deliveryDate')} placeholder="e.g. 14 July 2026" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.deliveryDate ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+              {errors.deliveryDate && <p className="text-xs text-red-500 mt-1 font-medium">{errors.deliveryDate}</p>}
             </div>
             <div>
-              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Your WhatsApp number</label>
-              <input value={delivery.whatsapp} onChange={update('whatsapp')} type="tel" placeholder="+91 98765 43210" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Your WhatsApp number <span className="text-red-400">*</span></label>
+              <input value={delivery.whatsapp} onChange={update('whatsapp')} type="tel" placeholder="+91 98765 43210" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.whatsapp ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+              {errors.whatsapp && <p className="text-xs text-red-500 mt-1 font-medium">{errors.whatsapp}</p>}
             </div>
           </div>
-          <button onClick={() => setScreen('success')} className="w-full mt-8 py-4 rounded-2xl font-bold bg-orange-500 text-white hover:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition-all duration-200 hover:-translate-y-0.5">
+          {Object.keys(errors).length > 0 && (
+            <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-xl">
+              <p className="text-xs text-red-600 font-semibold mb-1">Please fill in all required fields:</p>
+              {Object.values(errors).filter(Boolean).map((err, i) => (
+                <div key={i} className="text-xs text-red-500 flex items-center gap-1.5"><span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />{err}</div>
+              ))}
+            </div>
+          )}
+          <button onClick={() => { if (validate()) setScreen('success'); }} className="w-full mt-6 py-4 rounded-2xl font-bold bg-orange-500 text-white hover:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition-all duration-200 hover:-translate-y-0.5">
             Review &amp; send order <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -809,13 +884,22 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               ))}
             </div>
             <div className="border-t border-dashed border-zinc-200 pt-3 space-y-1.5">
-              <div className="flex justify-between text-xs text-zinc-500"><span>Delivery</span><span className="font-bold text-green-600">Free</span></div>
+              <div className="flex justify-between text-xs text-zinc-500">
+                <span>Delivery</span>
+                {deliveryFee > 0
+                  ? <span className="font-bold text-zinc-700">Rs.{money(deliveryFee)}</span>
+                  : <span className="font-bold text-green-600">Free</span>}
+              </div>
               <div className="flex justify-between font-black text-base"><span className="text-zinc-900">Total</span><span className="text-orange-500">Rs.{money(total)}</span></div>
             </div>
           </div>
           <div className="bg-green-50 border border-green-100 rounded-2xl p-4 flex gap-3 items-start">
             <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-            <p className="text-xs text-green-800 leading-relaxed"><strong>Free delivery</strong> directly to your hostel room. We confirm over WhatsApp within 30 minutes.</p>
+            <p className="text-xs text-green-800 leading-relaxed">
+              {deliveryFee > 0
+                ? <><strong>Rs.99 delivery charge</strong> applies for orders under Rs.3,000. Add Rs.{money(3000 - subtotal)} more to unlock free delivery!</>
+                : <><strong>Free delivery</strong> directly to your hostel room. We confirm over WhatsApp within 30 minutes.</>}
+            </p>
           </div>
         </div>
       </div>
@@ -876,7 +960,8 @@ export default function App() {
   const subtotal = baseCartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
   let finalCartItems = [...baseCartItems];
   if (subtotal >= 7000) finalCartItems.push({ id: 'free-pillow', category: 'sleep', name: 'Premium Pillow (Offer)', price: 0, qty: 1, image: null });
-  const total = subtotal;
+  const deliveryFee = subtotal >= 3000 || subtotal === 0 ? 0 : 99;
+  const total = subtotal + deliveryFee;
   const categoriesCovered = new Set(baseCartItems.map((i) => i.category)).size;
 
   function addOne(id) { setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 })); }
@@ -907,6 +992,8 @@ export default function App() {
       else lines.push(`${i.qty}x ${i.name} - Rs.${money(i.price * i.qty)}`);
     });
     lines.push(`---`);
+    if (deliveryFee > 0) lines.push(`Delivery charges - Rs.${money(deliveryFee)}`);
+    else lines.push(`Delivery - *FREE* (order above Rs.3,000)`);
     lines.push(`*Total: Rs.${money(total)}*`);
     return lines.join('\n');
   }
@@ -922,8 +1009,8 @@ export default function App() {
     const sp = { setScreen };
     switch (screen) {
       case 'gate': return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
-      case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount + (subtotal >= 7000 ? 1 : 0)} total={total} subtotalForPillow={subtotal} />;
-      case 'cart': return <CartScreen {...sp} cartItems={finalCartItems} categoriesCovered={categoriesCovered} subtotal={subtotal} total={total} addOne={addOne} removeOne={removeOne} />;
+      case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount + (subtotal >= 7000 ? 1 : 0)} total={total} subtotalForPillow={subtotal} deliveryFee={deliveryFee} />;
+      case 'cart': return <CartScreen {...sp} cartItems={finalCartItems} categoriesCovered={categoriesCovered} subtotal={subtotal} total={total} deliveryFee={deliveryFee} addOne={addOne} removeOne={removeOne} />;
       case 'delivery': return <DeliveryScreen {...sp} delivery={delivery} setDelivery={setDelivery} />;
       case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} />;
       default: return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
@@ -934,9 +1021,9 @@ export default function App() {
   function renderDesktopContent() {
     switch (screen) {
       case 'gate': return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={setScreen} />;
-      case 'category': return <DesktopShop college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setScreen={setScreen} cart={cart} addOne={addOne} removeOne={removeOne} subtotal={subtotal} finalCartItems={finalCartItems} />;
+      case 'category': return <DesktopShop college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setScreen={setScreen} cart={cart} addOne={addOne} removeOne={removeOne} subtotal={subtotal} finalCartItems={finalCartItems} deliveryFee={deliveryFee} total={total} />;
       case 'cart':
-      case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={setScreen} finalCartItems={finalCartItems} subtotal={subtotal} total={total} />;
+      case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={setScreen} finalCartItems={finalCartItems} subtotal={subtotal} total={total} deliveryFee={deliveryFee} />;
       case 'success': return <DesktopSuccess college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} setScreen={setScreen} />;
       default: return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={setScreen} />;
     }
