@@ -196,8 +196,10 @@ function ScreenHeader({ title, onBack }) {
 
 function GateScreen({ collegeId, setCollegeId, setScreen }) {
   return (
-    <div className="flex flex-col h-full bg-zinc-950 text-white">
-      <div className="flex-1 overflow-y-auto px-6 pt-6 pb-2 safe-top">
+    <div className="flex flex-col h-full bg-zinc-950 text-white relative overflow-hidden">
+      <div className="absolute -top-20 -left-20 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 right-0 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="flex-1 overflow-y-auto px-6 pt-6 pb-2 safe-top relative z-10">
         <div className="text-xl font-bold tracking-tight mb-6">wisor<span className="text-orange-500">.</span></div>
         <h1 className="text-3xl font-bold leading-tight mb-2">Which campus are<br />you joining?</h1>
         <p className="text-zinc-400 text-sm mb-5 leading-relaxed">We'll show only the essentials your hostel actually needs - nothing else.</p>
@@ -486,6 +488,10 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
           <input value={delivery.whatsapp} onChange={update('whatsapp')} type="tel" placeholder="+91 98765 43210" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.whatsapp ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
           {errors.whatsapp && <p className="text-xs text-red-500 mt-1 font-medium">{errors.whatsapp}</p>}
         </div>
+        <div>
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Alternative mobile number (Optional)</label>
+          <input value={delivery.altMobile} onChange={update('altMobile')} type="tel" placeholder="+91 12345 67890" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+        </div>
       </div>
       <div className="border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom bg-white">
         {Object.keys(errors).length > 0 && (
@@ -505,7 +511,25 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
   );
 }
 
-function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen }) {
+function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted }) {
+  if (orderSubmitted) {
+    return (
+      <div className="flex flex-col h-full bg-white">
+        <div className="flex-1 overflow-y-auto px-6 pt-12 pb-4 flex flex-col items-center text-center">
+          <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mb-6">
+            <CheckCircle2 className="w-10 h-10 text-green-500" />
+          </div>
+          <h1 className="text-2xl font-black text-zinc-900 mb-2">Order placed!</h1>
+          <p className="text-sm text-zinc-500 mb-8">Your order ID is <span className="font-bold text-zinc-900">{orderId}</span></p>
+          <div className="bg-orange-50 border border-orange-100 rounded-2xl p-4 w-full mb-8">
+            <p className="text-xs leading-relaxed text-orange-800 font-medium">We'll confirm pricing, availability, and delivery timing within a few hours on WhatsApp.</p>
+          </div>
+          <button onClick={() => { window.location.reload(); }} className="text-sm font-bold text-zinc-400">Start new order</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full bg-white">
       <div className="flex items-center px-4 pt-3 pb-1 flex-shrink-0 safe-top">
@@ -853,6 +877,10 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               <input value={delivery.whatsapp} onChange={update('whatsapp')} type="tel" placeholder="+91 98765 43210" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.whatsapp ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
               {errors.whatsapp && <p className="text-xs text-red-500 mt-1 font-medium">{errors.whatsapp}</p>}
             </div>
+            <div>
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Alternative mobile number (Optional)</label>
+              <input value={delivery.altMobile} onChange={update('altMobile')} type="tel" placeholder="+91 12345 67890" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
+            </div>
           </div>
           {Object.keys(errors).length > 0 && (
             <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-xl">
@@ -907,7 +935,25 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
   );
 }
 
-function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen }) {
+function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted }) {
+  if (orderSubmitted) {
+    return (
+      <div className="flex-1 overflow-y-auto flex items-center justify-center px-6 py-10 bg-zinc-50">
+        <div className="w-full max-w-lg bg-white rounded-3xl p-10 border border-zinc-100 shadow-lg text-center">
+          <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6">
+            <CheckCircle2 className="w-10 h-10 text-green-500" />
+          </div>
+          <h1 className="text-3xl font-black text-zinc-900 mb-2">Order placed!</h1>
+          <p className="text-zinc-500 mb-6">Your order ID is <span className="font-bold text-zinc-900">{orderId}</span></p>
+          <div className="bg-orange-50 border border-orange-100 rounded-2xl p-4 mb-8">
+            <p className="text-sm text-orange-800 font-medium">We'll confirm pricing, availability, and delivery timing within a few hours on WhatsApp.</p>
+          </div>
+          <button onClick={() => { window.location.reload(); }} className="text-sm font-semibold text-zinc-500 hover:text-zinc-800 transition-colors">Start a new order</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 overflow-y-auto flex items-center justify-center px-6 py-10 bg-zinc-50">
       <div className="w-full max-w-lg bg-white rounded-3xl p-10 border border-zinc-100 shadow-lg text-center">
@@ -951,8 +997,20 @@ export default function App() {
   const [collegeId, setCollegeId] = useState(null);
   const [activeCategory, setActiveCategory] = useState('sleep');
   const [cart, setCart] = useState({});
-  const [delivery, setDelivery] = useState({ fullName: '', hostelBlock: 'Boys hostel', hostelRoom: '', deliveryDate: '', whatsapp: '' });
+  const [delivery, setDelivery] = useState({ fullName: '', hostelBlock: 'Boys hostel', hostelRoom: '', deliveryDate: '', whatsapp: '', altMobile: '' });
   const [toast, setToast] = useState('');
+  const [orderSubmitted, setOrderSubmitted] = useState(false);
+  const [orderId, setOrderId] = useState('');
+
+  useEffect(() => {
+    if (collegeId) {
+      const code = COLLEGES.find(c => c.id === collegeId)?.code || 'WSR';
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let id = '';
+      for (let i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+      setOrderId(`WSR-${code}-${id}`);
+    }
+  }, [collegeId]);
 
   const college = COLLEGES.find((c) => c.id === collegeId) || null;
   const baseCartItems = Object.entries(cart).filter(([, qty]) => qty > 0).map(([id, qty]) => ({ ...PRODUCTS.find((p) => p.id === id), qty }));
@@ -981,11 +1039,13 @@ export default function App() {
   function buildWhatsAppMessage() {
     const lines = [];
     lines.push(`*New Wisor order* - ${college ? college.name : 'Hostel'}`);
+    lines.push(`*Order ID:* ${orderId}`);
     lines.push(`---`);
     lines.push(`*Name:* ${delivery.fullName || 'Not provided'}`);
     lines.push(`*Room:* ${delivery.hostelBlock}, ${delivery.hostelRoom || 'TBD'}`);
     lines.push(`*Delivery:* ${delivery.deliveryDate || 'TBD'}`);
     lines.push(`*Phone:* ${delivery.whatsapp || 'Not provided'}`);
+    if (delivery.altMobile) lines.push(`*Alt Phone:* ${delivery.altMobile}`);
     lines.push(`---`);
     finalCartItems.forEach((i) => {
       if (i.price === 0) lines.push(`${i.qty}x ${i.name} - *FREE*`);
@@ -997,11 +1057,51 @@ export default function App() {
     lines.push(`*Total: Rs.${money(total)}*`);
     return lines.join('\n');
   }
-  function handleSendWhatsApp() {
+
+  async function saveOrderToSpreadsheet() {
+    const sheetUrl = import.meta.env.VITE_GOOGLE_SHEET_URL;
+    if (!sheetUrl) return; 
+    
+    const payload = {
+      Timestamp: new Date().toISOString(),
+      OrderID: orderId,
+      Name: delivery.fullName,
+      PrimaryMobile: delivery.whatsapp,
+      AlternativeMobile: delivery.altMobile || '',
+      College: college ? college.name : '',
+      HostelBlock: delivery.hostelBlock,
+      Room: delivery.hostelRoom,
+      DeliveryDate: delivery.deliveryDate,
+      OrderValue: total,
+      ProductsJSON: JSON.stringify(finalCartItems),
+      WhatsAppMessage: buildWhatsAppMessage(),
+      WhatsAppURL: `https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent(buildWhatsAppMessage())}`,
+      Status: 'Pending',
+      Remarks: ''
+    };
+
+    try {
+      await fetch(sheetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error("Sheet save error:", err);
+    }
+  }
+
+  async function handleSendWhatsApp() {
+    showToast('Saving your order...');
+    await saveOrderToSpreadsheet();
+    setOrderSubmitted(true);
+    showToast('Preparing WhatsApp...');
     const message = buildWhatsAppMessage();
     const url = `https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent(message)}`;
-    try { window.open(url, '_blank'); } catch (_e) {}
-    showToast('Opening WhatsApp…');
+    setTimeout(() => {
+      try { window.open(url, '_blank'); } catch (_e) {}
+    }, 500);
   }
 
   // Mobile screens
@@ -1012,7 +1112,7 @@ export default function App() {
       case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount + (subtotal >= 7000 ? 1 : 0)} total={total} subtotalForPillow={subtotal} deliveryFee={deliveryFee} />;
       case 'cart': return <CartScreen {...sp} cartItems={finalCartItems} categoriesCovered={categoriesCovered} subtotal={subtotal} total={total} deliveryFee={deliveryFee} addOne={addOne} removeOne={removeOne} />;
       case 'delivery': return <DeliveryScreen {...sp} delivery={delivery} setDelivery={setDelivery} />;
-      case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} />;
+      case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} orderId={orderId} orderSubmitted={orderSubmitted} />;
       default: return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
     }
   }
@@ -1024,7 +1124,7 @@ export default function App() {
       case 'category': return <DesktopShop college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setScreen={setScreen} cart={cart} addOne={addOne} removeOne={removeOne} subtotal={subtotal} finalCartItems={finalCartItems} deliveryFee={deliveryFee} total={total} />;
       case 'cart':
       case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={setScreen} finalCartItems={finalCartItems} subtotal={subtotal} total={total} deliveryFee={deliveryFee} />;
-      case 'success': return <DesktopSuccess college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} setScreen={setScreen} />;
+      case 'success': return <DesktopSuccess college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} setScreen={setScreen} orderId={orderId} orderSubmitted={orderSubmitted} />;
       default: return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={setScreen} />;
     }
   }
