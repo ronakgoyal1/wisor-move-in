@@ -1086,14 +1086,14 @@ export default function App() {
       Timestamp: new Date().toISOString(),
       OrderID: orderId,
       Name: delivery.fullName,
-      PrimaryMobile: delivery.whatsapp,
-      AlternativeMobile: delivery.altMobile || '',
+      PrimaryMobile: `'${delivery.whatsapp}`,
+      AlternativeMobile: delivery.altMobile ? `'${delivery.altMobile}` : '',
       College: college ? college.name : '',
       HostelBlock: delivery.hostelBlock,
       Room: delivery.hostelRoom,
       DeliveryDate: delivery.deliveryDate,
       OrderValue: total,
-      ProductsJSON: JSON.stringify(finalCartItems),
+      ProductsJSON: finalCartItems.map(item => `${item.qty}x ${item.name} (Rs.${item.price * item.qty})`).join('\n'),
       WhatsAppMessage: buildWhatsAppMessage(),
       WhatsAppURL: `https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent(buildWhatsAppMessage())}`,
       Status: 'Pending',
@@ -1104,7 +1104,7 @@ export default function App() {
       await fetch(sheetUrl, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
     } catch (err) {
@@ -1120,7 +1120,11 @@ export default function App() {
     const message = buildWhatsAppMessage();
     const url = `https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent(message)}`;
     setTimeout(() => {
-      try { window.open(url, '_blank'); } catch (_e) {}
+      if (window.innerWidth < 1024 || /Mobi|Android/i.test(navigator.userAgent)) {
+        window.location.href = url;
+      } else {
+        try { window.open(url, '_blank'); } catch (_e) {}
+      }
     }, 500);
   }
 
