@@ -184,7 +184,7 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
 
 function ScreenHeader({ title, onBack }) {
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-100 flex-shrink-0 safe-top">
+    <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-zinc-200/50 bg-white/70 backdrop-blur-md flex-shrink-0 safe-top relative z-10">
       <button onClick={onBack} className="w-9 h-9 flex items-center justify-center rounded-full active:bg-zinc-100 transition" aria-label="Back">
         <ChevronLeft className="w-5 h-5 text-zinc-700" />
       </button>
@@ -239,8 +239,12 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
   const progressToPillow = Math.min(100, (subtotalForPillow / 7000) * 100);
 
   return (
-    <div className="flex flex-col h-full bg-white" style={{ position: 'relative' }}>
-      <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-zinc-100 flex-shrink-0 safe-top">
+    <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-20 -left-20 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+      </div>
+      <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-zinc-200/50 bg-white/70 backdrop-blur-md flex-shrink-0 safe-top relative z-10">
         <div className="flex items-center gap-2">
           <button onClick={() => setScreen('gate')} className="w-8 h-8 flex items-center justify-center rounded-full active:bg-zinc-100 transition" aria-label="Back">
             <ChevronLeft className="w-5 h-5 text-zinc-700" />
@@ -255,7 +259,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
           {cartCount > 0 && <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">{cartCount}</span>}
         </button>
       </div>
-      <div className="px-4 py-3 bg-indigo-50 border-b border-indigo-100 flex-shrink-0">
+      <div className="px-4 py-3 bg-indigo-50 border-b border-indigo-100 flex-shrink-0 relative z-10">
         <div className="flex items-center justify-between mb-1.5">
           <span className="text-xs font-semibold text-indigo-900">{subtotalForPillow >= 7000 ? '🎉 Free Premium Pillow Unlocked!' : '🎁 Get a Free Premium Pillow!'}</span>
           <span className="text-[10px] font-medium text-indigo-700">{subtotalForPillow >= 7000 ? 'Achieved ✓' : `Add Rs.${money(7000 - subtotalForPillow)} more`}</span>
@@ -264,7 +268,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
           <div className={`h-1.5 rounded-full transition-all duration-700 ${subtotalForPillow >= 7000 ? 'bg-green-500' : 'bg-indigo-500'}`} style={{ width: `${progressToPillow}%` }} />
         </div>
       </div>
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative z-10">
         <div className="w-16 bg-zinc-50 border-r border-zinc-100 flex flex-col items-center py-2 gap-0.5 overflow-y-auto flex-shrink-0">
           {CATEGORIES.map((c) => {
             const Icon = c.icon;
@@ -345,9 +349,13 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
 
   return (
-    <div className="flex flex-col h-full bg-zinc-50">
+    <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-20 -left-20 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+      </div>
       <ScreenHeader title="Your room setup" onBack={() => setScreen('category')} />
-      <div className="flex-1 overflow-y-auto px-4 py-4">
+      <div className="flex-1 overflow-y-auto px-4 py-4 relative z-10">
         {realItems.length === 0 ? (
           <div className="text-center text-zinc-400 text-sm mt-20">Your setup is empty. Go add some essentials!</div>
         ) : (
@@ -432,7 +440,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
           </div>
         )}
       </div>
-      <div className="bg-white border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom">
+      <div className="bg-white/70 backdrop-blur-md border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom">
         <button disabled={realItems.length === 0} onClick={() => setScreen('delivery')} className={`w-full py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all duration-200 shadow-lg ${realItems.length ? 'bg-orange-500 text-white active:bg-orange-600 shadow-orange-500/20 hover:bg-orange-600' : 'bg-zinc-100 text-zinc-400 shadow-none'}`}>
           Proceed to delivery <ChevronRight className="w-4 h-4" />
         </button>
@@ -457,9 +465,13 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-20 -left-20 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+      </div>
       <ScreenHeader title="Delivery details" onBack={() => setScreen('cart')} />
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5 relative z-10">
         <div>
           <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Full name <span className="text-red-400">*</span></label>
           <input value={delivery.fullName} onChange={update('fullName')} placeholder="As per hostel allotment letter" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.fullName ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
@@ -493,7 +505,7 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
           <input value={delivery.altMobile} onChange={update('altMobile')} type="tel" placeholder="+91 12345 67890" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
         </div>
       </div>
-      <div className="border-t border-zinc-100 px-4 py-3 flex-shrink-0 safe-bottom bg-white">
+      <div className="border-t border-zinc-200/50 px-4 py-3 flex-shrink-0 safe-bottom bg-white/70 backdrop-blur-md relative z-10">
         {Object.keys(errors).length > 0 && (
           <div className="mb-2 px-1">
             {Object.values(errors).map((err, i) => (
@@ -514,8 +526,12 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
 function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted }) {
   if (orderSubmitted) {
     return (
-      <div className="flex flex-col h-full bg-white">
-        <div className="flex-1 overflow-y-auto px-6 pt-12 pb-4 flex flex-col items-center text-center">
+      <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+          <div className="absolute -top-20 -left-20 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+        </div>
+        <div className="flex-1 overflow-y-auto px-6 pt-12 pb-4 flex flex-col items-center text-center relative z-10">
           <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mb-6">
             <CheckCircle2 className="w-10 h-10 text-green-500" />
           </div>
@@ -531,13 +547,17 @@ function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <div className="flex items-center px-4 pt-3 pb-1 flex-shrink-0 safe-top">
-        <button onClick={() => setScreen('delivery')} className="w-8 h-8 flex items-center justify-center rounded-full active:bg-zinc-100 transition" aria-label="Back">
+    <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-20 -left-20 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+      </div>
+      <div className="flex items-center px-4 pt-3 pb-1 flex-shrink-0 safe-top relative z-10">
+        <button onClick={() => setScreen('delivery')} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/50 backdrop-blur-sm shadow-sm active:bg-zinc-100 transition" aria-label="Back">
           <ChevronLeft className="w-5 h-5 text-zinc-700" />
         </button>
       </div>
-      <div className="flex-1 overflow-y-auto px-6 pt-4 pb-4 flex flex-col items-center text-center">
+      <div className="flex-1 overflow-y-auto px-6 pt-4 pb-4 flex flex-col items-center text-center relative z-10">
         <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mb-5 border border-green-100">
           <CheckCircle2 className="w-10 h-10 text-green-500" />
         </div>
@@ -565,7 +585,7 @@ function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp
         <button onClick={handleSendWhatsApp} className="w-full py-4 rounded-2xl font-bold bg-[#25D366] text-white active:bg-[#1DA851] flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20 transition-all hover:-translate-y-0.5">
           <MessageCircle className="w-5 h-5" /> Send order on WhatsApp
         </button>
-        <p className="text-center text-[10px] font-medium text-zinc-400 mt-4 tracking-wide">OPENS WHATSAPP WITH PRE-FILLED DETAILS</p>
+        <p className="text-center text-[10px] font-medium text-zinc-400 mt-4 tracking-wide uppercase">OPENS WHATSAPP WITH PRE-FILLED DETAILS</p>
       </div>
     </div>
   );
