@@ -33,35 +33,29 @@ const CATEGORIES = [
   { id: 'sleep',   label: 'Sleep',   fullLabel: 'Sleep Essentials',    icon: BedDouble },
   { id: 'bathroom',label: 'Bath',    fullLabel: 'Bathroom Essentials',  icon: Droplets  },
   { id: 'study',   label: 'Study',   fullLabel: 'Study Essentials',     icon: Lightbulb },
-  { id: 'storage', label: 'Storage', fullLabel: 'Storage Essentials',   icon: Archive   },
+  { id: 'storage', label: 'Curtains', fullLabel: 'Curtains',   icon: Archive   },
   { id: 'weather', label: 'Weather', fullLabel: 'Weather Essentials',   icon: Umbrella  },
 ];
 
 const PRODUCTS = [
-  { id:'s1',  category:'sleep',   name:'Sleepwell Ortho Pro Spring Mattress',    price:7000, note:'Premium Support', image:'/sleepwell_7k.png',     tag:'Top Tier',  rating:4.5, ratingCount:'2,841',  ratingSource:'Amazon.in', officialUrl:'https://www.mysleepwell.com/mattress/ortho-pro-spring', description:'Premium triple-zone pocket spring mattress with memory foam layer. Recommended by physiotherapists for optimal spinal alignment. Ideal for long-term hostel use.', specs:['Single size: 72×36×5 inches','Triple-zone pocket springs','Memory foam top layer','5-year warranty'] },
-  { id:'s2',  category:'sleep',   name:'Sleepwell Dual Pro Profiled Foam',       price:5000, note:'Medium Firm',     image:'/sleepwell_5k.png',     tag:'Bestseller', rating:4.3, ratingCount:'4,512',  ratingSource:'Amazon.in', officialUrl:'https://www.mysleepwell.com/mattress/dual-pro',         description:'Dual-sided comfort mattress — one side firm, one side soft. Perfect for students who need flexibility as seasons change.',                                       specs:['Single size: 72×36×4 inches','Dual-comfort reversible','HD foam core','3-year warranty'] },
-  { id:'s3',  category:'sleep',   name:'Sleepwell Starlite PU Foam',             price:4000, note:'Standard Comfort', image:'/sleepwell_4k.png',    rating:4.1, ratingCount:'6,203',  ratingSource:'Amazon.in', officialUrl:'https://www.mysleepwell.com/mattress/starlite',          description:'Trusted entry-level Sleepwell foam mattress. Good back support with comfortable PU foam — a great value pick for first-year students.',                         specs:['Single size: 72×36×4 inches','PU foam construction','Anti-skid base','2-year warranty'] },
-  { id:'s5',  category:'sleep',   name:'Sleepwell Dual Mattress',                price:3500, note:'Reversible Comfort', image:'/sleepwell_dual_35k.png', tag:'Value Pick', rating:4.4, ratingCount:'3,210',  ratingSource:'Amazon.in', officialUrl:'https://www.mysleepwell.com/mattress/dual', description:'Reversible dual-sided comfort mattress. One side firm for better support, one side soft for plush feel. Perfect for hostel life.', specs:['Single size: 72×36×4 inches','Dual-comfort reversible','Premium foam core','3-year warranty'] },
-  { id:'s4',  category:'sleep',   name:'Basic Coir Mattress',                    price:1800, note:'Firm & Basic',    image:'/mattress_basic.png',   rating:3.8, ratingCount:'1,102',  ratingSource:'Flipkart',  officialUrl:'https://www.flipkart.com/search?q=coir+mattress+single', description:'Natural coir fiber mattress offering firm sleeping support. Great for those who prefer a hard surface. Highly breathable for summer months.',                    specs:['Single size: 72×36×3 inches','Natural coir fiber','Breathable fabric','1-year warranty'] },
-  { id:'s6',  category:'sleep',   name:'Pillow + Bedsheet Set',                  price:600,  note:'Sky blue',        image:'/pillow_bedsheet.png',  rating:4.2, ratingCount:'3,740',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=pillow+bedsheet+set+single',   description:'Soft microfiber pillow paired with a crisp sky-blue bedsheet. Smooth 200 thread count fabric that stays cool through the night.',                              specs:['Pillow: 17×27 inches','Bedsheet: 90×60 inches','200 TC microfiber','Machine washable'] },
-  { id:'s7',  category:'sleep',   name:'Quilt / Blanket, Single',                price:950,  note:'Grey melange',    image:'/quilt_blanket.png',    rating:4.3, ratingCount:'5,211',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=single+quilt+blanket+grey',    description:'Warm grey melange single quilt with hollow fiber fill. Light enough for North Indian summers yet cozy for Allahabad winters.',                                  specs:['Size: 60×90 inches','Hollow fiber fill','Grey melange cover','Machine washable'] },
+  { id:'m1',  category:'sleep',   name:'Sleepwell Champ Regular',                price:5190, note:'72x36 4"', image:'/champ_regular.jpg', rating:4.1, ratingCount:'1,200', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/champ-regular-mattress/638', description:'Reliable entry-level mattress providing basic comfort and durability for everyday use.', specs:['Size: 72×36×4 inches', 'Firmness: Regular'] },
+  { id:'m2',  category:'sleep',   name:'Sleepwell Champ Classic Ortho',          price:5401, note:'72x36 4"', image:'/champ_classic_ortho.jpg', rating:4.3, ratingCount:'950', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/champ-classic-ortho-mattress/639', description:'Designed for better back support, featuring orthopaedic foam layers for proper spinal alignment.', specs:['Size: 72×36×4 inches', 'Firmness: Ortho Firm'] },
+  { id:'m3',  category:'sleep',   name:'Sleepwell Champ Classic',                price:6940, note:'72x36 5"', image:'/champ_classic.jpg', rating:4.4, ratingCount:'1,105', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/champ-classic-mattress/637', description:'A thicker 5-inch profile providing enhanced cushioning and classic comfort for deep sleep.', specs:['Size: 72×36×5 inches', 'Firmness: Classic'] },
+  { id:'m4',  category:'sleep',   name:'Sleepwell Utsav Comfort Regular',        price:6331, note:'72x36 4"', image:'/utsav_comfort_regular.jpg', rating:4.5, ratingCount:'1,840', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-regular-mattress/573', description:'Premium comfort mattress with a supportive core structure designed for restful nights.', specs:['Size: 72×36×4 inches', 'Firmness: Regular'] },
+  { id:'m5',  category:'sleep',   name:'Sleepwell Utsav Comfort Classic',        price:6723, note:'72x36 4.5"', image:'/utsav_comfort_classic.jpg', rating:4.6, ratingCount:'2,100', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-classic-mattress/574', description:'Upgraded 4.5-inch classic variant offering an optimal balance of softness and supportive core.', specs:['Size: 72×36×4.5 inches', 'Firmness: Classic'] },
+  { id:'m6',  category:'sleep',   name:'Sleepwell Utsav Comfort Ortho',          price:8749, note:'72x36 4"', image:'/utsav_comfort_ortho.jpg', rating:4.8, ratingCount:'890', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-ortho/644', description:'Top-tier orthopaedic support with high-density materials to ensure perfect posture and pressure relief.', specs:['Size: 72×36×4 inches', 'Firmness: Orthopaedic'] },
+  { id:'s6',  category:'sleep',   name:'Cloud Pillow',                           price:679,  note:'Premium comfort', image:'/cloud_pillow.jpg', rating:4.5, ratingCount:'1,120',  ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/pillows/cloud-pillow/132', description:'Premium cloud-like comfort pillow designed to provide perfect neck support and restful sleep.', specs:['Premium filling','Washable cover','Ergonomic design'] },
+  { id:'addon-pillow', category:'sleep', name:'Cloud Pillow (Add-on with Mattress)', price:49, note:'Special Offer', image:'/cloud_pillow.jpg', hidden: true },
   { id:'b1',  category:'bathroom',name:'Bucket, Mug & Soap Holder Set',          price:180,  note:'Red',             image:'/bucket_mug_set.png',   rating:4.0, ratingCount:'8,420',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=bucket+mug+soap+dish+set',     description:'Durable PP plastic bathroom trio in vibrant red. The set includes a 20L bucket, 500ml mug, and a sturdy soap dish holder.',                                    specs:['Bucket: 20 litres','Mug: 500 ml','Soap dish included','BPA-free PP plastic'] },
-  { id:'b2',  category:'bathroom',name:'Bathroom Slippers',                       price:199,  note:'Size 9',          image:'/bathroom_slippers.png',rating:4.1, ratingCount:'12,034', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=bathroom+slippers+eva',         description:'Anti-skid EVA foam flip-flops with textured sole. Lightweight, waterproof and quick-drying — essential for shared hostel bathrooms.',                          specs:['Material: EVA foam','Anti-skid textured sole','Waterproof & quick-dry','Available: sizes 6–11'] },
   { id:'b3',  category:'bathroom',name:'Drying Rope + Clips Pack',               price:149,  note:'3 metre',         image:'/drying_rope.png',      rating:4.2, ratingCount:'4,882',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=drying+rope+laundry+clips',    description:'3-metre coated nylon drying rope with 12 colorful ABS plastic clips. Easy to tie anywhere, strong enough for wet clothes.',                                    specs:['Rope length: 3 metres','12 clips included','Coated nylon rope','ABS plastic clips'] },
-  { id:'st1', category:'study',   name:'LED Study Lamp, Flexible Neck',          price:349,  note:'White',           image:'/led_study_lamp.png',   tag:'Top pick', rating:4.4, ratingCount:'9,311',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=led+desk+lamp+flexible+neck+study', description:'USB-powered LED desk lamp with 360° flexible gooseneck. 3 brightness modes, flicker-free light — perfect for late-night study sessions without straining eyes.', specs:['USB powered (5V)','3 brightness levels','360° flexible neck','Energy saving 5W LED'] },
   { id:'st2', category:'study',   name:'4-Socket Surge-Protected Extension Board',price:429, note:'2m cable',        image:'/extension_board.png',  rating:4.3, ratingCount:'15,670', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=4+socket+extension+board+surge+protector', description:'ISI-marked 4-socket extension board with built-in surge protection and master switch. 2m heavy-duty cable handles high-load devices safely.',                specs:['4 universal sockets','ISI marked','2m heavy-duty cable','Surge & spike protection'] },
-  { id:'st3', category:'study',   name:'Waterproof Table Cover, Study Desk',     price:149,  note:'Clear',           image:'/table_cover.png',      rating:4.0, ratingCount:'2,130',  ratingSource:'Flipkart',  officialUrl:'https://www.flipkart.com/search?q=waterproof+transparent+table+cover+desk', description:'Crystal-clear PVC table protector. Protects your study desk from spills, scratches and ink stains. Cut to size easily.',                                    specs:['Size: 60×40 cm','Clear PVC material','Waterproof & wipeable','Easy to cut to size'] },
-  { id:'st4', category:'study',   name:'Desk Organiser Tray, 3-Section',         price:199,  note:'Wood finish',     image:'/desk_organizer.png',   rating:4.2, ratingCount:'3,450',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=desk+organizer+tray+wood+finish', description:'Elegant wood-finish 3-section desk organizer. Keeps pens, rulers, stationery neatly sorted. Adds a premium look to your study table.',                       specs:['3 sections','Wood-finish MDF','Non-slip base','Dimensions: 25×12×7 cm'] },
-  { id:'sto1',category:'storage', name:'Foldable Wardrobe Organiser, 6-Shelf',   price:899,  note:'Grey',            image:'/foldable_wardrobe.png', rating:4.1, ratingCount:'6,780',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=foldable+wardrobe+organizer+6+shelf', description:'Space-saving foldable wardrobe with 6 shelves and a hanging rod. Made from durable non-woven fabric with a steel frame. Assembles in minutes.',            specs:['6 shelves + hanging rod','Non-woven fabric','Steel frame','Folds flat for storage'] },
-  { id:'sto2',category:'storage', name:'Under-Bed Storage Bags, Set of 2',       price:349,  note:'Large',           image:'/under_bed_storage.png',rating:4.0, ratingCount:'4,219',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=under+bed+storage+bag+large',   description:'Maximize your hostel room space with these large under-bed storage bags. Zippered closure, transparent window — perfect for seasonal clothes.',                  specs:['Set of 2 bags','Transparent window','Full zip closure','Size: 80×60×20 cm each'] },
-  { id:'sto3',category:'storage', name:'Study Table Drawer Organiser',           price:249,  note:'Black',           image:'/drawer_organizer.png', rating:4.1, ratingCount:'2,890',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=desk+drawer+organizer+black',   description:'Multi-compartment black drawer organizer. Keeps your study table drawer neat — from cables to stationery, everything has a place.',                              specs:['Multiple compartments','ABS black plastic','Non-slip bottom','Easy to clean'] },
   { id:'sto4',category:'storage', name:'Blackout Curtain 7ft, Navy Blue',       price:549,  note:'Set of 2 panels', image:'/curtain_navy.png',     tag:'Bestseller', rating:4.3, ratingCount:'8,741',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+navy+blue', description:'Thermal-insulated blackout curtains in deep navy. Blocks 99% of sunlight — perfect for day-sleepers or bright-lit hostel rooms. Rod pocket header for easy installation.', specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
   { id:'sto5',category:'storage', name:'Blackout Curtain 7ft, Forest Green',    price:549,  note:'Set of 2 panels', image:'/curtain_green.png',    rating:4.2, ratingCount:'5,380',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+green',    description:'Earthy forest green blackout curtains with heavy-duty fabric. Great thermal insulation — keeps the room cool in summer. Blends beautifully with wooden hostel furniture.', specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
   { id:'sto6',category:'storage', name:'Blackout Curtain 7ft, Beige',          price:499,  note:'Set of 2 panels', image:'/curtain_beige.png',    rating:4.4, ratingCount:'12,034', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+beige',    description:'Neutral beige blackout curtains that complement any room decor. Light-filtering on one side, 99% blackout on the other — best all-rounder for hostel rooms.',              specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
   { id:'st5', category:'study',   name:'Cat6 LAN Cable, 1 Metre (Flat)',        price:199,  note:'Blue flat',       image:'/lan_cable_cat6.png',   rating:4.4, ratingCount:'21,560', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=cat6+flat+lan+cable+1+metre',   description:'Premium flat Cat6 ethernet cable with gold-plated snagless RJ45 connectors. Gigabit speed (1000 Mbps), slim design fits easily under doors or carpets. Essential for hostel LAN connections.', specs:['Length: 1 metre', 'Cat6 standard (1 Gbps)', 'Flat slim design', 'Gold-plated snagless RJ45', 'UTP unshielded'] },
   { id:'st6', category:'study',   name:'USB-C to Ethernet Adapter (Gigabit)',   price:899,  note:'UGREEN / Anker',  image:'/usbc_ethernet_adapter.png', tag:'Top pick', rating:4.5, ratingCount:'14,203', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=usb+c+to+ethernet+adapter+gigabit', description:'Plug-and-play USB-C to RJ45 Gigabit Ethernet adapter. Works with MacBook, iPad, Windows laptops, Android phones — no drivers needed. Aluminium casing for heat dissipation. Essential for hostel LAN ports.', specs:['USB-C to RJ45 Gigabit (1000 Mbps)', 'Plug-and-play, no driver needed', 'Compatible: MacBook / Windows / Android', 'Aluminium alloy housing', 'Cable length: 10 cm'] },
+  { id:'st7', category:'study',   name:'Classmate Lab Manual',                   price:49,   note:'1 piece',         image:'/lab_manual.jpg', rating:4.5, ratingCount:'250', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/Classmate-Practical-Notebook-Cover-Single/dp/B00P7SMC4C/ref=sr_1_2?crid=1VCB1EU2MHRWT&dib=eyJ2IjoiMSJ9.jfLEA_tZc5G1oNIse4AFVvoIAsr0n6-A-sk4TR0l4KYl7yLDZ4mJADZvD183SwIQfJ-_oewZWUEbLQQtM8N_8pJbJ2t3DE4PF5r8yYvrMW4OkMfF4RO1gandGYLqrL4pK05KcZ6XyLT5uteBVnvFrT_gXocSv6brAIOTIe3Rbb0_9zpeojmtMGtrgM9mEDJ1JvPBRLMAepHSEkThgN7w7BdPyysz7iBu0JPNx_mX8Kz8fhjcq_uWXEDeo9aFGkyUi5T0LEbZYTyGk_f501F1rN9QLttuTl1Gh3DgDGuJsDc.d_ZklE0kFL18N7TwMnb4pZ6Zm8JzTcuMSLulmvSB8IA&dib_tag=se&keywords=classmate+lab+manual&nsdOptOutParam=true&qid=1782626807&s=office&sprefix=classmate+lab+man%2Coffice-products%2C270&sr=1-2', description:'Classmate Science Practical Exercise Book. High quality paper, essential for lab work and experiments.', specs:['1 piece', 'Hard cover', 'Science Practical'] },
   { id:'w1',  category:'weather', name:'Compact Umbrella, Wind-Resistant',       price:399,  note:'Navy',            image:'/umbrella_compact.png', rating:4.2, ratingCount:'11,203', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=compact+umbrella+wind+resistant', description:"Auto open/close wind-resistant compact umbrella with 8-rib reinforced frame. Fits in any bag — essential for Allahabad's unpredictable monsoon.",           specs:['8-rib reinforced frame','Auto open/close','UV-coated canopy','Folds to 27cm'] },
-  { id:'w2',  category:'weather', name:'Raincoat, Hooded',                       price:549,  note:'Olive',           image:'/raincoat_hooded.png',  rating:4.1, ratingCount:'3,640',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=hooded+raincoat+olive+waterproof', description:'Full-body hooded waterproof raincoat in earthy olive. Lightweight and packable — ideal for riding on two-wheelers or cycling to class in the rain.',         specs:['100% waterproof PVC','Adjustable hood','One-size fits most','Packs into pouch'] },
 ];
 
 // Helpers
@@ -154,6 +148,12 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
                 <span className="text-[10px] text-zinc-400 font-normal">{product.ratingSource}</span>
               </a>
             )}
+            {product.category === 'sleep' && product.id.startsWith('m') && qty > 0 && (
+              <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-xl border border-orange-100 mb-4" onClick={e => e.stopPropagation()}>
+                <input type="checkbox" id={`addon-modal-${product.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-5 h-5 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
+                <label htmlFor={`addon-modal-${product.id}`} className="text-sm font-semibold text-orange-900 cursor-pointer select-none flex-1">Add Cloud Pillow for just Rs. 49</label>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex-shrink-0 border-t border-zinc-100 px-5 py-4 flex items-center justify-between bg-white">
@@ -222,6 +222,12 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
         </div>
       </div>
       <div className="px-6 pb-5 pt-3 flex-shrink-0 safe-bottom border-t border-zinc-900">
+        <div className="flex flex-col items-center gap-2 mb-4">
+          <div className="inline-flex items-center justify-center">
+            <img src="/sleepwell_logo.png" alt="Sleepwell" className="h-6 object-contain invert brightness-0" />
+          </div>
+          <span className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest text-center">Partnered with authorized dealers</span>
+        </div>
         <button onClick={() => collegeId && setScreen('category')} disabled={!collegeId} className={`w-full py-3.5 rounded-2xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${collegeId ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25 hover:bg-orange-600 active:scale-95' : 'bg-zinc-800 text-zinc-500'}`}>
           Customize your room {collegeId && <ChevronRight className="w-4 h-4" />}
         </button>
@@ -231,12 +237,11 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
   );
 }
 
-function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, cartCount, total, subtotalForPillow }) {
+function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, cartCount, total }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const cat = CATEGORIES.find((c) => c.id === activeCategory);
-  const items = PRODUCTS.filter((p) => p.category === activeCategory);
+  const items = PRODUCTS.filter((p) => p.category === activeCategory && !p.hidden);
   const CatIcon = cat.icon;
-  const progressToPillow = Math.min(100, (subtotalForPillow / 7000) * 100);
 
   return (
     <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
@@ -259,15 +264,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
           {cartCount > 0 && <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">{cartCount}</span>}
         </button>
       </div>
-      <div className="px-4 py-3 bg-indigo-50 border-b border-indigo-100 flex-shrink-0 relative z-10">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs font-semibold text-indigo-900">{subtotalForPillow >= 7000 ? '🎉 Free Premium Pillow Unlocked!' : '🎁 Get a Free Premium Pillow!'}</span>
-          <span className="text-[10px] font-medium text-indigo-700">{subtotalForPillow >= 7000 ? 'Achieved ✓' : `Add Rs.${money(7000 - subtotalForPillow)} more`}</span>
-        </div>
-        <div className="w-full bg-indigo-200/50 rounded-full h-1.5">
-          <div className={`h-1.5 rounded-full transition-all duration-700 ${subtotalForPillow >= 7000 ? 'bg-green-500' : 'bg-indigo-500'}`} style={{ width: `${progressToPillow}%` }} />
-        </div>
-      </div>
+
       <div className="flex flex-1 overflow-hidden relative z-10">
         <div className="w-16 bg-zinc-50 border-r border-zinc-100 flex flex-col items-center py-2 gap-0.5 overflow-y-auto flex-shrink-0">
           {CATEGORIES.map((c) => {
@@ -304,6 +301,12 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   <div className="text-sm font-semibold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
                   <div className="text-xs text-zinc-400 mb-1.5">{p.note}</div>
                   {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>}
+                  {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
+                    <div className="flex items-center gap-2 mt-1 mb-2.5 p-2 bg-orange-50 rounded-xl border border-orange-100" onClick={e => e.stopPropagation()}>
+                      <input type="checkbox" id={`addon-mob-${p.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-4 h-4 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
+                      <label htmlFor={`addon-mob-${p.id}`} className="text-[11px] font-semibold text-orange-800 cursor-pointer select-none flex-1">Add Cloud Pillow (Rs. 49)</label>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between mt-auto" onClick={(e) => e.stopPropagation()}>
                     <span className="font-bold text-zinc-900 text-sm">Rs.{money(p.price)}</span>
                     {qty === 0 ? (
@@ -343,7 +346,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
 }
 
 function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee, addOne, removeOne, setScreen }) {
-  const isFreePillowUnlocked = subtotal >= 7000;
+
   const realItems = cartItems.filter(i => i.id !== 'free-pillow');
   const grouped = CATEGORIES.map((cat) => ({ cat, items: realItems.filter((i) => i.category === cat.id) })).filter((g) => g.items.length > 0);
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
@@ -392,20 +395,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                 </div>
               );
             })}
-            {isFreePillowUnlocked && (
-              <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 shadow-sm relative overflow-hidden">
-                <div className="absolute -right-4 -top-4 w-16 h-16 bg-indigo-200/50 rounded-full blur-xl" />
-                <h3 className="text-[10px] font-bold text-indigo-500 tracking-wider uppercase mb-3 flex items-center gap-2 relative z-10">🎁 Special Offer Unlocked</h3>
-                <div className="flex items-center gap-3 relative z-10">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-100 border border-indigo-200 flex items-center justify-center flex-shrink-0 text-2xl">☁️</div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-bold text-indigo-900">Premium Pillow</div>
-                    <div className="text-xs text-indigo-700">Free gift on orders above Rs.7K</div>
-                  </div>
-                  <div className="text-sm font-bold text-green-600">Free</div>
-                </div>
-              </div>
-            )}
+
             {missingCategory ? (
               <div className="bg-orange-50 border border-orange-100 rounded-2xl p-3 flex gap-2 items-start shadow-sm">
                 <Lightbulb className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
@@ -419,7 +409,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
             )}
             <div className="bg-white rounded-2xl p-4 space-y-3 border border-zinc-100 shadow-sm">
               <div className="flex justify-between text-sm"><span className="text-zinc-500">Cart subtotal</span><span className="font-medium text-zinc-900">Rs.{money(subtotal)}</span></div>
-              {isFreePillowUnlocked && <div className="flex justify-between text-sm"><span className="text-indigo-600">Free Premium Pillow</span><span className="font-medium text-indigo-600">-</span></div>}
+
               <div className="flex justify-between text-sm">
                 <span className="text-zinc-500">Delivery to hostel room</span>
                 {deliveryFee > 0
@@ -433,7 +423,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
               {deliveryFee > 0 && (
                 <div className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 flex items-center gap-1.5">
                   <span>🚚</span>
-                  <span>Add <strong>Rs.{money(3000 - subtotal)}</strong> more for <strong>free delivery</strong></span>
+                  <span>Add <strong>Rs.{money(5000 - subtotal)}</strong> more for <strong>free delivery</strong></span>
                 </div>
               )}
             </div>
@@ -643,7 +633,15 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
             ))}
           </div>
         </div>
-        <div className="text-zinc-700 text-xs">Trusted by students at IIIT &amp; MNNIT Allahabad</div>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-start gap-2 mb-2">
+            <div className="inline-flex items-center justify-center">
+              <img src="/sleepwell_logo.png" alt="Sleepwell" className="h-8 object-contain invert brightness-0" />
+            </div>
+            <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Partnered with authorized dealers</span>
+          </div>
+          <div className="text-zinc-700 text-xs">Trusted by students at IIIT &amp; MNNIT Allahabad</div>
+        </div>
       </div>
 
       {/* Right: college selector */}
@@ -684,12 +682,11 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
 function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, cart, addOne, removeOne, subtotal, finalCartItems, deliveryFee, total: totalWithDelivery }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const cat = CATEGORIES.find((c) => c.id === activeCategory);
-  const items = PRODUCTS.filter((p) => p.category === activeCategory);
-  const isFreePillowUnlocked = subtotal >= 7000;
-  const progressToPillow = Math.min(100, (subtotal / 7000) * 100);
+  const items = PRODUCTS.filter((p) => p.category === activeCategory && !p.hidden);
+
   const realItems = finalCartItems.filter(i => i.id !== 'free-pillow');
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
-  const cartCount = realItems.reduce((s, i) => s + i.qty, 0) + (isFreePillowUnlocked ? 1 : 0);
+  const cartCount = realItems.reduce((s, i) => s + i.qty, 0);
 
   return (
     <div className="flex flex-1 overflow-hidden">
@@ -713,13 +710,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
             </button>
           );
         })}
-        <div className="mx-4 mt-6 p-3 bg-indigo-50 border border-indigo-100 rounded-2xl">
-          <div className="text-xs font-bold text-indigo-800 mb-1">{isFreePillowUnlocked ? '🎉 Free Pillow Unlocked!' : '🎁 Free Premium Pillow'}</div>
-          <div className="text-[11px] text-indigo-600 mb-2">{isFreePillowUnlocked ? 'Added to your order!' : `Add Rs.${money(7000 - subtotal)} more`}</div>
-          <div className="w-full bg-indigo-200/50 rounded-full h-1.5">
-            <div className={`h-1.5 rounded-full transition-all duration-700 ${isFreePillowUnlocked ? 'bg-green-500' : 'bg-indigo-500'}`} style={{ width: `${progressToPillow}%` }} />
-          </div>
-        </div>
+
       </div>
 
       {/* Center: Product Grid */}
@@ -742,6 +733,12 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                   <div className="text-sm font-bold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
                   <div className="text-xs text-zinc-400 mb-2">{p.note}</div>
                   {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>}
+                  {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
+                    <div className="flex items-center gap-2 mt-1 mb-2 p-2 bg-orange-50 rounded-xl border border-orange-100" onClick={e => e.stopPropagation()}>
+                      <input type="checkbox" id={`addon-${p.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-4 h-4 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
+                      <label htmlFor={`addon-${p.id}`} className="text-xs font-semibold text-orange-800 cursor-pointer select-none flex-1">Add Cloud Pillow for Rs. 49</label>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between mt-auto pt-2" onClick={e => e.stopPropagation()}>
                     <span className="font-black text-zinc-900">Rs.{money(p.price)}</span>
                     {qty === 0 ? (
@@ -797,16 +794,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                   </div>
                 );
               })}
-              {isFreePillowUnlocked && (
-                <div className="flex items-center gap-3 py-2 border-b border-zinc-50">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-lg">☁️</div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs font-semibold text-indigo-800">Premium Pillow</div>
-                    <div className="text-xs text-indigo-400">Free gift</div>
-                  </div>
-                  <span className="text-xs font-bold text-green-600">FREE</span>
-                </div>
-              )}
+
               {missingCategory && (
                 <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 flex gap-2 mt-2">
                   <Lightbulb className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
@@ -827,7 +815,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
             </div>
             {deliveryFee > 0 && (
               <div className="text-[11px] text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-2 py-1.5 flex items-center gap-1">
-                🚚 Add <strong className="mx-0.5">Rs.{money(3000 - subtotal)}</strong> for free delivery
+                🚚 Add <strong className="mx-0.5">Rs.{money(5000 - subtotal)}</strong> for free delivery
               </div>
             )}
             <div className="flex justify-between font-bold text-sm pt-1 border-t border-dashed border-zinc-200">
@@ -1037,8 +1025,7 @@ export default function App() {
   const cartCount = baseCartItems.reduce((sum, i) => sum + i.qty, 0);
   const subtotal = baseCartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
   let finalCartItems = [...baseCartItems];
-  if (subtotal >= 7000) finalCartItems.push({ id: 'free-pillow', category: 'sleep', name: 'Premium Pillow (Offer)', price: 0, qty: 1, image: null });
-  const deliveryFee = subtotal >= 3000 || subtotal === 0 ? 0 : 99;
+  const deliveryFee = subtotal >= 5000 || subtotal === 0 ? 0 : 99;
   const total = subtotal + deliveryFee;
   const categoriesCovered = new Set(baseCartItems.map((i) => i.category)).size;
 
@@ -1073,7 +1060,7 @@ export default function App() {
     });
     lines.push(`---`);
     if (deliveryFee > 0) lines.push(`Delivery charges - Rs.${money(deliveryFee)}`);
-    else lines.push(`Delivery - *FREE* (order above Rs.3,000)`);
+    else lines.push(`Delivery - *FREE* (order above Rs.5,000)`);
     lines.push(`*Total: Rs.${money(total)}*`);
     return lines.join('\n');
   }
@@ -1133,7 +1120,7 @@ export default function App() {
     const sp = { setScreen };
     switch (screen) {
       case 'gate': return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
-      case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount + (subtotal >= 7000 ? 1 : 0)} total={total} subtotalForPillow={subtotal} deliveryFee={deliveryFee} />;
+      case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount} total={total} deliveryFee={deliveryFee} />;
       case 'cart': return <CartScreen {...sp} cartItems={finalCartItems} categoriesCovered={categoriesCovered} subtotal={subtotal} total={total} deliveryFee={deliveryFee} addOne={addOne} removeOne={removeOne} />;
       case 'delivery': return <DeliveryScreen {...sp} delivery={delivery} setDelivery={setDelivery} />;
       case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} orderId={orderId} orderSubmitted={orderSubmitted} />;
