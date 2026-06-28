@@ -45,7 +45,7 @@ const PRODUCTS = [
   { id:'m5',  category:'sleep',   name:'Sleepwell Utsav Comfort Classic',        price:6723, note:'72x36 4.5"', image:'/utsav_comfort_classic.jpg', rating:4.6, ratingCount:'2,100', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-classic-mattress/574', description:'Upgraded 4.5-inch classic variant offering an optimal balance of softness and supportive core.', specs:['Size: 72×36×4.5 inches', 'Firmness: Classic'] },
   { id:'m6',  category:'sleep',   name:'Sleepwell Utsav Comfort Ortho',          price:8749, note:'72x36 4"', image:'/utsav_comfort_ortho.jpg', rating:4.8, ratingCount:'890', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-ortho/644', description:'Top-tier orthopaedic support with high-density materials to ensure perfect posture and pressure relief.', specs:['Size: 72×36×4 inches', 'Firmness: Orthopaedic'] },
   { id:'s6',  category:'sleep',   name:'Cloud Pillow',                           price:679,  note:'Premium comfort', image:'/cloud_pillow.jpg', rating:4.5, ratingCount:'1,120',  ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/pillows/cloud-pillow/132', description:'Premium cloud-like comfort pillow designed to provide perfect neck support and restful sleep.', specs:['Premium filling','Washable cover','Ergonomic design'] },
-  { id:'addon-pillow', category:'sleep', name:'Cloud Pillow (Add-on with Mattress)', price:49, note:'Special Offer', image:'/cloud_pillow.jpg', hidden: true },
+  /* { id:'addon-pillow', category:'sleep', name:'Cloud Pillow (Add-on with Mattress)', price:49, note:'Special Offer', image:'/cloud_pillow.jpg', hidden: true }, */
   { id:'b1',  category:'bathroom',name:'Bucket, Mug & Soap Holder Set',          price:180,  note:'Red',             image:'/bucket_mug_set.png',   rating:4.0, ratingCount:'8,420',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=bucket+mug+soap+dish+set',     description:'Durable PP plastic bathroom trio in vibrant red. The set includes a 20L bucket, 500ml mug, and a sturdy soap dish holder.',                                    specs:['Bucket: 20 litres','Mug: 500 ml','Soap dish included','BPA-free PP plastic'] },
   { id:'b3',  category:'bathroom',name:'Drying Rope + Clips Pack',               price:149,  note:'3 metre',         image:'/drying_rope.png',      rating:4.2, ratingCount:'4,882',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=drying+rope+laundry+clips',    description:'3-metre coated nylon drying rope with 12 colorful ABS plastic clips. Easy to tie anywhere, strong enough for wet clothes.',                                    specs:['Rope length: 3 metres','12 clips included','Coated nylon rope','ABS plastic clips'] },
   { id:'st2', category:'study',   name:'4-Socket Surge-Protected Extension Board',price:429, note:'2m cable',        image:'/extension_board.png',  rating:4.3, ratingCount:'15,670', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=4+socket+extension+board+surge+protector', description:'ISI-marked 4-socket extension board with built-in surge protection and master switch. 2m heavy-duty cable handles high-load devices safely.',                specs:['4 universal sockets','ISI marked','2m heavy-duty cable','Surge & spike protection'] },
@@ -121,12 +121,12 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
           <div className="px-5">
             <h2 className="text-lg font-bold text-zinc-900 leading-snug mb-1">{product.name}</h2>
             <p className="text-sm text-zinc-500 mb-3">{product.note}</p>
-            {product.rating && (
+            {/* {product.rating && (
               <div className="mb-4 p-3 bg-amber-50 rounded-2xl border border-amber-100">
                 <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-1"><Star className="w-3 h-3" /> Customer Ratings</div>
                 <StarRating rating={product.rating} count={product.ratingCount} source={product.ratingSource} size="lg" />
               </div>
-            )}
+            )} */}
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">{product.description}</p>
             {product.specs && (
               <div className="mb-4">
@@ -148,12 +148,12 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
                 <span className="text-[10px] text-zinc-400 font-normal">{product.ratingSource}</span>
               </a>
             )}
-            {product.category === 'sleep' && product.id.startsWith('m') && qty > 0 && (
+            {/* {product.category === 'sleep' && product.id.startsWith('m') && qty > 0 && (
               <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-xl border border-orange-100 mb-4" onClick={e => e.stopPropagation()}>
                 <input type="checkbox" id={`addon-modal-${product.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-5 h-5 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
                 <label htmlFor={`addon-modal-${product.id}`} className="text-sm font-semibold text-orange-900 cursor-pointer select-none flex-1">Add Cloud Pillow for just Rs. 49</label>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className="flex-shrink-0 border-t border-zinc-100 px-5 py-4 flex items-center justify-between bg-white">
@@ -200,7 +200,10 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
       <div className="absolute -top-20 -left-20 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-0 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="flex-1 overflow-y-auto px-6 pt-6 pb-2 safe-top relative z-10">
-        <div className="text-xl font-bold tracking-tight mb-6">wisor<span className="text-orange-500">.</span></div>
+        <div className="mb-16">
+          <div className="text-4xl font-black tracking-tight mb-1">wisor<span className="text-orange-500">.</span></div>
+          <div className="text-zinc-500 text-xs font-medium">Your hostel room, sorted.</div>
+        </div>
         <h1 className="text-3xl font-bold leading-tight mb-2">Which campus are<br />you joining?</h1>
         <p className="text-zinc-400 text-sm mb-5 leading-relaxed">We'll show only the essentials your hostel actually needs - nothing else.</p>
         <div className="space-y-3">
@@ -300,13 +303,13 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   )}
                   <div className="text-sm font-semibold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
                   <div className="text-xs text-zinc-400 mb-1.5">{p.note}</div>
-                  {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>}
-                  {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
+                  {/* {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>} */}
+                  {/* {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
                     <div className="flex items-center gap-2 mt-1 mb-2.5 p-2 bg-orange-50 rounded-xl border border-orange-100" onClick={e => e.stopPropagation()}>
                       <input type="checkbox" id={`addon-mob-${p.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-4 h-4 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
                       <label htmlFor={`addon-mob-${p.id}`} className="text-[11px] font-semibold text-orange-800 cursor-pointer select-none flex-1">Add Cloud Pillow (Rs. 49)</label>
                     </div>
-                  )}
+                  )} */}
                   <div className="flex items-center justify-between mt-auto" onClick={(e) => e.stopPropagation()}>
                     <span className="font-bold text-zinc-900 text-sm">Rs.{money(p.price)}</span>
                     {qty === 0 ? (
@@ -348,6 +351,8 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
 function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee, addOne, removeOne, setScreen }) {
 
   const realItems = cartItems.filter(i => i.id !== 'free-pillow');
+  const mattressCount = realItems.filter(i => i.category === 'sleep' && i.id.startsWith('m')).reduce((sum, i) => sum + i.qty, 0);
+  const hasFreePillow = mattressCount > 0;
   const grouped = CATEGORIES.map((cat) => ({ cat, items: realItems.filter((i) => i.category === cat.id) })).filter((g) => g.items.length > 0);
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
 
@@ -395,6 +400,20 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                 </div>
               );
             })}
+            {hasFreePillow && (
+              <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                <div className="absolute -right-4 -top-4 w-16 h-16 bg-indigo-200/50 rounded-full blur-xl" />
+                <h3 className="text-[10px] font-bold text-indigo-500 tracking-wider uppercase mb-3 flex items-center gap-2 relative z-10">🎁 Special Offer Unlocked</h3>
+                <div className="flex items-center gap-3 relative z-10">
+                  <div className="w-12 h-12 rounded-xl bg-white border border-indigo-100 flex-shrink-0 overflow-hidden p-1.5"><img src="/cloud_pillow.jpg" alt="" className="w-full h-full object-contain rounded-lg" /></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-bold text-indigo-900">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
+                    <div className="text-xs text-indigo-700">Free with mattress</div>
+                  </div>
+                  <div className="text-sm font-bold text-green-600">Free</div>
+                </div>
+              </div>
+            )}
 
             {missingCategory ? (
               <div className="bg-orange-50 border border-orange-100 rounded-2xl p-3 flex gap-2 items-start shadow-sm">
@@ -685,6 +704,8 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
   const items = PRODUCTS.filter((p) => p.category === activeCategory && !p.hidden);
 
   const realItems = finalCartItems.filter(i => i.id !== 'free-pillow');
+  const mattressCount = realItems.filter(i => i.category === 'sleep' && i.id.startsWith('m')).reduce((sum, i) => sum + i.qty, 0);
+  const hasFreePillow = mattressCount > 0;
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
   const cartCount = realItems.reduce((s, i) => s + i.qty, 0);
 
@@ -732,13 +753,13 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-sm font-bold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
                   <div className="text-xs text-zinc-400 mb-2">{p.note}</div>
-                  {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>}
-                  {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
+                  {/* {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>} */}
+                  {/* {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
                     <div className="flex items-center gap-2 mt-1 mb-2 p-2 bg-orange-50 rounded-xl border border-orange-100" onClick={e => e.stopPropagation()}>
                       <input type="checkbox" id={`addon-${p.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-4 h-4 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
                       <label htmlFor={`addon-${p.id}`} className="text-xs font-semibold text-orange-800 cursor-pointer select-none flex-1">Add Cloud Pillow for Rs. 49</label>
                     </div>
-                  )}
+                  )} */}
                   <div className="flex items-center justify-between mt-auto pt-2" onClick={e => e.stopPropagation()}>
                     <span className="font-black text-zinc-900">Rs.{money(p.price)}</span>
                     {qty === 0 ? (
@@ -794,6 +815,16 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                   </div>
                 );
               })}
+              {hasFreePillow && (
+                <div className="flex items-center gap-3 py-2 border-b border-zinc-50">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center flex-shrink-0 p-1"><img src="/cloud_pillow.jpg" alt="" className="w-full h-full object-contain rounded-lg" /></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-semibold text-indigo-800">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
+                    <div className="text-xs text-indigo-400">Free gift</div>
+                  </div>
+                  <span className="text-xs font-bold text-green-600">FREE</span>
+                </div>
+              )}
 
               {missingCategory && (
                 <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 flex gap-2 mt-2">
