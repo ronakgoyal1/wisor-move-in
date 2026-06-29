@@ -1168,13 +1168,19 @@ export default function App() {
     };
 
     try {
-      await fetch(sheetUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        keepalive: true,
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
-      });
+      const dataStr = JSON.stringify(payload);
+      let sent = false;
+      if (navigator.sendBeacon) {
+        sent = navigator.sendBeacon(sheetUrl, dataStr);
+      }
+      if (!sent) {
+        await fetch(sheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: dataStr
+        });
+      }
     } catch (err) {
       console.error("Sheet save error:", err);
     }
