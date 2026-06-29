@@ -517,8 +517,8 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
             ))}
           </div>
         )}
-        <button onClick={() => { if (validate()) setScreen('success'); }} className="w-full py-3.5 rounded-2xl font-bold bg-orange-500 text-white active:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition-all duration-200">
-          Review &amp; send order <ChevronRight className="w-4 h-4" />
+        <button disabled={isSending} onClick={() => { if (validate()) submitOrder(); }} className={`w-full py-3.5 rounded-2xl font-bold text-white flex items-center justify-center gap-2 shadow-lg transition-all duration-200 ${isSending ? 'bg-zinc-400 cursor-not-allowed shadow-none' : 'bg-orange-500 active:bg-orange-600 shadow-orange-500/20 hover:bg-orange-600'}`}>
+          {isSending ? 'Saving Order...' : 'Review & send order'} {!isSending && <ChevronRight className="w-4 h-4" />}
         </button>
       </div>
     </div>
@@ -935,17 +935,20 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               <input value={delivery.altMobile} onChange={update('altMobile')} type="tel" placeholder="+91 12345 67890" className="w-full border-2 border-zinc-100 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:border-orange-500 focus:bg-white transition-colors" />
             </div>
           </div>
-          {Object.keys(errors).length > 0 && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-xl">
-              <p className="text-xs text-red-600 font-semibold mb-1">Please fill in all required fields:</p>
-              {Object.values(errors).filter(Boolean).map((err, i) => (
-                <div key={i} className="text-xs text-red-500 flex items-center gap-1.5"><span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />{err}</div>
-              ))}
-            </div>
-          )}
-          <button onClick={() => { if (validate()) setScreen('success'); }} className="w-full mt-6 py-4 rounded-2xl font-bold bg-orange-500 text-white hover:bg-orange-600 flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition-all duration-200 hover:-translate-y-0.5">
-            Review &amp; send order <ChevronRight className="w-4 h-4" />
-          </button>
+          <div className="border-t border-zinc-200 pt-5 mt-6">
+            {Object.keys(errors).length > 0 && (
+              <div className="mb-3 px-1">
+                {Object.values(errors).map((err, i) => (
+                  <div key={i} className="text-xs text-red-500 font-medium flex items-center gap-1.5 mb-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />{err}
+                  </div>
+                ))}
+              </div>
+            )}
+            <button disabled={isSending} onClick={() => { if (validate()) submitOrder(); }} className={`w-full py-4 rounded-xl font-bold text-base text-white flex items-center justify-center gap-2 shadow-lg transition-all duration-200 ${isSending ? 'bg-zinc-400 cursor-not-allowed shadow-none' : 'bg-orange-500 hover:bg-orange-600 shadow-orange-500/20'}`}>
+              {isSending ? 'Saving Order...' : 'Review & place order'} {!isSending && <ChevronRight className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
         <div className="col-span-2 space-y-4">
           <div className="bg-white rounded-3xl p-6 border border-zinc-100 shadow-sm">
@@ -1168,48 +1171,46 @@ export default function App() {
     };
 
     try {
-      const dataStr = JSON.stringify(payload);
-      let sent = false;
-      if (navigator.sendBeacon) {
-        sent = navigator.sendBeacon(sheetUrl, dataStr);
-      }
-      if (!sent) {
-        await fetch(sheetUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: dataStr
-        });
-      }
+      await fetch(sheetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
     } catch (err) {
       console.error("Sheet save error:", err);
     }
   }
 
-  async function handleSendWhatsApp() {
+  async function submitOrder() {
     if (isSending) return;
     setIsSending(true);
     showToast('Saving your order...');
+    
     try {
       await saveOrderToSpreadsheet();
     } catch (err) {
       console.error('Order save failed:', err);
     }
+    
     setOrderSubmitted(true);
-    // Clear cart after successful order
     setCart({});
     try { localStorage.removeItem('wisor-cart'); } catch {}
+    
+    setIsSending(false);
+    navigateTo('success');
+  }
+
+  function handleSendWhatsApp() {
     showToast('Preparing WhatsApp...');
     const message = buildWhatsAppMessage();
     const url = `https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent(message)}`;
-    setTimeout(() => {
-      if (window.innerWidth < 1024 || /Mobi|Android/i.test(navigator.userAgent)) {
-        window.location.href = url;
-      } else {
-        try { window.open(url, '_blank'); } catch (_e) {}
-      }
-      setIsSending(false);
-    }, 1000);
+    
+    if (window.innerWidth < 1024 || /Mobi|Android/i.test(navigator.userAgent)) {
+      window.location.href = url;
+    } else {
+      try { window.open(url, '_blank'); } catch (_e) {}
+    }
   }
 
   // Mobile screens
