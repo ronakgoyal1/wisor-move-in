@@ -196,6 +196,17 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
             );
           })}
         </div>
+        
+        <div className="mt-8 bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex flex-col items-center text-center">
+          <div className="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center mb-3">
+            <BedDouble className="w-5 h-5 text-indigo-400" />
+          </div>
+          <h3 className="font-bold text-white mb-1">Need a hotel for stay?</h3>
+          <p className="text-xs text-zinc-400 mb-4 leading-relaxed">Let us help you find the best stays near campus at the best rates.</p>
+          <a href={`https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent("Hi, I am looking for hotel recommendations near the college.")}`} target="_blank" rel="noopener noreferrer" className="w-full py-2.5 rounded-xl font-semibold bg-indigo-500 text-white hover:bg-indigo-600 transition-colors text-sm flex items-center justify-center gap-2">
+            <MessageCircle className="w-4 h-4" /> Message on WhatsApp
+          </a>
+        </div>
       </div>
       <div className="px-6 pb-5 pt-3 flex-shrink-0 safe-bottom border-t border-zinc-900">
         <div className="flex flex-col items-center gap-2 mb-4">
@@ -657,8 +668,8 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
       </div>
 
       {/* Right: college selector */}
-      <div className="w-1/2 bg-white flex items-center justify-center p-12 overflow-y-auto">
-        <div className="w-full max-w-md">
+      <div className="w-1/2 bg-white overflow-y-auto p-12">
+        <div className="w-full max-w-md mx-auto flex flex-col justify-start">
           <h2 className="text-3xl font-bold text-zinc-900 mb-2">Which campus<br />are you joining?</h2>
           <p className="text-zinc-400 text-sm mb-8">We'll show only the items your hostel actually needs.</p>
           <div className="space-y-3 mb-8">
@@ -685,6 +696,17 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
             {collegeId && <ChevronRight className="w-5 h-5" />}
           </button>
           <button onClick={() => setScreen('category')} className="w-full text-center text-sm text-zinc-400 mt-3 py-2 hover:text-zinc-600 transition-colors">Browse without selecting →</button>
+          
+          <div className="mt-4 bg-indigo-50 border border-indigo-100 p-6 rounded-2xl flex flex-col items-center text-center">
+            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3">
+              <BedDouble className="w-6 h-6 text-indigo-500" />
+            </div>
+            <h3 className="font-bold text-zinc-900 text-lg mb-1">Need a hotel for stay?</h3>
+            <p className="text-zinc-500 text-sm mb-4">Let us help you find the best stays near campus at the best rates.</p>
+            <a href={`https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent("Hi, I am looking for hotel recommendations near the college.")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold bg-indigo-500 text-white hover:bg-indigo-600 transition-colors text-sm">
+              <MessageCircle className="w-4 h-4" /> Message us on WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </div>
