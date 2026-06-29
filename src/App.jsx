@@ -17,50 +17,19 @@ import {
   ExternalLink,
   X,
   ShoppingBag,
+  ShieldCheck,
 } from 'lucide-react';
 
 // ---------------------------------------------------------------------------
-// Config
+// Config & Data
 // ---------------------------------------------------------------------------
-const WISOR_WA_NUMBER = import.meta.env.VITE_WISOR_WA_NUMBER || '917400390244';
+import { WISOR_WA_NUMBER, FREE_DELIVERY_THRESHOLD, DELIVERY_FEE_AMOUNT, MAX_QTY } from './data/config.js';
+import { COLLEGES } from './data/colleges.js';
+import { CATEGORIES } from './data/categories.js';
+import { PRODUCTS } from './data/products.js';
+import { money } from './utils/helpers.js';
 
-const COLLEGES = [
-  { id: 'iiit', code: 'IIIT', name: 'IIIT Allahabad', sub: 'Jhalwa campus' },
-  { id: 'mnnit', code: 'MNNIT', name: 'MNNIT Allahabad', sub: 'Naini campus' },
-];
-
-const CATEGORIES = [
-  { id: 'sleep',   label: 'Sleep',   fullLabel: 'Sleep Essentials',    icon: BedDouble },
-  { id: 'bathroom',label: 'Bath',    fullLabel: 'Bathroom Essentials',  icon: Droplets  },
-  { id: 'study',   label: 'Study',   fullLabel: 'Study Essentials',     icon: Lightbulb },
-  { id: 'storage', label: 'Curtains', fullLabel: 'Curtains',   icon: Archive   },
-  { id: 'weather', label: 'Weather', fullLabel: 'Weather Essentials',   icon: Umbrella  },
-];
-
-const PRODUCTS = [
-  { id:'m1',  category:'sleep',   name:'Sleepwell Champ Regular',                price:5190, note:'72x36 4"', image:'/champ_regular.jpg', rating:4.1, ratingCount:'1,200', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/champ-regular-mattress/638', description:'Reliable entry-level mattress providing basic comfort and durability for everyday use.', specs:['Size: 72×36×4 inches', 'Firmness: Regular'] },
-  { id:'m2',  category:'sleep',   name:'Sleepwell Champ Classic Ortho',          price:5401, note:'72x36 4"', image:'/champ_classic_ortho.jpg', rating:4.3, ratingCount:'950', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/champ-classic-ortho-mattress/639', description:'Designed for better back support, featuring orthopaedic foam layers for proper spinal alignment.', specs:['Size: 72×36×4 inches', 'Firmness: Ortho Firm'] },
-  { id:'m3',  category:'sleep',   name:'Sleepwell Champ Classic',                price:6940, note:'72x36 5"', image:'/champ_classic.jpg', rating:4.4, ratingCount:'1,105', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/champ-classic-mattress/637', description:'A thicker 5-inch profile providing enhanced cushioning and classic comfort for deep sleep.', specs:['Size: 72×36×5 inches', 'Firmness: Classic'] },
-  { id:'m4',  category:'sleep',   name:'Sleepwell Utsav Comfort Regular',        price:6331, note:'72x36 4"', image:'/utsav_comfort_regular.jpg', rating:4.5, ratingCount:'1,840', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-regular-mattress/573', description:'Premium comfort mattress with a supportive core structure designed for restful nights.', specs:['Size: 72×36×4 inches', 'Firmness: Regular'] },
-  { id:'m5',  category:'sleep',   name:'Sleepwell Utsav Comfort Classic',        price:6723, note:'72x36 4.5"', image:'/utsav_comfort_classic.jpg', rating:4.6, ratingCount:'2,100', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-classic-mattress/574', description:'Upgraded 4.5-inch classic variant offering an optimal balance of softness and supportive core.', specs:['Size: 72×36×4.5 inches', 'Firmness: Classic'] },
-  { id:'m6',  category:'sleep',   name:'Sleepwell Utsav Comfort Ortho',          price:8749, note:'72x36 4"', image:'/utsav_comfort_ortho.jpg', rating:4.8, ratingCount:'890', ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/detail/utsav-comfort-ortho/644', description:'Top-tier orthopaedic support with high-density materials to ensure perfect posture and pressure relief.', specs:['Size: 72×36×4 inches', 'Firmness: Orthopaedic'] },
-  { id:'s6',  category:'sleep',   name:'Cloud Pillow',                           price:679,  note:'Premium comfort', image:'/cloud_pillow.jpg', rating:4.5, ratingCount:'1,120',  ratingSource:'Sleepwell', officialUrl:'https://mysleepwell.com/pillows/cloud-pillow/132', description:'Premium cloud-like comfort pillow designed to provide perfect neck support and restful sleep.', specs:['Premium filling','Washable cover','Ergonomic design'] },
-  /* { id:'addon-pillow', category:'sleep', name:'Cloud Pillow (Add-on with Mattress)', price:49, note:'Special Offer', image:'/cloud_pillow.jpg', hidden: true }, */
-  { id:'b1',  category:'bathroom',name:'Bucket, Mug & Soap Holder Set',          price:180,  note:'Red',             image:'/bucket_mug_set.png',   rating:4.0, ratingCount:'8,420',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=bucket+mug+soap+dish+set',     description:'Durable PP plastic bathroom trio in vibrant red. The set includes a 20L bucket, 500ml mug, and a sturdy soap dish holder.',                                    specs:['Bucket: 20 litres','Mug: 500 ml','Soap dish included','BPA-free PP plastic'] },
-  { id:'b3',  category:'bathroom',name:'Drying Rope + Clips Pack',               price:149,  note:'3 metre',         image:'/drying_rope.png',      rating:4.2, ratingCount:'4,882',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=drying+rope+laundry+clips',    description:'3-metre coated nylon drying rope with 12 colorful ABS plastic clips. Easy to tie anywhere, strong enough for wet clothes.',                                    specs:['Rope length: 3 metres','12 clips included','Coated nylon rope','ABS plastic clips'] },
-  { id:'st2', category:'study',   name:'4-Socket Surge-Protected Extension Board',price:429, note:'2m cable',        image:'/extension_board.png',  rating:4.3, ratingCount:'15,670', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=4+socket+extension+board+surge+protector', description:'ISI-marked 4-socket extension board with built-in surge protection and master switch. 2m heavy-duty cable handles high-load devices safely.',                specs:['4 universal sockets','ISI marked','2m heavy-duty cable','Surge & spike protection'] },
-  { id:'sto4',category:'storage', name:'Blackout Curtain 7ft, Navy Blue',       price:549,  note:'Set of 2 panels', image:'/curtain_navy.png',     tag:'Bestseller', rating:4.3, ratingCount:'8,741',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+navy+blue', description:'Thermal-insulated blackout curtains in deep navy. Blocks 99% of sunlight — perfect for day-sleepers or bright-lit hostel rooms. Rod pocket header for easy installation.', specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
-  { id:'sto5',category:'storage', name:'Blackout Curtain 7ft, Forest Green',    price:549,  note:'Set of 2 panels', image:'/curtain_green.png',    rating:4.2, ratingCount:'5,380',  ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+green',    description:'Earthy forest green blackout curtains with heavy-duty fabric. Great thermal insulation — keeps the room cool in summer. Blends beautifully with wooden hostel furniture.', specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
-  { id:'sto6',category:'storage', name:'Blackout Curtain 7ft, Beige',          price:499,  note:'Set of 2 panels', image:'/curtain_beige.png',    rating:4.4, ratingCount:'12,034', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=7ft+blackout+curtain+beige',    description:'Neutral beige blackout curtains that complement any room decor. Light-filtering on one side, 99% blackout on the other — best all-rounder for hostel rooms.',              specs:['Size per panel: 54×84 inches (7ft)', 'Set of 2 panels', '99% blackout lining', 'Machine washable polyester', 'Rod pocket header'] },
-  { id:'st5', category:'study',   name:'Cat6 LAN Cable, 1 Metre (Flat)',        price:199,  note:'Blue flat',       image:'/lan_cable_cat6.png',   rating:4.4, ratingCount:'21,560', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=cat6+flat+lan+cable+1+metre',   description:'Premium flat Cat6 ethernet cable with gold-plated snagless RJ45 connectors. Gigabit speed (1000 Mbps), slim design fits easily under doors or carpets. Essential for hostel LAN connections.', specs:['Length: 1 metre', 'Cat6 standard (1 Gbps)', 'Flat slim design', 'Gold-plated snagless RJ45', 'UTP unshielded'] },
-  { id:'st6', category:'study',   name:'USB-C to Ethernet Adapter (Gigabit)',   price:899,  note:'UGREEN / Anker',  image:'/usbc_ethernet_adapter.png', tag:'Top pick', rating:4.5, ratingCount:'14,203', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=usb+c+to+ethernet+adapter+gigabit', description:'Plug-and-play USB-C to RJ45 Gigabit Ethernet adapter. Works with MacBook, iPad, Windows laptops, Android phones — no drivers needed. Aluminium casing for heat dissipation. Essential for hostel LAN ports.', specs:['USB-C to RJ45 Gigabit (1000 Mbps)', 'Plug-and-play, no driver needed', 'Compatible: MacBook / Windows / Android', 'Aluminium alloy housing', 'Cable length: 10 cm'] },
-  { id:'st7', category:'study',   name:'Classmate Lab Manual',                   price:49,   note:'1 piece',         image:'/lab_manual.jpg', rating:4.5, ratingCount:'250', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/Classmate-Practical-Notebook-Cover-Single/dp/B00P7SMC4C/ref=sr_1_2?crid=1VCB1EU2MHRWT&dib=eyJ2IjoiMSJ9.jfLEA_tZc5G1oNIse4AFVvoIAsr0n6-A-sk4TR0l4KYl7yLDZ4mJADZvD183SwIQfJ-_oewZWUEbLQQtM8N_8pJbJ2t3DE4PF5r8yYvrMW4OkMfF4RO1gandGYLqrL4pK05KcZ6XyLT5uteBVnvFrT_gXocSv6brAIOTIe3Rbb0_9zpeojmtMGtrgM9mEDJ1JvPBRLMAepHSEkThgN7w7BdPyysz7iBu0JPNx_mX8Kz8fhjcq_uWXEDeo9aFGkyUi5T0LEbZYTyGk_f501F1rN9QLttuTl1Gh3DgDGuJsDc.d_ZklE0kFL18N7TwMnb4pZ6Zm8JzTcuMSLulmvSB8IA&dib_tag=se&keywords=classmate+lab+manual&nsdOptOutParam=true&qid=1782626807&s=office&sprefix=classmate+lab+man%2Coffice-products%2C270&sr=1-2', description:'Classmate Science Practical Exercise Book. High quality paper, essential for lab work and experiments.', specs:['1 piece', 'Hard cover', 'Science Practical'] },
-  { id:'w1',  category:'weather', name:'Compact Umbrella, Wind-Resistant',       price:399,  note:'Navy',            image:'/umbrella_compact.png', rating:4.2, ratingCount:'11,203', ratingSource:'Amazon.in', officialUrl:'https://www.amazon.in/s?k=compact+umbrella+wind+resistant', description:"Auto open/close wind-resistant compact umbrella with 8-rib reinforced frame. Fits in any bag — essential for Allahabad's unpredictable monsoon.",           specs:['8-rib reinforced frame','Auto open/close','UV-coated canopy','Folds to 27cm'] },
-];
-
-// Helpers
 // ---------------------------------------------------------------------------
-function money(n) { return n.toLocaleString('en-IN'); }
 
 function StarRating({ rating, count, source, size = 'sm' }) {
   const full = Math.floor(rating);
@@ -99,13 +68,13 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end lg:items-center justify-center" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }} onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }} onClick={onClose}>
       <div
-        className="w-full bg-white rounded-t-3xl lg:rounded-3xl overflow-hidden shadow-2xl"
+        className="w-full bg-white rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl"
         style={{ maxWidth: '520px', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex justify-center pt-3 pb-1 flex-shrink-0 lg:hidden">
+        <div className="flex justify-center pt-3 pb-1 flex-shrink-0 md:hidden">
           <div className="w-10 h-1 bg-zinc-200 rounded-full" />
         </div>
         <div className="flex justify-end px-4 pt-3 pb-1 flex-shrink-0">
@@ -116,17 +85,17 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
         <div className="overflow-y-auto flex-1 pb-4">
           <div className="mx-4 rounded-2xl overflow-hidden bg-zinc-50 h-52 mb-4 border border-zinc-100 relative">
             {product.tag && <span className="absolute top-3 left-3 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2.5 py-1 rounded-full uppercase tracking-wide shadow-sm">{product.tag}</span>}
-            {product.image ? <img src={product.image} alt={product.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-16 h-16 text-zinc-200" /></div>}
+            {product.image ? <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-16 h-16 text-zinc-200" /></div>}
           </div>
           <div className="px-5">
             <h2 className="text-lg font-bold text-zinc-900 leading-snug mb-1">{product.name}</h2>
             <p className="text-sm text-zinc-500 mb-3">{product.note}</p>
-            {/* {product.rating && (
-              <div className="mb-4 p-3 bg-amber-50 rounded-2xl border border-amber-100">
-                <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-1"><Star className="w-3 h-3" /> Customer Ratings</div>
-                <StarRating rating={product.rating} count={product.ratingCount} source={product.ratingSource} size="lg" />
+            {product.warranty && (
+              <div className="flex items-center gap-1.5 text-[#2e7d32] mb-3 bg-[#2e7d32]/10 inline-flex px-2.5 py-1 rounded-md">
+                <ShieldCheck className="w-4 h-4" />
+                <span className="text-xs font-bold tracking-wide uppercase">{product.warranty}</span>
               </div>
-            )} */}
+            )}
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">{product.description}</p>
             {product.specs && (
               <div className="mb-4">
@@ -148,18 +117,22 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
                 <span className="text-[10px] text-zinc-400 font-normal">{product.ratingSource}</span>
               </a>
             )}
-            {/* {product.category === 'sleep' && product.id.startsWith('m') && qty > 0 && (
-              <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-xl border border-orange-100 mb-4" onClick={e => e.stopPropagation()}>
-                <input type="checkbox" id={`addon-modal-${product.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-5 h-5 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
-                <label htmlFor={`addon-modal-${product.id}`} className="text-sm font-semibold text-orange-900 cursor-pointer select-none flex-1">Add Cloud Pillow for just Rs. 49</label>
-              </div>
-            )} */}
           </div>
         </div>
         <div className="flex-shrink-0 border-t border-zinc-100 px-5 py-4 flex items-center justify-between bg-white">
           <div>
             <div className="text-xs text-zinc-400 font-medium">Price</div>
-            <div className="text-xl font-black text-zinc-900">Rs.{money(product.price)}</div>
+            {product.originalPrice ? (
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#2e7d32] text-white font-black px-2 py-0.5 rounded-lg text-lg">Rs.{money(product.price)}</span>
+                  <span className="text-zinc-400 line-through text-sm font-medium">Rs.{money(product.originalPrice)}</span>
+                </div>
+                <span className="text-[#2e7d32] text-xs font-bold tracking-wide mt-0.5">Rs.{money(product.originalPrice - product.price)} OFF</span>
+              </div>
+            ) : (
+              <div className="text-xl font-black text-zinc-900">Rs.{money(product.price)}</div>
+            )}
           </div>
           {qty === 0 ? (
             <button onClick={() => addOne(product.id)} className="bg-orange-500 text-white font-bold px-7 py-3 rounded-2xl hover:bg-orange-600 shadow-lg shadow-orange-500/25 transition flex items-center gap-2">
@@ -169,7 +142,7 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
             <div className="flex items-center gap-3 bg-orange-500 rounded-2xl px-3 py-2.5 shadow-lg shadow-orange-500/25">
               <button onClick={() => removeOne(product.id)} className="w-7 h-7 flex items-center justify-center text-white bg-white/20 rounded-xl"><Minus className="w-3.5 h-3.5" /></button>
               <span className="text-white font-bold text-sm w-4 text-center">{qty}</span>
-              <button onClick={() => addOne(product.id)} className="w-7 h-7 flex items-center justify-center text-white bg-white/20 rounded-xl"><Plus className="w-3.5 h-3.5" /></button>
+              <button onClick={() => { if (qty < MAX_QTY) addOne(product.id); }} className={`w-7 h-7 flex items-center justify-center text-white rounded-xl ${qty >= MAX_QTY ? 'bg-white/10 cursor-not-allowed' : 'bg-white/20'}`}><Plus className="w-3.5 h-3.5" /></button>
             </div>
           )}
         </div>
@@ -286,6 +259,16 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
         <div className="flex-1 overflow-y-auto px-3 pt-3 pb-4 bg-zinc-50/50">
           <h2 className="text-base font-bold text-zinc-900 px-1">{cat.fullLabel}</h2>
           <p className="text-xs text-zinc-400 mb-3 px-1">{items.length} options carefully selected • tap to explore</p>
+          {cat.id === 'sleep' && (
+            <div className="mx-1 mb-3 bg-[#e8f5e9] border border-[#c8e6c9] rounded-xl p-3 flex flex-col gap-1 shadow-sm">
+              <div className="font-bold text-[#2e7d32] text-xs flex items-center gap-1.5">
+                <span className="text-sm leading-none">💚</span> Price Match Promise
+              </div>
+              <div className="text-[10px] text-[#2e7d32]/90 leading-tight">
+                Found the same product cheaper (including delivery charges)? Call or WhatsApp us at <span className="font-bold">+91 74003 90244</span>. We'll do our best to match or beat the price.
+              </div>
+            </div>
+          )}
           <div className="flex flex-col gap-3">
             {items.map((p) => {
               const qty = cart[p.id] || 0;
@@ -294,7 +277,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   {p.tag && <span className="absolute top-2 left-2 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide">{p.tag}</span>}
                   {p.image ? (
                     <div className="h-32 rounded-xl bg-zinc-50 mb-2.5 overflow-hidden relative border border-zinc-100/50">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                      <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div className="h-24 rounded-xl bg-zinc-50 flex items-center justify-center mb-2.5 border border-zinc-100/50">
@@ -303,15 +286,24 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   )}
                   <div className="text-sm font-semibold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
                   <div className="text-xs text-zinc-400 mb-1.5">{p.note}</div>
-                  {/* {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>} */}
-                  {/* {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
-                    <div className="flex items-center gap-2 mt-1 mb-2.5 p-2 bg-orange-50 rounded-xl border border-orange-100" onClick={e => e.stopPropagation()}>
-                      <input type="checkbox" id={`addon-mob-${p.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-4 h-4 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
-                      <label htmlFor={`addon-mob-${p.id}`} className="text-[11px] font-semibold text-orange-800 cursor-pointer select-none flex-1">Add Cloud Pillow (Rs. 49)</label>
+                  {p.warranty && (
+                    <div className="flex items-center gap-1 text-[#2e7d32] mb-2">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span className="text-[10px] font-bold tracking-wide uppercase">{p.warranty}</span>
                     </div>
-                  )} */}
+                  )}
                   <div className="flex items-center justify-between mt-auto" onClick={(e) => e.stopPropagation()}>
-                    <span className="font-bold text-zinc-900 text-sm">Rs.{money(p.price)}</span>
+                    {p.originalPrice ? (
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1.5">
+                          <span className="bg-[#2e7d32] text-white font-bold px-1.5 py-0.5 rounded text-[13px]">Rs.{money(p.price)}</span>
+                          <span className="text-zinc-400 line-through text-xs font-medium">Rs.{money(p.originalPrice)}</span>
+                        </div>
+                        <span className="text-[#2e7d32] text-[10px] font-bold tracking-wide mt-0.5">Rs.{money(p.originalPrice - p.price)} OFF</span>
+                      </div>
+                    ) : (
+                      <span className="font-bold text-zinc-900 text-sm">Rs.{money(p.price)}</span>
+                    )}
                     {qty === 0 ? (
                       <button onClick={(e) => { e.stopPropagation(); addOne(p.id); }} className="bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-xl active:bg-orange-600 shadow-sm shadow-orange-500/20 hover:bg-orange-600 transition-all duration-150 flex items-center gap-1">
                         <Plus className="w-3 h-3" /> Add
@@ -320,7 +312,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                       <div className="flex items-center gap-2.5 bg-orange-500 rounded-xl px-2 py-1.5 shadow-sm shadow-orange-500/20">
                         <button onClick={(e) => { e.stopPropagation(); removeOne(p.id); }} className="w-5 h-5 flex items-center justify-center text-white bg-white/20 rounded-lg"><Minus className="w-3 h-3" /></button>
                         <span className="text-white text-xs font-bold w-3 text-center">{qty}</span>
-                        <button onClick={(e) => { e.stopPropagation(); addOne(p.id); }} className="w-5 h-5 flex items-center justify-center text-white bg-white/20 rounded-lg"><Plus className="w-3 h-3" /></button>
+                        <button onClick={(e) => { e.stopPropagation(); if (qty < MAX_QTY) addOne(p.id); }} className={`w-5 h-5 flex items-center justify-center text-white rounded-lg ${qty >= MAX_QTY ? 'bg-white/10 cursor-not-allowed' : 'bg-white/20'}`}><Plus className="w-3 h-3" /></button>
                       </div>
                     )}
                   </div>
@@ -384,7 +376,6 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                         <div className="flex-1 min-w-0 pt-0.5">
                           <div className="text-sm font-semibold text-zinc-900 leading-snug">{item.name}</div>
                           <div className="text-xs text-zinc-500 mt-0.5">Rs.{money(item.price)}</div>
-                          {item.rating && <div className="mt-0.5"><StarRating rating={item.rating} count={item.ratingCount} source={item.ratingSource} size="sm" /></div>}
                         </div>
                         <div className="text-right flex-shrink-0 pt-0.5">
                           <div className="text-sm font-bold text-zinc-900 mb-2">Rs.{money(item.price * item.qty)}</div>
@@ -405,7 +396,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                 <div className="absolute -right-4 -top-4 w-16 h-16 bg-indigo-200/50 rounded-full blur-xl" />
                 <h3 className="text-[10px] font-bold text-indigo-500 tracking-wider uppercase mb-3 flex items-center gap-2 relative z-10">🎁 Special Offer Unlocked</h3>
                 <div className="flex items-center gap-3 relative z-10">
-                  <div className="w-12 h-12 rounded-xl bg-white border border-indigo-100 flex-shrink-0 overflow-hidden p-1.5"><img src="/cloud_pillow.jpg" alt="" className="w-full h-full object-contain rounded-lg" /></div>
+                  <div className="w-12 h-12 rounded-xl bg-white border border-indigo-100 flex-shrink-0 overflow-hidden p-1.5"><img src="/cloud_pillow.webp" alt="" className="w-full h-full object-contain rounded-lg" /></div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-bold text-indigo-900">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
                     <div className="text-xs text-indigo-700">Free with mattress</div>
@@ -442,7 +433,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
               {deliveryFee > 0 && (
                 <div className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 flex items-center gap-1.5">
                   <span>🚚</span>
-                  <span>Add <strong>Rs.{money(5000 - subtotal)}</strong> more for <strong>free delivery</strong></span>
+                  <span>Add <strong>Rs.{money(FREE_DELIVERY_THRESHOLD - subtotal)}</strong> more for <strong>free delivery</strong></span>
                 </div>
               )}
             </div>
@@ -468,7 +459,9 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
     if (!delivery.hostelBlock.trim()) e.hostelBlock = 'Please select a hostel block';
     if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name & room number is required';
     if (!delivery.deliveryDate.trim())e.deliveryDate= 'Preferred delivery date is required';
-    if (!delivery.whatsapp.trim())    e.whatsapp    = 'WhatsApp number is required';
+    const phone = delivery.whatsapp.replace(/\D/g, '').replace(/^91/, '');
+    if (!phone) e.whatsapp = 'WhatsApp number is required';
+    else if (!/^[6-9]\d{9}$/.test(phone)) e.whatsapp = 'Please enter a valid 10-digit Indian mobile number';
     setErrors(e);
     return Object.keys(e).length === 0;
   }
@@ -501,7 +494,7 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
         </div>
         <div>
           <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Preferred delivery date <span className="text-red-400">*</span></label>
-          <input value={delivery.deliveryDate} onChange={update('deliveryDate')} placeholder="e.g. 14 July 2026" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.deliveryDate ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+          <input value={delivery.deliveryDate} onChange={update('deliveryDate')} type="date" min={new Date().toISOString().split('T')[0]} className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.deliveryDate ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
           {errors.deliveryDate && <p className="text-xs text-red-500 mt-1 font-medium">{errors.deliveryDate}</p>}
         </div>
         <div>
@@ -532,7 +525,7 @@ function DeliveryScreen({ delivery, setDelivery, setScreen }) {
   );
 }
 
-function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted }) {
+function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted, isSending }) {
   if (orderSubmitted) {
     return (
       <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
@@ -591,8 +584,8 @@ function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp
         </div>
       </div>
       <div className="px-5 pb-5 pt-2 flex-shrink-0 safe-bottom">
-        <button onClick={handleSendWhatsApp} className="w-full py-4 rounded-2xl font-bold bg-[#25D366] text-white active:bg-[#1DA851] flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20 transition-all hover:-translate-y-0.5">
-          <MessageCircle className="w-5 h-5" /> Send order on WhatsApp
+        <button onClick={handleSendWhatsApp} disabled={isSending} className={`w-full py-4 rounded-2xl font-bold text-white flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20 transition-all ${isSending ? 'bg-zinc-400 cursor-not-allowed' : 'bg-[#25D366] active:bg-[#1DA851] hover:-translate-y-0.5'}`}>
+          <MessageCircle className="w-5 h-5" /> {isSending ? 'Sending...' : 'Send order on WhatsApp'}
         </button>
         <p className="text-center text-[10px] font-medium text-zinc-400 mt-4 tracking-wide uppercase">OPENS WHATSAPP WITH PRE-FILLED DETAILS</p>
       </div>
@@ -739,6 +732,16 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
         <div className="mb-4">
           <h2 className="text-xl font-bold text-zinc-900">{cat.fullLabel}</h2>
           <p className="text-sm text-zinc-400 mt-0.5">{items.length} options carefully selected · click to see details</p>
+          {cat.id === 'sleep' && (
+            <div className="mt-4 mb-2 bg-[#e8f5e9] border border-[#c8e6c9] rounded-xl p-4 flex flex-col gap-1.5 shadow-sm max-w-2xl">
+              <div className="font-bold text-[#2e7d32] text-sm flex items-center gap-1.5">
+                <span className="leading-none">💚</span> Price Match Promise
+              </div>
+              <div className="text-xs text-[#2e7d32]/90 leading-relaxed">
+                Found the same product cheaper (including delivery charges)? Call or WhatsApp us at <span className="font-bold">+91 74003 90244</span>. We'll do our best to match or beat the price.
+              </div>
+            </div>
+          )}
         </div>
         <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
           {items.map((p) => {
@@ -748,20 +751,29 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
               <div key={p.id} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col group" onClick={() => setSelectedProduct(p)}>
                 <div className="h-40 bg-zinc-50 relative overflow-hidden border-b border-zinc-100">
                   {p.tag && <span className="absolute top-2.5 left-2.5 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">{p.tag}</span>}
-                  {p.image ? <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
+                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-sm font-bold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
                   <div className="text-xs text-zinc-400 mb-2">{p.note}</div>
-                  {/* {p.rating && <div className="mb-2"><StarRating rating={p.rating} count={p.ratingCount} source={p.ratingSource} size="sm" /></div>} */}
-                  {/* {p.category === 'sleep' && p.id.startsWith('m') && qty > 0 && (
-                    <div className="flex items-center gap-2 mt-1 mb-2 p-2 bg-orange-50 rounded-xl border border-orange-100" onClick={e => e.stopPropagation()}>
-                      <input type="checkbox" id={`addon-${p.id}`} checked={cart['addon-pillow'] > 0} onChange={(e) => { e.target.checked ? addOne('addon-pillow') : removeOne('addon-pillow') }} className="w-4 h-4 text-orange-500 rounded border-orange-300 focus:ring-orange-500" />
-                      <label htmlFor={`addon-${p.id}`} className="text-xs font-semibold text-orange-800 cursor-pointer select-none flex-1">Add Cloud Pillow for Rs. 49</label>
+                  {p.warranty && (
+                    <div className="flex items-center gap-1 text-[#2e7d32] mb-2">
+                      <ShieldCheck className="w-4 h-4" />
+                      <span className="text-[11px] font-bold tracking-wide uppercase">{p.warranty}</span>
                     </div>
-                  )} */}
+                  )}
                   <div className="flex items-center justify-between mt-auto pt-2" onClick={e => e.stopPropagation()}>
-                    <span className="font-black text-zinc-900">Rs.{money(p.price)}</span>
+                    {p.originalPrice ? (
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1.5">
+                          <span className="bg-[#2e7d32] text-white font-bold px-1.5 py-0.5 rounded text-sm">Rs.{money(p.price)}</span>
+                          <span className="text-zinc-400 line-through text-xs font-medium">Rs.{money(p.originalPrice)}</span>
+                        </div>
+                        <span className="text-[#2e7d32] text-xs font-bold tracking-wide mt-0.5">Rs.{money(p.originalPrice - p.price)} OFF</span>
+                      </div>
+                    ) : (
+                      <span className="font-black text-zinc-900">Rs.{money(p.price)}</span>
+                    )}
                     {qty === 0 ? (
                       <button onClick={(e) => { e.stopPropagation(); addOne(p.id); }} className="bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-orange-600 shadow-sm shadow-orange-500/20 transition-all flex items-center gap-1">
                         <Plus className="w-3 h-3" /> Add
@@ -770,7 +782,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                       <div className="flex items-center gap-2 bg-orange-500 rounded-xl px-2 py-1.5 shadow-sm shadow-orange-500/20">
                         <button onClick={(e) => { e.stopPropagation(); removeOne(p.id); }} className="w-5 h-5 flex items-center justify-center text-white bg-white/20 rounded-lg"><Minus className="w-3 h-3" /></button>
                         <span className="text-white text-xs font-bold w-4 text-center">{qty}</span>
-                        <button onClick={(e) => { e.stopPropagation(); addOne(p.id); }} className="w-5 h-5 flex items-center justify-center text-white bg-white/20 rounded-lg"><Plus className="w-3 h-3" /></button>
+                        <button onClick={(e) => { e.stopPropagation(); if (qty < MAX_QTY) addOne(p.id); }} className={`w-5 h-5 flex items-center justify-center text-white rounded-lg ${qty >= MAX_QTY ? 'bg-white/10 cursor-not-allowed' : 'bg-white/20'}`}><Plus className="w-3 h-3" /></button>
                       </div>
                     )}
                   </div>
@@ -817,7 +829,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
               })}
               {hasFreePillow && (
                 <div className="flex items-center gap-3 py-2 border-b border-zinc-50">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center flex-shrink-0 p-1"><img src="/cloud_pillow.jpg" alt="" className="w-full h-full object-contain rounded-lg" /></div>
+                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center flex-shrink-0 p-1"><img src="/cloud_pillow.webp" alt="" className="w-full h-full object-contain rounded-lg" /></div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-semibold text-indigo-800">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
                     <div className="text-xs text-indigo-400">Free gift</div>
@@ -846,7 +858,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
             </div>
             {deliveryFee > 0 && (
               <div className="text-[11px] text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-2 py-1.5 flex items-center gap-1">
-                🚚 Add <strong className="mx-0.5">Rs.{money(5000 - subtotal)}</strong> for free delivery
+                🚚 Add <strong className="mx-0.5">Rs.{money(FREE_DELIVERY_THRESHOLD - subtotal)}</strong> for free delivery
               </div>
             )}
             <div className="flex justify-between font-bold text-sm pt-1 border-t border-dashed border-zinc-200">
@@ -876,7 +888,9 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
     if (!delivery.hostelBlock.trim()) e.hostelBlock = 'Please select a hostel block';
     if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name & room number is required';
     if (!delivery.deliveryDate.trim())e.deliveryDate= 'Preferred delivery date is required';
-    if (!delivery.whatsapp.trim())    e.whatsapp    = 'WhatsApp number is required';
+    const phone = delivery.whatsapp.replace(/\D/g, '').replace(/^91/, '');
+    if (!phone) e.whatsapp = 'WhatsApp number is required';
+    else if (!/^[6-9]\d{9}$/.test(phone)) e.whatsapp = 'Please enter a valid 10-digit Indian mobile number';
     setErrors(e);
     return Object.keys(e).length === 0;
   }
@@ -908,7 +922,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
             </div>
             <div>
               <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Preferred delivery date <span className="text-red-400">*</span></label>
-              <input value={delivery.deliveryDate} onChange={update('deliveryDate')} placeholder="e.g. 14 July 2026" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.deliveryDate ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+              <input value={delivery.deliveryDate} onChange={update('deliveryDate')} type="date" min={new Date().toISOString().split('T')[0]} className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.deliveryDate ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
               {errors.deliveryDate && <p className="text-xs text-red-500 mt-1 font-medium">{errors.deliveryDate}</p>}
             </div>
             <div>
@@ -964,7 +978,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
             <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
             <p className="text-xs text-green-800 leading-relaxed">
               {deliveryFee > 0
-                ? <><strong>Rs.99 delivery charge</strong> applies for orders under Rs.3,000. Add Rs.{money(3000 - subtotal)} more to unlock free delivery!</>
+                ? <><strong>Rs.{money(DELIVERY_FEE_AMOUNT)} delivery charge</strong> applies for orders under Rs.{money(FREE_DELIVERY_THRESHOLD)}. Add Rs.{money(FREE_DELIVERY_THRESHOLD - subtotal)} more to unlock free delivery!</>
                 : <><strong>Free delivery</strong> directly to your hostel room. We confirm over WhatsApp within 30 minutes.</>}
             </p>
           </div>
@@ -974,7 +988,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
   );
 }
 
-function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted }) {
+function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsApp, setScreen, orderId, orderSubmitted, isSending }) {
   if (orderSubmitted) {
     return (
       <div className="flex-1 overflow-y-auto flex items-center justify-center px-6 py-10 bg-zinc-50">
@@ -1018,8 +1032,8 @@ function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsAp
             <span className="text-lg font-black text-orange-500">Rs.{money(total)}</span>
           </div>
         </div>
-        <button onClick={handleSendWhatsApp} className="w-full py-4 rounded-2xl font-bold text-base bg-[#25D366] text-white flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200">
-          <MessageCircle className="w-5 h-5" /> Send order on WhatsApp
+        <button onClick={handleSendWhatsApp} disabled={isSending} className={`w-full py-4 rounded-2xl font-bold text-base text-white flex items-center justify-center gap-2 shadow-lg transition-all duration-200 ${isSending ? 'bg-zinc-400 cursor-not-allowed' : 'bg-[#25D366] shadow-[#25D366]/20 hover:-translate-y-0.5 hover:shadow-xl'}`}>
+          <MessageCircle className="w-5 h-5" /> {isSending ? 'Sending...' : 'Send order on WhatsApp'}
         </button>
         <p className="text-xs text-zinc-400 mt-3 tracking-wide uppercase">Opens WhatsApp with pre-filled details</p>
         <button onClick={() => setScreen('category')} className="mt-4 text-sm text-zinc-400 hover:text-zinc-700 transition-colors">← Back to shopping</button>
@@ -1035,11 +1049,36 @@ export default function App() {
   const [screen, setScreen] = useState('gate');
   const [collegeId, setCollegeId] = useState(null);
   const [activeCategory, setActiveCategory] = useState('sleep');
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState(() => {
+    try { const saved = localStorage.getItem('wisor-cart'); return saved ? JSON.parse(saved) : {}; }
+    catch { return {}; }
+  });
   const [delivery, setDelivery] = useState({ fullName: '', hostelBlock: 'Boys hostel', hostelRoom: '', deliveryDate: '', whatsapp: '', altMobile: '' });
   const [toast, setToast] = useState('');
   const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const toastTimerRef = React.useRef(null);
+
+  // Persist cart to localStorage
+  useEffect(() => {
+    try { localStorage.setItem('wisor-cart', JSON.stringify(cart)); } catch {}
+  }, [cart]);
+
+  // Browser history navigation
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (e.state?.screen) setScreen(e.state.screen);
+      else setScreen('gate');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (newScreen) => {
+    window.history.pushState({ screen: newScreen }, '', `#${newScreen}`);
+    setScreen(newScreen);
+  };
 
   useEffect(() => {
     if (collegeId) {
@@ -1052,15 +1091,25 @@ export default function App() {
   }, [collegeId]);
 
   const college = COLLEGES.find((c) => c.id === collegeId) || null;
-  const baseCartItems = Object.entries(cart).filter(([, qty]) => qty > 0).map(([id, qty]) => ({ ...PRODUCTS.find((p) => p.id === id), qty }));
+  const baseCartItems = Object.entries(cart).filter(([, qty]) => qty > 0).map(([id, qty]) => {
+    const product = PRODUCTS.find((p) => p.id === id);
+    if (!product) return null;
+    return { ...product, qty };
+  }).filter(Boolean);
   const cartCount = baseCartItems.reduce((sum, i) => sum + i.qty, 0);
   const subtotal = baseCartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
   let finalCartItems = [...baseCartItems];
-  const deliveryFee = subtotal >= 5000 || subtotal === 0 ? 0 : 99;
+  const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0 ? 0 : DELIVERY_FEE_AMOUNT;
   const total = subtotal + deliveryFee;
   const categoriesCovered = new Set(baseCartItems.map((i) => i.category)).size;
 
-  function addOne(id) { setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 })); }
+  function addOne(id) {
+    setCart((prev) => {
+      const current = prev[id] || 0;
+      if (current >= MAX_QTY) return prev;
+      return { ...prev, [id]: current + 1 };
+    });
+  }
   function removeOne(id) {
     setCart((prev) => {
       const next = { ...prev };
@@ -1071,8 +1120,8 @@ export default function App() {
   }
   function showToast(msg) {
     setToast(msg);
-    window.clearTimeout(showToast._t);
-    showToast._t = window.setTimeout(() => setToast(''), 1700);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = window.setTimeout(() => setToast(''), 1700);
   }
   function buildWhatsAppMessage() {
     const lines = [];
@@ -1091,7 +1140,7 @@ export default function App() {
     });
     lines.push(`---`);
     if (deliveryFee > 0) lines.push(`Delivery charges - Rs.${money(deliveryFee)}`);
-    else lines.push(`Delivery - *FREE* (order above Rs.5,000)`);
+    else lines.push(`Delivery - *FREE* (order above Rs.${money(FREE_DELIVERY_THRESHOLD)})`);
     lines.push(`*Total: Rs.${money(total)}*`);
     return lines.join('\n');
   }
@@ -1131,9 +1180,18 @@ export default function App() {
   }
 
   async function handleSendWhatsApp() {
+    if (isSending) return;
+    setIsSending(true);
     showToast('Saving your order...');
-    await saveOrderToSpreadsheet();
+    try {
+      await saveOrderToSpreadsheet();
+    } catch (err) {
+      console.error('Order save failed:', err);
+    }
     setOrderSubmitted(true);
+    // Clear cart after successful order
+    setCart({});
+    try { localStorage.removeItem('wisor-cart'); } catch {}
     showToast('Preparing WhatsApp...');
     const message = buildWhatsAppMessage();
     const url = `https://wa.me/${WISOR_WA_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -1143,18 +1201,19 @@ export default function App() {
       } else {
         try { window.open(url, '_blank'); } catch (_e) {}
       }
+      setIsSending(false);
     }, 500);
   }
 
   // Mobile screens
   function renderMobileScreen() {
-    const sp = { setScreen };
+    const sp = { setScreen: navigateTo };
     switch (screen) {
       case 'gate': return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
       case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount} total={total} deliveryFee={deliveryFee} />;
       case 'cart': return <CartScreen {...sp} cartItems={finalCartItems} categoriesCovered={categoriesCovered} subtotal={subtotal} total={total} deliveryFee={deliveryFee} addOne={addOne} removeOne={removeOne} />;
       case 'delivery': return <DeliveryScreen {...sp} delivery={delivery} setDelivery={setDelivery} />;
-      case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} orderId={orderId} orderSubmitted={orderSubmitted} />;
+      case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} orderId={orderId} orderSubmitted={orderSubmitted} isSending={isSending} />;
       default: return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
     }
   }
@@ -1162,19 +1221,19 @@ export default function App() {
   // Desktop content (inside the fixed-height shell)
   function renderDesktopContent() {
     switch (screen) {
-      case 'gate': return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={setScreen} />;
-      case 'category': return <DesktopShop college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setScreen={setScreen} cart={cart} addOne={addOne} removeOne={removeOne} subtotal={subtotal} finalCartItems={finalCartItems} deliveryFee={deliveryFee} total={total} />;
+      case 'gate': return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={navigateTo} />;
+      case 'category': return <DesktopShop college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setScreen={navigateTo} cart={cart} addOne={addOne} removeOne={removeOne} subtotal={subtotal} finalCartItems={finalCartItems} deliveryFee={deliveryFee} total={total} />;
       case 'cart':
-      case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={setScreen} finalCartItems={finalCartItems} subtotal={subtotal} total={total} deliveryFee={deliveryFee} />;
-      case 'success': return <DesktopSuccess college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} setScreen={setScreen} orderId={orderId} orderSubmitted={orderSubmitted} />;
-      default: return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={setScreen} />;
+      case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={navigateTo} finalCartItems={finalCartItems} subtotal={subtotal} total={total} deliveryFee={deliveryFee} />;
+      case 'success': return <DesktopSuccess college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} setScreen={navigateTo} orderId={orderId} orderSubmitted={orderSubmitted} isSending={isSending} />;
+      default: return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={navigateTo} />;
     }
   }
 
   return (
     <>
       {/* ── MOBILE (hidden on lg+) ─────────────────────────────────────── */}
-      <div className="lg:hidden bg-zinc-100 flex items-center justify-center" style={{ minHeight: '100svh' }}>
+      <div className="md:hidden bg-zinc-100 flex items-center justify-center" style={{ minHeight: '100svh' }}>
         <div className="bg-white overflow-hidden relative w-full" style={{ maxWidth: '430px', height: '100svh', maxHeight: '844px' }}>
           <div style={{ height: '100%' }}>{renderMobileScreen()}</div>
           {toast && (
@@ -1184,8 +1243,8 @@ export default function App() {
       </div>
 
       {/* ── DESKTOP (hidden below lg) ──────────────────────────────────── */}
-      <div className="hidden lg:flex flex-col bg-zinc-50" style={{ height: '100svh' }}>
-        <DesktopNav college={college} cartCount={cartCount + (subtotal >= 7000 ? 1 : 0)} total={total} screen={screen} setScreen={setScreen} setCollegeId={setCollegeId} />
+      <div className="hidden md:flex flex-col bg-zinc-50" style={{ height: '100svh' }}>
+        <DesktopNav college={college} cartCount={cartCount} total={total} screen={screen} setScreen={navigateTo} setCollegeId={setCollegeId} />
         <div className="flex flex-1 overflow-hidden">
           {renderDesktopContent()}
         </div>
