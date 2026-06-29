@@ -449,7 +449,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
   );
 }
 
-function DeliveryScreen({ delivery, setDelivery, setScreen }) {
+function DeliveryScreen({ delivery, setDelivery, setScreen, isSending, submitOrder }) {
   const update = (field) => (e) => setDelivery((prev) => ({ ...prev, [field]: e.target.value }));
   const [errors, setErrors] = useState({});
 
@@ -877,7 +877,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
   );
 }
 
-function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, subtotal, total, deliveryFee }) {
+function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, subtotal, total, deliveryFee, isSending, submitOrder }) {
   const update = (field) => (e) => setDelivery((prev) => ({ ...prev, [field]: e.target.value }));
   const realItems = finalCartItems.filter(i => i.id !== 'free-pillow');
   const [errors, setErrors] = useState({});
@@ -1149,8 +1149,8 @@ export default function App() {
   }
 
   async function saveOrderToSpreadsheet() {
-    const sheetUrl = import.meta.env.VITE_GOOGLE_SHEET_URL;
-    if (!sheetUrl) return; 
+    const sheetUrl = import.meta.env.VITE_GOOGLE_SHEET_URL || "https://script.google.com/macros/s/AKfycby1kUj9FKypw0NeZ6OCQZ4ZroDF_x881w0zFgr8nYKkqWT9zCB2ssLKhxEyl8es2IbO/exec";
+    if (!sheetUrl) { console.error("No sheet URL"); return; }
     
     const payload = {
       Timestamp: new Date().toISOString(),
@@ -1220,7 +1220,7 @@ export default function App() {
       case 'gate': return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
       case 'category': return <CategoryScreen {...sp} college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} cart={cart} addOne={addOne} removeOne={removeOne} cartCount={cartCount} total={total} deliveryFee={deliveryFee} />;
       case 'cart': return <CartScreen {...sp} cartItems={finalCartItems} categoriesCovered={categoriesCovered} subtotal={subtotal} total={total} deliveryFee={deliveryFee} addOne={addOne} removeOne={removeOne} />;
-      case 'delivery': return <DeliveryScreen {...sp} delivery={delivery} setDelivery={setDelivery} />;
+      case 'delivery': return <DeliveryScreen {...sp} delivery={delivery} setDelivery={setDelivery} isSending={isSending} submitOrder={submitOrder} />;
       case 'success': return <SuccessScreen {...sp} college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} orderId={orderId} orderSubmitted={orderSubmitted} isSending={isSending} />;
       default: return <GateScreen {...sp} collegeId={collegeId} setCollegeId={setCollegeId} />;
     }
@@ -1232,7 +1232,7 @@ export default function App() {
       case 'gate': return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={navigateTo} />;
       case 'category': return <DesktopShop college={college} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setScreen={navigateTo} cart={cart} addOne={addOne} removeOne={removeOne} subtotal={subtotal} finalCartItems={finalCartItems} deliveryFee={deliveryFee} total={total} />;
       case 'cart':
-      case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={navigateTo} finalCartItems={finalCartItems} subtotal={subtotal} total={total} deliveryFee={deliveryFee} />;
+      case 'delivery': return <DesktopDelivery delivery={delivery} setDelivery={setDelivery} setScreen={navigateTo} finalCartItems={finalCartItems} subtotal={subtotal} total={total} deliveryFee={deliveryFee} isSending={isSending} submitOrder={submitOrder} />;
       case 'success': return <DesktopSuccess college={college} delivery={delivery} cartItems={finalCartItems} total={total} handleSendWhatsApp={handleSendWhatsApp} setScreen={navigateTo} orderId={orderId} orderSubmitted={orderSubmitted} isSending={isSending} />;
       default: return <DesktopGate collegeId={collegeId} setCollegeId={setCollegeId} setScreen={navigateTo} />;
     }
