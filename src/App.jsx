@@ -110,6 +110,16 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
                 </div>
               </div>
             )}
+            {product.category === 'sleep' && product.id.startsWith('m') && (
+              <div className="mb-4 bg-amber-50 border border-amber-200 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
+                <div className="font-bold text-amber-800 text-xs flex items-center gap-1.5">
+                  <span className="text-sm leading-none">⚠️</span> Important Note
+                </div>
+                <div className="text-[10px] text-amber-900/90 leading-tight">
+                  Beware of mattress dimensions on other websites! Price changes with dimensions. Ensure you are comparing the correct size: <strong>72x36 inches</strong>.
+                </div>
+              </div>
+            )}
             {product.officialUrl && (
               <a href={product.officialUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition mb-4">
                 <ExternalLink className="w-4 h-4 text-orange-500 flex-shrink-0" />
@@ -412,7 +422,10 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                     <div className="text-sm font-bold text-indigo-900">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
                     <div className="text-xs text-indigo-700">Free with mattress</div>
                   </div>
-                  <div className="text-sm font-bold text-green-600">Free</div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs text-indigo-400 line-through">Rs.{679 * mattressCount}</span>
+                    <span className="text-sm font-bold text-green-600">Rs.0</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -856,7 +869,10 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                     <div className="text-xs font-semibold text-indigo-800">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
                     <div className="text-xs text-indigo-400">Free gift</div>
                   </div>
-                  <span className="text-xs font-bold text-green-600">FREE</span>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[10px] text-indigo-300 line-through">Rs.{679 * mattressCount}</span>
+                    <span className="text-xs font-bold text-green-600">Rs.0</span>
+                  </div>
                 </div>
               )}
 
