@@ -85,7 +85,7 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
         <div className="overflow-y-auto flex-1 pb-4">
           <div className="mx-4 rounded-2xl overflow-hidden bg-zinc-50 h-52 mb-4 border border-zinc-100 relative">
             {product.tag && <span className="absolute top-3 left-3 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2.5 py-1 rounded-full uppercase tracking-wide shadow-sm">{product.tag}</span>}
-            {product.image ? <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-16 h-16 text-zinc-200" /></div>}
+            {product.image ? <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-contain" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-16 h-16 text-zinc-200" /></div>}
           </div>
           <div className="px-5">
             <h2 className="text-lg font-bold text-zinc-900 leading-snug mb-1">{product.name}</h2>
@@ -184,7 +184,7 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
       <div className="absolute bottom-20 right-0 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="flex-1 overflow-y-auto px-6 pt-6 pb-2 safe-top relative z-10">
         <div className="mb-16">
-          <div className="text-4xl font-black tracking-tight mb-1">wisor<span className="text-orange-500">.</span></div>
+          <img src="/logo.png" alt="Wisor" className="h-14 object-contain mb-2" />
           <div className="text-zinc-500 text-xs font-medium">Your hostel room, sorted.</div>
         </div>
         <h1 className="text-3xl font-bold leading-tight mb-2">Which campus are<br />you joining?</h1>
@@ -298,7 +298,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   {p.tag && <span className="absolute top-2 left-2 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide">{p.tag}</span>}
                   {p.image ? (
                     <div className="h-32 rounded-xl bg-zinc-50 mb-2.5 overflow-hidden relative border border-zinc-100/50">
-                      <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover" />
+                      <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-contain" />
                     </div>
                   ) : (
                     <div className="h-24 rounded-xl bg-zinc-50 flex items-center justify-center mb-2.5 border border-zinc-100/50">
@@ -390,7 +390,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                     {items.map((item) => (
                       <div key={item.id} className="flex items-start gap-3">
                         {item.image ? (
-                          <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden"><img src={item.image} alt="" className="w-full h-full object-cover" /></div>
+                          <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden"><img src={item.image} alt="" className="w-full h-full object-contain" /></div>
                         ) : (
                           <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center flex-shrink-0"><Icon className="w-4 h-4 text-zinc-300" /></div>
                         )}
@@ -623,13 +623,13 @@ function SuccessScreen({ college, delivery, cartItems, total, handleSendWhatsApp
 
 function DesktopNav({ college, cartCount, total, screen, setScreen, setCollegeId }) {
   return (
-    <header className="h-16 bg-white border-b border-zinc-100 flex items-center justify-between px-8 flex-shrink-0 shadow-sm z-10">
+    <header className="h-20 bg-zinc-950 border-b border-zinc-900 flex items-center justify-between px-8 flex-shrink-0 shadow-sm z-10">
       <div className="flex items-center gap-4">
-        <div className="text-2xl font-black tracking-tight text-zinc-900">wisor<span className="text-orange-500">.</span></div>
+        <img src="/logo.png" alt="Wisor" className="h-10 object-contain" />
         {college && screen !== 'gate' && (
-          <button onClick={() => { setCollegeId(null); setScreen('gate'); }} className="flex items-center gap-2 bg-zinc-50 border border-zinc-200 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-100 transition-colors">
-            <div className="w-5 h-5 rounded-full bg-zinc-900 text-white text-[9px] font-bold flex items-center justify-center">{college.code[0]}</div>
-            {college.name} <span className="text-zinc-400">·</span> <span className="text-zinc-400">Change</span>
+          <button onClick={() => { setCollegeId(null); setScreen('gate'); }} className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-800 transition-colors">
+            <div className="w-5 h-5 rounded-full bg-zinc-800 text-white text-[9px] font-bold flex items-center justify-center">{college.code[0]}</div>
+            {college.name} <span className="text-zinc-500">·</span> <span className="text-zinc-500">Change</span>
           </button>
         )}
       </div>
@@ -640,7 +640,7 @@ function DesktopNav({ college, cartCount, total, screen, setScreen, setCollegeId
           </button>
         )}
         {(screen === 'delivery' || screen === 'cart') && (
-          <button onClick={() => setScreen('category')} className="flex items-center gap-2 border border-zinc-200 text-zinc-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-zinc-50 transition-colors">
+          <button onClick={() => setScreen('category')} className="flex items-center gap-2 border border-zinc-800 text-zinc-300 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-zinc-900 transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back to shopping
           </button>
         )}
@@ -657,7 +657,7 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
         <div className="absolute -top-20 -left-20 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 right-5 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
         <div>
-          <div className="text-4xl font-black tracking-tight text-white mb-1">wisor<span className="text-orange-500">.</span></div>
+          <img src="/logo.png" alt="Wisor" className="h-16 object-contain mb-2" />
           <div className="text-zinc-500 text-sm font-medium">Your hostel room, sorted.</div>
         </div>
         <div className="relative z-10">
@@ -786,7 +786,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
               <div key={p.id} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col group" onClick={() => setSelectedProduct(p)}>
                 <div className="h-40 bg-zinc-50 relative overflow-hidden border-b border-zinc-100">
                   {p.tag && <span className="absolute top-2.5 left-2.5 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">{p.tag}</span>}
-                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
+                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-sm font-bold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
@@ -848,7 +848,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                 return (
                   <div key={item.id} className="flex items-center gap-3 py-2 border-b border-zinc-50">
                     <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 overflow-hidden flex-shrink-0">
-                      {item.image ? <img src={item.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Icon className="w-4 h-4 text-zinc-300" /></div>}
+                      {item.image ? <img src={item.image} alt="" className="w-full h-full object-contain" /> : <div className="w-full h-full flex items-center justify-center"><Icon className="w-4 h-4 text-zinc-300" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-semibold text-zinc-900 leading-snug truncate">{item.name}</div>
@@ -995,7 +995,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               {realItems.map(item => (
                 <div key={item.id} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-100 overflow-hidden flex-shrink-0">
-                    {item.image && <img src={item.image} alt="" className="w-full h-full object-cover" />}
+                    {item.image && <img src={item.image} alt="" className="w-full h-full object-contain" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-semibold text-zinc-800 truncate">{item.name}</div>
@@ -1290,7 +1290,7 @@ export default function App() {
 
       {/* ── DESKTOP (hidden below lg) ──────────────────────────────────── */}
       <div className="hidden md:flex flex-col bg-zinc-50" style={{ height: '100svh' }}>
-        <DesktopNav college={college} cartCount={cartCount} total={total} screen={screen} setScreen={navigateTo} setCollegeId={setCollegeId} />
+        {screen !== 'gate' && <DesktopNav college={college} cartCount={cartCount} total={total} screen={screen} setScreen={navigateTo} setCollegeId={setCollegeId} />}
         <div className="flex flex-1 overflow-hidden">
           {renderDesktopContent()}
         </div>
