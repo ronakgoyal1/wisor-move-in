@@ -1231,10 +1231,6 @@ export default function App() {
       console.error('Order save failed:', err);
     }
     
-    setOrderSubmitted(true);
-    setCart({});
-    try { localStorage.removeItem('wisor-cart'); } catch {}
-    
     setIsSending(false);
     navigateTo('success');
   }
@@ -1249,6 +1245,10 @@ export default function App() {
     } else {
       try { window.open(url, '_blank'); } catch (_e) {}
     }
+
+    setOrderSubmitted(true);
+    setCart({});
+    try { localStorage.removeItem('wisor-cart'); } catch {}
   }
 
   // Mobile screens
