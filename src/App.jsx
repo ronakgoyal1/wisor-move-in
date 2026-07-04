@@ -58,8 +58,60 @@ function StarRating({ rating, count, source, size = 'sm' }) {
 // ---------------------------------------------------------------------------
 // Product Detail Modal (used on both mobile + desktop)
 // ---------------------------------------------------------------------------
+// Merchandise Card
+// ---------------------------------------------------------------------------
+function MerchandiseCard({ p, setSelectedProduct }) {
+  return (
+    <div 
+      className="bg-white rounded-xl overflow-hidden cursor-pointer flex flex-col group h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-zinc-100"
+      onClick={() => setSelectedProduct(p)}
+    >
+      <div className="relative w-full aspect-[2/3] bg-zinc-50 overflow-hidden border-b border-zinc-100">
+        {p.tag && (
+          <span className="absolute top-3 left-3 z-10 text-[10px] font-bold text-white bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-sm uppercase tracking-widest shadow-sm">
+            {p.tag}
+          </span>
+        )}
+        {p.image ? (
+          <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform duration-500 ease-out" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-zinc-300 text-xs tracking-widest uppercase">No Image</span>
+          </div>
+        )}
+      </div>
+      <div className="p-4 flex flex-col flex-1">
+        <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5">{p.note || 'Merchandise'}</div>
+        <div className="text-sm font-bold text-zinc-900 leading-snug mb-2">{p.name}</div>
+        {p.originalPrice ? (
+          <div className="flex flex-col mb-4 mt-auto">
+            <div className="flex items-center gap-2">
+              <span className="bg-zinc-900 text-white font-black px-1.5 py-0.5 rounded text-sm">Rs.{money(p.price)}</span>
+              <span className="text-zinc-400 line-through text-xs font-medium">Rs.{money(p.originalPrice)}</span>
+            </div>
+            <span className="text-zinc-600 text-[10px] font-bold tracking-wide mt-0.5">Rs.{money(p.originalPrice - p.price)} OFF</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 mb-4 mt-auto">
+            <div className="text-sm font-black text-zinc-900">Rs.{money(p.price)}</div>
+          </div>
+        )}
+        <button className="w-full py-3 bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-widest rounded-lg hover:bg-black transition-colors active:scale-[0.98]">
+          Choose Size
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Product Detail Modal (used on both mobile + desktop)
+// ---------------------------------------------------------------------------
 function ProductModal({ product, cart, addOne, removeOne, onClose }) {
-  const qty = cart[product.id] || 0;
+  const isMerch = product.category === 'iiita-merch';
+  const [selectedSize, setSelectedSize] = React.useState('M');
+  const cartKey = isMerch ? `${product.id}_${selectedSize}` : product.id;
+  const qty = cart[cartKey] || 0;
   const CatIcon = CATEGORIES.find(c => c.id === product.category)?.icon || BedDouble;
 
   useEffect(() => {
@@ -70,8 +122,8 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }} onClick={onClose}>
       <div
-        className="w-full bg-white rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl"
-        style={{ maxWidth: '520px', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
+        className="w-full bg-white rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+        style={{ maxWidth: '520px', maxHeight: '90vh' }}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex justify-center pt-3 pb-1 flex-shrink-0 md:hidden">
@@ -83,14 +135,26 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
           </button>
         </div>
         <div className="overflow-y-auto flex-1 pb-4">
-          <div className="mx-4 rounded-2xl overflow-hidden bg-zinc-50 h-52 mb-4 border border-zinc-100 relative">
-            {product.tag && <span className="absolute top-3 left-3 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2.5 py-1 rounded-full uppercase tracking-wide shadow-sm">{product.tag}</span>}
-            {product.image ? <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-16 h-16 text-zinc-200" /></div>}
+          <div className={`mx-4 rounded-2xl overflow-hidden bg-zinc-50 mb-4 border border-zinc-100 relative ${isMerch ? 'aspect-[2/3]' : 'h-52'}`}>
+            {product.tag && <span className={`absolute top-3 left-3 z-10 text-[10px] font-bold px-2.5 py-1 uppercase tracking-wide shadow-sm ${isMerch ? 'bg-black/80 text-white rounded-sm tracking-widest' : 'text-green-700 bg-green-100/90 rounded-full'}`}>{product.tag}</span>}
+            {product.image ? <img src={product.image} alt={product.name} loading="lazy" className={`w-full h-full ${isMerch ? 'object-contain mix-blend-multiply p-4' : 'object-cover'}`} /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-16 h-16 text-zinc-200" /></div>}
           </div>
           <div className="px-5">
-            <h2 className="text-lg font-bold text-zinc-900 leading-snug mb-1">{product.name}</h2>
+            <h2 className={`text-lg font-bold text-zinc-900 leading-snug mb-1`}>{product.name}</h2>
             <p className="text-sm text-zinc-500 mb-3">{product.note}</p>
-            {product.warranty && (
+            {isMerch && (
+              <div className="mb-4">
+                <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Select Size</div>
+                <div className="flex gap-2">
+                  {['S', 'M', 'L'].map(s => (
+                    <button key={s} onClick={() => setSelectedSize(s)} className={`w-12 h-12 rounded-xl border flex items-center justify-center text-sm font-bold transition-all ${selectedSize === s ? 'border-zinc-900 bg-zinc-900 text-white shadow-md' : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'}`}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {product.warranty && !isMerch && (
               <div className="flex items-center gap-1.5 text-[#2e7d32] mb-3 bg-[#2e7d32]/10 inline-flex px-2.5 py-1 rounded-md">
                 <ShieldCheck className="w-4 h-4" />
                 <span className="text-xs font-bold tracking-wide uppercase">{product.warranty}</span>
@@ -99,15 +163,21 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">{product.description}</p>
             {product.specs && (
               <div className="mb-4">
-                <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">Specifications</div>
+                <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">{isMerch ? 'Fabric & Details' : 'Specifications'}</div>
                 <div className="space-y-1.5">
                   {product.specs.map((spec, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 flex-shrink-0" />
+                      <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${isMerch ? 'bg-zinc-800' : 'bg-orange-400'}`} />
                       <span className="text-xs text-zinc-700">{spec}</span>
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+            {isMerch && (
+              <div className="mb-4 bg-zinc-50 border border-zinc-200 rounded-xl p-3 flex flex-col gap-1">
+                <div className="font-bold text-zinc-800 text-xs">Delivery Estimate</div>
+                <div className="text-xs text-zinc-500">Ships within 2-3 business days.</div>
               </div>
             )}
             {product.category === 'sleep' && product.id.startsWith('m') && (
@@ -122,7 +192,7 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
             )}
             {product.officialUrl && (
               <a href={product.officialUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition mb-4">
-                <ExternalLink className="w-4 h-4 text-orange-500 flex-shrink-0" />
+                <ExternalLink className={`w-4 h-4 flex-shrink-0 ${isMerch ? 'text-zinc-900' : 'text-orange-500'}`} />
                 <span className="flex-1">See on official website</span>
                 <span className="text-[10px] text-zinc-400 font-normal">{product.ratingSource}</span>
               </a>
@@ -135,24 +205,24 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
             {product.originalPrice ? (
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                  <span className="bg-[#2e7d32] text-white font-black px-2 py-0.5 rounded-lg text-lg">Rs.{money(product.price)}</span>
+                  <span className={`${isMerch ? 'bg-zinc-900' : 'bg-[#2e7d32]'} text-white font-black px-2 py-0.5 rounded-lg text-lg`}>Rs.{money(product.price)}</span>
                   <span className="text-zinc-400 line-through text-sm font-medium">Rs.{money(product.originalPrice)}</span>
                 </div>
-                <span className="text-[#2e7d32] text-xs font-bold tracking-wide mt-0.5">Rs.{money(product.originalPrice - product.price)} OFF</span>
+                <span className={`${isMerch ? 'text-zinc-600' : 'text-[#2e7d32]'} text-xs font-bold tracking-wide mt-0.5`}>Rs.{money(product.originalPrice - product.price)} OFF</span>
               </div>
             ) : (
               <div className="text-xl font-black text-zinc-900">Rs.{money(product.price)}</div>
             )}
           </div>
           {qty === 0 ? (
-            <button onClick={() => addOne(product.id)} className="bg-orange-500 text-white font-bold px-7 py-3 rounded-2xl hover:bg-orange-600 shadow-lg shadow-orange-500/25 transition flex items-center gap-2">
+            <button onClick={() => addOne(cartKey)} className={`${isMerch ? 'bg-zinc-900 hover:bg-black shadow-zinc-900/25' : 'bg-orange-500 hover:bg-orange-600 shadow-orange-500/25'} text-white font-bold px-7 py-3 rounded-2xl shadow-lg transition flex items-center gap-2`}>
               <ShoppingBag className="w-4 h-4" /> Add to cart
             </button>
           ) : (
-            <div className="flex items-center gap-3 bg-orange-500 rounded-2xl px-3 py-2.5 shadow-lg shadow-orange-500/25">
-              <button onClick={() => removeOne(product.id)} className="w-7 h-7 flex items-center justify-center text-white bg-white/20 rounded-xl"><Minus className="w-3.5 h-3.5" /></button>
+            <div className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 shadow-lg ${isMerch ? 'bg-zinc-900 shadow-zinc-900/25' : 'bg-orange-500 shadow-orange-500/25'}`}>
+              <button onClick={() => removeOne(cartKey)} className="w-7 h-7 flex items-center justify-center text-white bg-white/20 rounded-xl"><Minus className="w-3.5 h-3.5" /></button>
               <span className="text-white font-bold text-sm w-4 text-center">{qty}</span>
-              <button onClick={() => { if (qty < MAX_QTY) addOne(product.id); }} className={`w-7 h-7 flex items-center justify-center text-white rounded-xl ${qty >= MAX_QTY ? 'bg-white/10 cursor-not-allowed' : 'bg-white/20'}`}><Plus className="w-3.5 h-3.5" /></button>
+              <button onClick={() => { if (qty < MAX_QTY) addOne(cartKey); }} className={`w-7 h-7 flex items-center justify-center text-white rounded-xl ${qty >= MAX_QTY ? 'bg-white/10 cursor-not-allowed' : 'bg-white/20'}`}><Plus className="w-3.5 h-3.5" /></button>
             </div>
           )}
         </div>
@@ -291,7 +361,14 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
               </div>
             </div>
           )}
-          <div className="flex flex-col gap-3">
+          {cat.id === 'iiita-merch' ? (
+            <div className="grid grid-cols-2 gap-3">
+              {items.map(p => (
+                <MerchandiseCard key={p.id} p={p} setSelectedProduct={setSelectedProduct} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
             {items.map((p) => {
               const qty = cart[p.id] || 0;
               return (
@@ -299,7 +376,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   {p.tag && <span className="absolute top-2 left-2 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide">{p.tag}</span>}
                   {p.image ? (
                     <div className="h-32 rounded-xl bg-zinc-50 mb-2.5 overflow-hidden relative border border-zinc-100/50">
-                      <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover" />
+                      <img src={p.image} alt={p.name} loading="lazy" className={`w-full h-full ${p.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} />
                     </div>
                   ) : (
                     <div className="h-24 rounded-xl bg-zinc-50 flex items-center justify-center mb-2.5 border border-zinc-100/50">
@@ -342,6 +419,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
               );
             })}
           </div>
+          )}
         </div>
       </div>
       {cartCount > 0 && (
@@ -391,7 +469,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                     {items.map((item) => (
                       <div key={item.id} className="flex items-start gap-3">
                         {item.image ? (
-                          <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden"><img src={item.image} alt="" className="w-full h-full object-cover" /></div>
+                          <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden"><img src={item.image} alt="" className={`w-full h-full ${item.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} /></div>
                         ) : (
                           <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center flex-shrink-0"><Icon className="w-4 h-4 text-zinc-300" /></div>
                         )}
@@ -782,13 +860,16 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
         </div>
         <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
           {items.map((p) => {
+            if (cat.id === 'iiita-merch') {
+              return <MerchandiseCard key={p.id} p={p} setSelectedProduct={setSelectedProduct} />;
+            }
             const qty = cart[p.id] || 0;
             const CatIcon = cat.icon;
             return (
               <div key={p.id} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col group" onClick={() => setSelectedProduct(p)}>
                 <div className="h-40 bg-zinc-50 relative overflow-hidden border-b border-zinc-100">
                   {p.tag && <span className="absolute top-2.5 left-2.5 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">{p.tag}</span>}
-                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
+                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className={`w-full h-full ${p.category === 'iiita-merch' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-300`} /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-sm font-bold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
@@ -850,7 +931,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                 return (
                   <div key={item.id} className="flex items-center gap-3 py-2 border-b border-zinc-50">
                     <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 overflow-hidden flex-shrink-0">
-                      {item.image ? <img src={item.image} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Icon className="w-4 h-4 text-zinc-300" /></div>}
+                      {item.image ? <img src={item.image} alt="" className={`w-full h-full ${item.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} /> : <div className="w-full h-full flex items-center justify-center"><Icon className="w-4 h-4 text-zinc-300" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-semibold text-zinc-900 leading-snug truncate">{item.name}</div>
@@ -997,7 +1078,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               {realItems.map(item => (
                 <div key={item.id} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-100 overflow-hidden flex-shrink-0">
-                    {item.image && <img src={item.image} alt="" className="w-full h-full object-cover" />}
+                    {item.image && <img src={item.image} alt="" className={`w-full h-full ${item.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-semibold text-zinc-800 truncate">{item.name}</div>
@@ -1134,10 +1215,11 @@ export default function App() {
   }, [collegeId]);
 
   const college = COLLEGES.find((c) => c.id === collegeId) || null;
-  const baseCartItems = Object.entries(cart).filter(([, qty]) => qty > 0).map(([id, qty]) => {
+  const baseCartItems = Object.entries(cart).filter(([, qty]) => qty > 0).map(([key, qty]) => {
+    const [id, size] = key.split('_');
     const product = PRODUCTS.find((p) => p.id === id);
     if (!product) return null;
-    return { ...product, qty };
+    return { ...product, id: key, originalId: id, size, name: size ? `${product.name} (Size: ${size})` : product.name, qty };
   }).filter(Boolean);
   const cartCount = baseCartItems.reduce((sum, i) => sum + i.qty, 0);
   const subtotal = baseCartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
