@@ -227,7 +227,7 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
           <span className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest text-center">Partnered with authorized dealers</span>
         </div>
         <button onClick={() => collegeId && setScreen('category')} disabled={!collegeId} className={`w-full py-3.5 rounded-2xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${collegeId ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25 hover:bg-orange-600 active:scale-95' : 'bg-zinc-800 text-zinc-500'}`}>
-          Customize your room {collegeId && <ChevronRight className="w-4 h-4" />}
+          Shop hostel essentials {collegeId && <ChevronRight className="w-4 h-4" />}
         </button>
         <button onClick={() => setScreen('category')} className="w-full text-center text-xs text-zinc-500 mt-2.5 py-1 hover:text-zinc-300 transition-colors">Not sure yet? Browse without selecting</button>
       </div>
@@ -707,7 +707,7 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
             })}
           </div>
           <button onClick={() => collegeId && setScreen('category')} disabled={!collegeId} className={`w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 transition-all duration-200 ${collegeId ? 'bg-orange-500 text-white shadow-xl shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5' : 'bg-zinc-100 text-zinc-400 cursor-not-allowed'}`}>
-            {collegeId ? 'Customize my room' : 'Select a campus first'}
+            {collegeId ? 'Shop hostel essentials' : 'Select a campus first'}
             {collegeId && <ChevronRight className="w-5 h-5" />}
           </button>
           <button onClick={() => setScreen('category')} className="w-full text-center text-sm text-zinc-400 mt-3 py-2 hover:text-zinc-600 transition-colors">Browse without selecting →</button>
