@@ -220,8 +220,9 @@ function GateScreen({ collegeId, setCollegeId, setScreen }) {
       </div>
       <div className="px-6 pb-5 pt-3 flex-shrink-0 safe-bottom border-t border-zinc-900">
         <div className="flex flex-col items-center gap-2 mb-4">
-          <div className="inline-flex items-center justify-center">
+          <div className="inline-flex items-center justify-center gap-4">
             <img src="/sleepwell_logo.png" alt="Sleepwell" className="h-6 object-contain invert brightness-0" />
+            <img src="/uport_cropped.png" alt="Uport" className="h-6 ml-2 object-contain" />
           </div>
           <span className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest text-center">Partnered with authorized dealers</span>
         </div>
@@ -671,8 +672,9 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col items-start gap-2 mb-2">
-            <div className="inline-flex items-center justify-center">
+            <div className="inline-flex items-center justify-center gap-4">
               <img src="/sleepwell_logo.png" alt="Sleepwell" className="h-8 object-contain invert brightness-0" />
+              <img src="/uport_cropped.png" alt="Uport" className="h-8 ml-3 object-contain" />
             </div>
             <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Partnered with authorized dealers</span>
           </div>
