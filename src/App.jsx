@@ -641,7 +641,7 @@ function DesktopNav({ college, cartCount, total, screen, setScreen, setCollegeId
           </button>
         )}
         {(screen === 'delivery' || screen === 'cart') && (
-          <button onClick={() => setScreen('category')} className="flex items-center gap-2 border border-zinc-800 text-zinc-300 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-zinc-900 transition-colors">
+          <button onClick={() => setScreen('category')} className="flex items-center gap-2 border border-orange-500/30 bg-orange-500/20 text-orange-500 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-orange-500/30 transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back to shopping
           </button>
         )}
