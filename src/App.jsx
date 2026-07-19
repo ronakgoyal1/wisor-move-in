@@ -357,7 +357,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                 <span className="text-sm leading-none">💚</span> Price Match Promise
               </div>
               <div className="text-[10px] text-[#2e7d32]/90 leading-tight">
-                Found the same product cheaper (including delivery charges)? Call or WhatsApp us at <span className="font-bold">+91 99209 02797</span>. We'll do our best to match or beat the price.
+                Found the same product cheaper (including delivery charges)? Call or WhatsApp us at <span className="font-bold">+91 87795 76767</span>. We'll do our best to match or beat the price.
               </div>
             </div>
           )}
@@ -853,7 +853,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                 <span className="leading-none">💚</span> Price Match Promise
               </div>
               <div className="text-xs text-[#2e7d32]/90 leading-relaxed">
-                Found the same product cheaper (including delivery charges)? Call or WhatsApp us at <span className="font-bold">+91 99209 02797</span>. We'll do our best to match or beat the price.
+                Found the same product cheaper (including delivery charges)? Call or WhatsApp us at <span className="font-bold">+91 87795 76767</span>. We'll do our best to match or beat the price.
               </div>
             </div>
           )}

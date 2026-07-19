@@ -13,7 +13,7 @@ const payload = {
   OrderValue: 1000,
   ProductsJSON: "1x Test Item (Rs.1000)",
   WhatsAppMessage: "Test Message",
-  WhatsAppURL: "https://wa.me/919920902797?text=Test%20Message",
+  WhatsAppURL: "https://wa.me/918779576767?text=Test%20Message",
   Status: "Pending",
   Remarks: "TESTING SPREADSHEET"
 };
