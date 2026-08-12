@@ -1272,7 +1272,7 @@ export default function App() {
     });
     lines.push(`---`);
     if (deliveryFee > 0) lines.push(`Delivery charges - Rs.${money(deliveryFee)}`);
-    else lines.push(`Delivery - *FREE* (order above Rs.${money(FREE_DELIVERY_THRESHOLD)})`);
+    else lines.push(`Delivery - *FREE*`);
     lines.push(`*Total: Rs.${money(total)}*`);
     return lines.join('\n');
   }
