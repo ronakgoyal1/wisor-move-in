@@ -566,7 +566,7 @@ function DeliveryScreen({ delivery, setDelivery, setScreen, isSending, submitOrd
     const e = {};
     if (!delivery.fullName.trim())    e.fullName    = 'Full name is required';
     if (!delivery.hostelBlock.trim()) e.hostelBlock = 'Please select a hostel block';
-    if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name & room number is required';
+    if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name is required';
     if (!delivery.deliveryDate.trim())e.deliveryDate= 'Preferred delivery date is required';
     const phone = delivery.whatsapp.replace(/\D/g, '').replace(/^91/, '');
     if (!phone) e.whatsapp = 'WhatsApp number is required';
@@ -597,8 +597,8 @@ function DeliveryScreen({ delivery, setDelivery, setScreen, isSending, submitOrd
           </div>
         </div>
         <div>
-          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel name &amp; room no. <span className="text-red-400">*</span></label>
-          <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3, Room 214" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.hostelRoom ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+          <label className="text-xs font-bold text-zinc-500 mb-1.5 block uppercase tracking-wide">Hostel name <span className="text-red-400">*</span></label>
+          <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white transition-colors ${errors.hostelRoom ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
           {errors.hostelRoom && <p className="text-xs text-red-500 mt-1 font-medium">{errors.hostelRoom}</p>}
         </div>
         <div>
@@ -1014,7 +1014,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
     const e = {};
     if (!delivery.fullName.trim())    e.fullName    = 'Full name is required';
     if (!delivery.hostelBlock.trim()) e.hostelBlock = 'Please select a hostel block';
-    if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name & room number is required';
+    if (!delivery.hostelRoom.trim())  e.hostelRoom  = 'Hostel name is required';
     if (!delivery.deliveryDate.trim())e.deliveryDate= 'Preferred delivery date is required';
     const phone = delivery.whatsapp.replace(/\D/g, '').replace(/^91/, '');
     if (!phone) e.whatsapp = 'WhatsApp number is required';
@@ -1044,8 +1044,8 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               </div>
             </div>
             <div>
-              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Hostel name &amp; room no. <span className="text-red-400">*</span></label>
-              <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3, Room 214" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.hostelRoom ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
+              <label className="text-xs font-bold text-zinc-400 mb-1.5 block uppercase tracking-widest">Hostel name <span className="text-red-400">*</span></label>
+              <input value={delivery.hostelRoom} onChange={update('hostelRoom')} placeholder="e.g. BH-3" className={`w-full border-2 bg-zinc-50 rounded-xl px-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-300 focus:outline-none focus:bg-white transition-colors ${errors.hostelRoom ? 'border-red-400 focus:border-red-400' : 'border-zinc-100 focus:border-orange-500'}`} />
               {errors.hostelRoom && <p className="text-xs text-red-500 mt-1 font-medium">{errors.hostelRoom}</p>}
             </div>
             <div>
