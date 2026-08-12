@@ -319,9 +319,6 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
       </div>
       <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-zinc-200/50 bg-white/70 backdrop-blur-md flex-shrink-0 safe-top relative z-10">
         <div className="flex items-center gap-2">
-          <button onClick={() => setScreen('gate')} className="w-8 h-8 flex items-center justify-center rounded-full active:bg-zinc-100 transition" aria-label="Back">
-            <ChevronLeft className="w-5 h-5 text-zinc-700" />
-          </button>
           <div className="flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 rounded-full pl-1 pr-3 py-1 shadow-sm">
             <div className="w-5 h-5 rounded-full bg-zinc-900 text-white text-[10px] font-bold flex items-center justify-center">{college ? college.code[0] : '?'}</div>
             <span className="text-xs font-medium text-zinc-800">{college ? college.name : 'All Campuses'}</span>
@@ -445,6 +442,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
   const realItems = cartItems.filter(i => i.id !== 'free-pillow');
   const mattressCount = realItems.filter(i => i.category === 'sleep' && i.id.startsWith('m')).reduce((sum, i) => sum + i.qty, 0);
   const hasFreePillow = mattressCount > 0;
+  const isOnlyRuiGadda = mattressCount > 0 && realItems.filter(i => i.category === 'sleep' && i.id.startsWith('m')).every(i => i.id === 'm7');
   const grouped = CATEGORIES.map((cat) => ({ cat, items: realItems.filter((i) => i.category === cat.id) })).filter((g) => g.items.length > 0);
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
 
@@ -498,11 +496,11 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                 <div className="flex items-center gap-3 relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-white border border-indigo-100 flex-shrink-0 overflow-hidden p-1.5"><img src="/cloud_pillow.webp" alt="" className="w-full h-full object-cover rounded-lg" /></div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-bold text-indigo-900">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
+                    <div className="text-sm font-bold text-indigo-900">{isOnlyRuiGadda ? 'Pillow' : 'Cloud Pillow'} {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
                     <div className="text-xs text-indigo-700">Free with mattress</div>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-xs text-indigo-400 line-through">Rs.{679 * mattressCount}</span>
+                    <span className="text-xs text-indigo-400 line-through">Rs.{(isOnlyRuiGadda ? 149 : 679) * mattressCount}</span>
                     <span className="text-sm font-bold text-green-600">Rs.0</span>
                   </div>
                 </div>
@@ -814,6 +812,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
   const realItems = finalCartItems.filter(i => i.id !== 'free-pillow');
   const mattressCount = realItems.filter(i => i.category === 'sleep' && i.id.startsWith('m')).reduce((sum, i) => sum + i.qty, 0);
   const hasFreePillow = mattressCount > 0;
+  const isOnlyRuiGadda = mattressCount > 0 && realItems.filter(i => i.category === 'sleep' && i.id.startsWith('m')).every(i => i.id === 'm7');
   const missingCategory = CATEGORIES.find((c) => !realItems.some((i) => i.category === c.id));
   const cartCount = realItems.reduce((s, i) => s + i.qty, 0);
 
@@ -949,11 +948,11 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                 <div className="flex items-center gap-3 py-2 border-b border-zinc-50">
                   <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center flex-shrink-0 p-1"><img src="/cloud_pillow.webp" alt="" className="w-full h-full object-cover rounded-lg" /></div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs font-semibold text-indigo-800">Cloud Pillow {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
+                    <div className="text-xs font-semibold text-indigo-800">{isOnlyRuiGadda ? 'Pillow' : 'Cloud Pillow'} {mattressCount > 1 ? `(x${mattressCount})` : ''}</div>
                     <div className="text-xs text-indigo-400">Free gift</div>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-[10px] text-indigo-300 line-through">Rs.{679 * mattressCount}</span>
+                    <span className="text-[10px] text-indigo-300 line-through">Rs.{(isOnlyRuiGadda ? 149 : 679) * mattressCount}</span>
                     <span className="text-xs font-bold text-green-600">Rs.0</span>
                   </div>
                 </div>
@@ -1170,8 +1169,8 @@ function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsAp
 // Main App — state + responsive render
 // ===========================================================================
 export default function App() {
-  const [screen, setScreen] = useState('gate');
-  const [collegeId, setCollegeId] = useState(null);
+  const [screen, setScreen] = useState('category');
+  const [collegeId, setCollegeId] = useState('iiit');
   const [activeCategory, setActiveCategory] = useState('sleep');
   const [cart, setCart] = useState(() => {
     try { const saved = localStorage.getItem('wisor-cart'); return saved ? JSON.parse(saved) : {}; }
