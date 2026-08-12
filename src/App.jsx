@@ -330,6 +330,14 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
         </button>
       </div>
 
+      <div className="bg-black text-orange-500 flex-shrink-0 py-2 w-full overflow-hidden relative z-10 shadow-sm border-b border-zinc-900 flex">
+        <div className="animate-marquee text-[11px] font-bold tracking-widest uppercase items-center">
+          {[...Array(8)].map((_, i) => (
+            <span key={i} className="mx-6">Flat ₹200 cashback on Sleepwell mattress for the first 10 orders</span>
+          ))}
+        </div>
+      </div>
+
       <div className="flex flex-1 overflow-hidden relative z-10">
         <div className="w-16 bg-zinc-50 border-r border-zinc-100 flex flex-col items-center py-2 gap-0.5 overflow-y-auto flex-shrink-0">
           {CATEGORIES.map((c) => {
@@ -1374,6 +1382,15 @@ export default function App() {
       {/* ── DESKTOP (hidden below lg) ──────────────────────────────────── */}
       <div className="hidden md:flex flex-col bg-zinc-50" style={{ height: '100svh' }}>
         {screen !== 'gate' && <DesktopNav college={college} cartCount={cartCount} total={total} screen={screen} setScreen={navigateTo} setCollegeId={setCollegeId} />}
+        {screen !== 'gate' && (
+          <div className="bg-black text-orange-500 flex-shrink-0 py-2 w-full overflow-hidden relative z-10 shadow-sm border-b border-zinc-900 flex">
+            <div className="animate-marquee text-[11px] font-bold tracking-widest uppercase items-center">
+              {[...Array(12)].map((_, i) => (
+                <span key={i} className="mx-8">Flat ₹200 cashback on Sleepwell mattress for the first 10 orders</span>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="flex flex-1 overflow-hidden">
           {renderDesktopContent()}
         </div>
