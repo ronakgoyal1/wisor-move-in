@@ -6,5 +6,5 @@ export const CATEGORIES = [
   // { id: 'study',   label: 'Tech',    fullLabel: 'Tech Essentials',      icon: Lightbulb },
   // { id: 'curtains', label: 'Curtains', fullLabel: 'Curtains',   icon: Archive   },
   // { id: 'weather', label: 'Weather', fullLabel: 'Weather Essentials',   icon: Umbrella  },
-  // { id: 'iiita-merch', label: 'Merch', fullLabel: 'IIIT-A Merchandise', icon: Shirt },
+  // { id: 'mnnit-merch', label: 'Merch', fullLabel: 'MNNIT Merchandise', icon: Shirt },
 ];

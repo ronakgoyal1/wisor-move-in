@@ -108,7 +108,7 @@ function MerchandiseCard({ p, setSelectedProduct }) {
 // Product Detail Modal (used on both mobile + desktop)
 // ---------------------------------------------------------------------------
 function ProductModal({ product, cart, addOne, removeOne, onClose }) {
-  const isMerch = product.category === 'iiita-merch';
+  const isMerch = product.category === 'mnnit-merch';
   const [selectedSize, setSelectedSize] = React.useState('M');
   const cartKey = isMerch ? `${product.id}_${selectedSize}` : product.id;
   const qty = cart[cartKey] || 0;
@@ -186,7 +186,7 @@ function ProductModal({ product, cart, addOne, removeOne, onClose }) {
                   <span className="text-sm leading-none">⚠️</span> Important Note
                 </div>
                 <div className="text-[10px] text-amber-900/90 leading-tight">
-                  Beware of mattress dimensions on other websites! Price changes with dimensions. Ensure you are comparing the correct size: <strong>72x36 inches</strong>.
+                  Beware of mattress dimensions on other websites! Price changes with dimensions. Ensure you are comparing the correct size: <strong>75x36 inches</strong>.
                 </div>
               </div>
             )}
@@ -330,13 +330,6 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
         </button>
       </div>
 
-      <div className="bg-black text-orange-500 flex-shrink-0 py-2 w-full overflow-hidden relative z-10 shadow-sm border-b border-zinc-900 flex">
-        <div className="animate-marquee text-[11px] font-bold tracking-widest uppercase items-center">
-          {[...Array(8)].map((_, i) => (
-            <span key={i} className="mx-6">Flat ₹200 cashback on Sleepwell mattress for the first 10 orders</span>
-          ))}
-        </div>
-      </div>
 
       <div className="flex flex-1 overflow-hidden relative z-10">
         <div className="w-16 bg-zinc-50 border-r border-zinc-100 flex flex-col items-center py-2 gap-0.5 overflow-y-auto flex-shrink-0">
@@ -366,7 +359,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
               </div>
             </div>
           )}
-          {cat.id === 'iiita-merch' ? (
+          {cat.id === 'mnnit-merch' ? (
             <div className="grid grid-cols-2 gap-3">
               {items.map(p => (
                 <MerchandiseCard key={p.id} p={p} setSelectedProduct={setSelectedProduct} />
@@ -381,7 +374,7 @@ function CategoryScreen({ college, activeCategory, setActiveCategory, setScreen,
                   {p.tag && <span className="absolute top-2 left-2 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide">{p.tag}</span>}
                   {p.image ? (
                     <div className="h-32 rounded-xl bg-zinc-50 mb-2.5 overflow-hidden relative border border-zinc-100/50">
-                      <img src={p.image} alt={p.name} loading="lazy" className={`w-full h-full ${p.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} />
+                      <img src={p.image} alt={p.name} loading="lazy" className={`w-full h-full ${p.category === 'mnnit-merch' ? 'object-contain' : 'object-cover'}`} />
                     </div>
                   ) : (
                     <div className="h-24 rounded-xl bg-zinc-50 flex items-center justify-center mb-2.5 border border-zinc-100/50">
@@ -475,7 +468,7 @@ function CartScreen({ cartItems, categoriesCovered, subtotal, total, deliveryFee
                     {items.map((item) => (
                       <div key={item.id} className="flex items-start gap-3">
                         {item.image ? (
-                          <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden"><img src={item.image} alt="" className={`w-full h-full ${item.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} /></div>
+                          <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0 overflow-hidden"><img src={item.image} alt="" className={`w-full h-full ${item.category === 'mnnit-merch' ? 'object-contain' : 'object-cover'}`} /></div>
                         ) : (
                           <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center flex-shrink-0"><Icon className="w-4 h-4 text-zinc-300" /></div>
                         )}
@@ -762,7 +755,7 @@ function DesktopGate({ collegeId, setCollegeId, setScreen }) {
             </div>
             <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Partnered with authorized dealers</span>
           </div>
-          <div className="text-zinc-700 text-xs">Trusted by students at IIIT &amp; MNNIT Allahabad</div>
+          <div className="text-zinc-700 text-xs">Trusted by students at MNNIT Allahabad</div>
         </div>
       </div>
 
@@ -867,7 +860,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
         </div>
         <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
           {items.map((p) => {
-            if (cat.id === 'iiita-merch') {
+            if (cat.id === 'mnnit-merch') {
               return <MerchandiseCard key={p.id} p={p} setSelectedProduct={setSelectedProduct} />;
             }
             const qty = cart[p.id] || 0;
@@ -876,7 +869,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
               <div key={p.id} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col group" onClick={() => setSelectedProduct(p)}>
                 <div className="h-40 bg-zinc-50 relative overflow-hidden border-b border-zinc-100">
                   {p.tag && <span className="absolute top-2.5 left-2.5 z-10 text-[10px] font-bold text-green-700 bg-green-100/90 px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">{p.tag}</span>}
-                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className={`w-full h-full ${p.category === 'iiita-merch' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-300`} /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
+                  {p.image ? <img src={p.image} alt={p.name} loading="lazy" className={`w-full h-full ${p.category === 'mnnit-merch' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-300`} /> : <div className="w-full h-full flex items-center justify-center"><CatIcon className="w-12 h-12 text-zinc-200" /></div>}
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-sm font-bold text-zinc-900 leading-snug mb-0.5">{p.name}</div>
@@ -938,7 +931,7 @@ function DesktopShop({ college, activeCategory, setActiveCategory, setScreen, ca
                 return (
                   <div key={item.id} className="flex items-center gap-3 py-2 border-b border-zinc-50">
                     <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 overflow-hidden flex-shrink-0">
-                      {item.image ? <img src={item.image} alt="" className={`w-full h-full ${item.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} /> : <div className="w-full h-full flex items-center justify-center"><Icon className="w-4 h-4 text-zinc-300" /></div>}
+                      {item.image ? <img src={item.image} alt="" className={`w-full h-full ${item.category === 'mnnit-merch' ? 'object-contain' : 'object-cover'}`} /> : <div className="w-full h-full flex items-center justify-center"><Icon className="w-4 h-4 text-zinc-300" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-semibold text-zinc-900 leading-snug truncate">{item.name}</div>
@@ -1085,7 +1078,7 @@ function DesktopDelivery({ delivery, setDelivery, setScreen, finalCartItems, sub
               {realItems.map(item => (
                 <div key={item.id} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-100 overflow-hidden flex-shrink-0">
-                    {item.image && <img src={item.image} alt="" className={`w-full h-full ${item.category === 'iiita-merch' ? 'object-contain' : 'object-cover'}`} />}
+                    {item.image && <img src={item.image} alt="" className={`w-full h-full ${item.category === 'mnnit-merch' ? 'object-contain' : 'object-cover'}`} />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-semibold text-zinc-800 truncate">{item.name}</div>
@@ -1178,7 +1171,7 @@ function DesktopSuccess({ college, delivery, cartItems, total, handleSendWhatsAp
 // ===========================================================================
 export default function App() {
   const [screen, setScreen] = useState('category');
-  const [collegeId, setCollegeId] = useState('iiit');
+  const [collegeId, setCollegeId] = useState('mnnit');
   const [activeCategory, setActiveCategory] = useState('sleep');
   const [cart, setCart] = useState(() => {
     try { const saved = localStorage.getItem('wisor-cart'); return saved ? JSON.parse(saved) : {}; }
@@ -1382,15 +1375,7 @@ export default function App() {
       {/* ── DESKTOP (hidden below lg) ──────────────────────────────────── */}
       <div className="hidden md:flex flex-col bg-zinc-50" style={{ height: '100svh' }}>
         {screen !== 'gate' && <DesktopNav college={college} cartCount={cartCount} total={total} screen={screen} setScreen={navigateTo} setCollegeId={setCollegeId} />}
-        {screen !== 'gate' && (
-          <div className="bg-black text-orange-500 flex-shrink-0 py-2 w-full overflow-hidden relative z-10 shadow-sm border-b border-zinc-900 flex">
-            <div className="animate-marquee text-[11px] font-bold tracking-widest uppercase items-center">
-              {[...Array(12)].map((_, i) => (
-                <span key={i} className="mx-8">Flat ₹200 cashback on Sleepwell mattress for the first 10 orders</span>
-              ))}
-            </div>
-          </div>
-        )}
+
         <div className="flex flex-1 overflow-hidden">
           {renderDesktopContent()}
         </div>
